@@ -25,10 +25,6 @@ public class UsersController {
     @ResponseBody
     public Result<String> getAllUserStatsRelayCountry(){
         List<UserStatsRelayCountry> userStatsRelayCountryList = userStatsRelayCountryService.listAllUser();
-//        for (UserStatsRelayCountry userStatsRelayCountry : userStatsRelayCountryList) {
-////            System.out.println(userStatsRelayCountry);
-//            System.out.println(JSON.toJSONStringWithDateFormat(userStatsRelayCountry,"yyyy-MM-dd"));
-//        }
         if (userStatsRelayCountryList != null){
             String userJson = JSON.toJSONStringWithDateFormat(userStatsRelayCountryList,"yyyy-MM-dd");
             return Result.success(userJson);
