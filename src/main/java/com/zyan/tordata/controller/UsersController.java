@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Controller
@@ -40,20 +42,8 @@ public class UsersController {
 
     @RequestMapping("/users/allUser1")
     @ResponseBody
-    public Result<String> getAllUserStatsRelayCountry1(){
-
-        List<UserStatsRelayCountry> userStatsRelayCountryList = userStatsRelayCountryService.listAllUser();
-//        for (UserStatsRelayCountry userStatsRelayCountry : userStatsRelayCountryList) {
-////            System.out.println(userStatsRelayCountry);
-//            System.out.println(JSON.toJSONStringWithDateFormat(userStatsRelayCountry,"yyyy-MM-dd"));
-//        }
-        if (userStatsRelayCountryList != null){
-            String userJson = JSON.toJSONStringWithDateFormat(userStatsRelayCountryList,"yyyy-MM-dd");
-            return Result.success(userJson);
-        }else {
-            //TODO 启动获取数据函数
-
-            return Result.error(CodeMsg.NULL_DATA);
-        }
+    public Result<Integer> getAllUserStatsRelayCountry1() throws NoSuchAlgorithmException, KeyManagementException {
+        int number = userStatsRelayCountryService.fillUserStatsRelay();
+        return Result.success(number);
     }
 }

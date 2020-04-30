@@ -24,11 +24,13 @@ public class UserStatsRelayCountryService {
 
     /**
      * 填充后续的数据
-     *
+     * 查询最新的日期，然后startTime为最新日期的后一天，endTime为当天
      * @return 返回填充的数据条数
      */
+    //TODO 需要设置定时任务
     public int fillUserStatsRelay() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = userStatsRelayCountryDao.getLastDate();
+        System.out.println(lastDate);
         if (lastDate.equals(new Date())) {
             return 0;
         }
@@ -40,10 +42,9 @@ public class UserStatsRelayCountryService {
         String endDateString = DateTimeUtil.dateToStr(new Date());
         //https://metrics.torproject.org/userstats-relay-country.csv?start=2020-01-30&end=2020-04-29&events=off"
         String url = Const.USERS_RELAY + "?start=" + startDateString + "&end=" + endDateString + "events=off";
+        System.out.println(url);
         //下载剩余的csv数据
-        String csvData = DownloadUtil.downloadCSV(url);
-        //处理为list
-        List<String> list = null;
+        List<String> list = DownloadUtil.downloadCSV(url);
         List<UserStatsRelayCountry> usersList = new ArrayList<UserStatsRelayCountry>();
         for (String s : list) {
             String[] fields = s.split(",");
@@ -51,15 +52,23 @@ public class UserStatsRelayCountryService {
             userStatsRelayCountry.setDate(DateTimeUtil.strToDate(fields[0]));
             userStatsRelayCountry.setCountry(fields[1]);
             userStatsRelayCountry.setUsers(Integer.parseInt(fields[2]));
+            if (fields[3].equals("")){
+                fields[3] = "0";
+            }
+            if (fields[4].equals("")){
+                fields[4] = "0";
+            }
             userStatsRelayCountry.setLower(Integer.parseInt(fields[3]));
             userStatsRelayCountry.setUpper(Integer.parseInt(fields[4]));
             userStatsRelayCountry.setFrac(Integer.parseInt(fields[5]));
             usersList.add(userStatsRelayCountry);
         }
+        System.out.println(usersList.size());
         //填充到数据库中
         int fillNumber = userStatsRelayCountryDao.insertUsers(usersList);
+        System.out.println(fillNumber);
 
-//        return userStatsRelayCountryDao.listAllUser();
-        return 0;
+        return fillNumber;
     }
+
 }

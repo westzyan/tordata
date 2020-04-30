@@ -6,6 +6,8 @@ import java.io.*;
 import java.net.*;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DownloadUtil{
@@ -21,8 +23,9 @@ public class DownloadUtil{
      * @throws NoSuchAlgorithmException ssl算法
      * @throws KeyManagementException  证书
      */
-    public static String downloadCSV(String urlAddress) throws NoSuchAlgorithmException, KeyManagementException {
-        StringBuilder stringBuilder = new StringBuilder();
+    public static List<String> downloadCSV(String urlAddress) throws NoSuchAlgorithmException, KeyManagementException {
+
+        List<String> list = new ArrayList<String>();
 
         //  直接通过主机认证
         HostnameVerifier hv = new HostnameVerifier() {
@@ -59,10 +62,14 @@ public class DownloadUtil{
             isr = new InputStreamReader(is,"utf-8");
             BufferedReader br = new BufferedReader(isr);
             String line = null;
+            int count = 0;
             while ((line = br.readLine()) != null) {
-                stringBuilder.append(line).append("\n");
+                count++;
+                if (count > 6){
+                    list.add(line);
+                }
             }
-            System.out.println(stringBuilder.toString());
+            System.out.println(line);
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -77,8 +84,7 @@ public class DownloadUtil{
                 e.printStackTrace();
             }
         }
-
-        return stringBuilder.toString();
+        return list;
     }
 
 
