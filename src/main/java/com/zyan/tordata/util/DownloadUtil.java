@@ -69,7 +69,6 @@ public class DownloadUtil{
                     list.add(line);
                 }
             }
-            System.out.println(line);
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -86,8 +85,6 @@ public class DownloadUtil{
         }
         return list;
     }
-
-
 
 
     public static void main(String[] args) throws KeyManagementException, NoSuchAlgorithmException {

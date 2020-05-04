@@ -1,11 +1,13 @@
 package com.zyan.tordata.service;
 
+import com.zyan.tordata.dao.UserStatsBridgeCountryDao;
 import com.zyan.tordata.dao.UserStatsRelayCountryDao;
+import com.zyan.tordata.domain.UserStatsBridgeCountry;
 import com.zyan.tordata.domain.UserStatsRelayCountry;
 import com.zyan.tordata.result.Const;
 import com.zyan.tordata.util.DateTimeUtil;
 import com.zyan.tordata.util.DownloadUtil;
-import org.apache.ibatis.annotations.Insert;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Service
-public class UserStatsRelayCountryService {
+@Slf4j
+public class UserStatsBridgeCountryService {
     @Autowired
-    UserStatsRelayCountryDao userStatsRelayCountryDao;
+    UserStatsBridgeCountryDao userStatsBridgeCountryDao;
 
-    public List<UserStatsRelayCountry> listAllUser() {
-        return userStatsRelayCountryDao.listAllUser();
+    public List<UserStatsBridgeCountry> listAllUser() {
+        return userStatsBridgeCountryDao.listAllUser();
     }
 
     /**
@@ -28,8 +31,8 @@ public class UserStatsRelayCountryService {
      * @return 返回填充的数据条数
      */
     //TODO 需要设置定时任务
-    public int fillUserStatsRelay() throws KeyManagementException, NoSuchAlgorithmException {
-        Date lastDate = userStatsRelayCountryDao.getLastDate();
+    public int fillUserStatsBridgeCountry() throws KeyManagementException, NoSuchAlgorithmException {
+        Date lastDate = userStatsBridgeCountryDao.getLastDate();
         System.out.println(lastDate);
         if (lastDate.equals(new Date())) {
             return 0;
@@ -41,32 +44,24 @@ public class UserStatsRelayCountryService {
         String startDateString = DateTimeUtil.dateToStr(startDate);
         String endDateString = DateTimeUtil.dateToStr(new Date());
         //https://metrics.torproject.org/userstats-relay-country.csv?start=2020-01-30&end=2020-04-29&events=off"
-        String url = Const.USERS_RELAY + "?start=" + startDateString + "&end=" + endDateString + "events=off";
+        String url = Const.USERS_BRIDGE_COUNTRY + "?start=" + startDateString + "&end=" + endDateString;
         System.out.println(url);
         //下载剩余的csv数据
         List<String> list = DownloadUtil.downloadCSV(url);
-        List<UserStatsRelayCountry> usersList = new ArrayList<UserStatsRelayCountry>();
+        List<UserStatsBridgeCountry> usersList = new ArrayList<UserStatsBridgeCountry>();
         for (String s : list) {
             String[] fields = s.split(",");
-            UserStatsRelayCountry userStatsRelayCountry = new UserStatsRelayCountry();
-            userStatsRelayCountry.setDate(DateTimeUtil.strToDate(fields[0]));
-            userStatsRelayCountry.setCountry(fields[1]);
-            userStatsRelayCountry.setUsers(Integer.parseInt(fields[2]));
-            if (fields[3].equals("")){
-                fields[3] = "0";
-            }
-            if (fields[4].equals("")){
-                fields[4] = "0";
-            }
-            userStatsRelayCountry.setLower(Integer.parseInt(fields[3]));
-            userStatsRelayCountry.setUpper(Integer.parseInt(fields[4]));
-            userStatsRelayCountry.setFrac(Integer.parseInt(fields[5]));
-            usersList.add(userStatsRelayCountry);
+            UserStatsBridgeCountry userStatsBridgeCountry = new UserStatsBridgeCountry();
+            userStatsBridgeCountry.setDate(DateTimeUtil.strToDate(fields[0]));
+            userStatsBridgeCountry.setCountry(fields[1]);
+            userStatsBridgeCountry.setUsers(Integer.parseInt(fields[2]));
+            userStatsBridgeCountry.setFrac(Integer.parseInt(fields[3]));
+            usersList.add(userStatsBridgeCountry);
         }
         System.out.println(usersList.size());
         //填充到数据库中
-        int fillNumber = userStatsRelayCountryDao.insertUsers(usersList);
-        System.out.println(fillNumber);
+        int fillNumber = userStatsBridgeCountryDao.insertUsers(usersList);
+        log.info("写入了{}条数据",fillNumber);
 
         return fillNumber;
     }
