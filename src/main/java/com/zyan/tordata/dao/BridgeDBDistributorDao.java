@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface BridgeDBDistributorDao {
     @Select("select * from bridgedb_distributor " +
-            "where bridgedb_date > #{start} and bridgedb_date < #{end}")
+            "where bridgedb_date >= #{start} and bridgedb_date <= #{end}")
     @Results({
             @Result(property = "date", column = "bridgedb_date"),
     })

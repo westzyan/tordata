@@ -1,7 +1,6 @@
 package com.zyan.tordata.service;
 
 import com.zyan.tordata.dao.UserStatsBridgeCountryDao;
-import com.zyan.tordata.dao.UserStatsRelayCountryDao;
 import com.zyan.tordata.domain.UserStatsBridgeCountry;
 import com.zyan.tordata.domain.UserStatsRelayCountry;
 import com.zyan.tordata.result.Const;
@@ -10,6 +9,9 @@ import com.zyan.tordata.util.DownloadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.util.locale.provider.LocaleProviderAdapter;
+import sun.util.locale.provider.ResourceBundleBasedAdapter;
+import sun.util.resources.OpenListResourceBundle;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -27,6 +29,44 @@ public class UserStatsBridgeCountryService {
 
     public List<UserStatsBridgeCountry> listUserByCountryAndDate(String country, String start, String end) {
         return userStatsBridgeCountryDao.listUserByCountryAndDate(country, start, end);
+    }
+
+    public List<UserStatsBridgeCountry> listBridgeUserByDateAndNumberDesc(String start){
+
+        //将国家代码转换为国家名称
+        ResourceBundleBasedAdapter resourceBundleBasedAdapter = ((ResourceBundleBasedAdapter) LocaleProviderAdapter.forJRE());
+        OpenListResourceBundle resource = resourceBundleBasedAdapter.getLocaleData().getLocaleNames(Locale.CHINA);
+        List<UserStatsBridgeCountry> list = userStatsBridgeCountryDao.listTopBridge(start);
+        for (UserStatsBridgeCountry userStatsBridgeCountry : list) {
+            String country = userStatsBridgeCountry.getCountry().toUpperCase();
+            try {
+                country = resource.getString(country);
+            }catch (MissingResourceException e){
+                log.error("国家代码转换异常：{}", e.getMessage());
+            }
+            userStatsBridgeCountry.setCountry(country);
+        }
+        return list;
+    }
+
+    public List<UserStatsBridgeCountry> listBridgeUserByDateAndNumberDescDefault(){
+
+        Date date = userStatsBridgeCountryDao.getLastDate();
+        String dateStr = DateTimeUtil.dateToStr(date);
+        //将国家代码转换为国家名称
+        ResourceBundleBasedAdapter resourceBundleBasedAdapter = ((ResourceBundleBasedAdapter) LocaleProviderAdapter.forJRE());
+        OpenListResourceBundle resource = resourceBundleBasedAdapter.getLocaleData().getLocaleNames(Locale.CHINA);
+        List<UserStatsBridgeCountry> list = userStatsBridgeCountryDao.listTopBridge(dateStr);
+        for (UserStatsBridgeCountry userStatsBridgeCountry : list) {
+            String country = userStatsBridgeCountry.getCountry().toUpperCase();
+            try {
+                country = resource.getString(country);
+            }catch (MissingResourceException e){
+                log.error("国家代码转换异常：{}", e.getMessage());
+            }
+            userStatsBridgeCountry.setCountry(country);
+        }
+        return list;
     }
 
 

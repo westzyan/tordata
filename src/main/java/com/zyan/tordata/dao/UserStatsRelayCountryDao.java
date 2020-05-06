@@ -46,12 +46,10 @@ public interface UserStatsRelayCountryDao {
 
 
     /**
-     * 返回的是按照user_number从大到小的排序list，第一项为总数，从第二项到之后分别为每个国家的数据
+     * 返回的是按照user_number从大到小的排序list
      * @return
      */
-    @Select("select * from userstats_relay_country " +
-            "where relay_date = (select max(relay_date) from tor.userstats_relay_country) " +
-            "order by user_number desc")
+    @Select("SELECT * FROM userstats_relay_country where relay_date = #{start} and country!= '' and country != '??' order by user_number desc;")
     @Results({
             @Result(property = "users", column = "user_number"),
             @Result(property = "lower", column = "lower_number"),
@@ -59,7 +57,7 @@ public interface UserStatsRelayCountryDao {
             @Result(property = "date", column = "relay_date")
 
     })
-    public List<UserStatsRelayCountry> listUsersTopCountry();
+    public List<UserStatsRelayCountry> listUsersTopCountry(@Param("start") String start);
 
 
 }

@@ -11,8 +11,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserStatsBridgeVersionDao {
-    @Select("select id, bridge_date, version, user_number, frac userstats_bridge_version " +
-            "where bridge_date > #{start} and bridge_date < #{end} and version = #{version}")
+    @Select("select * from userstats_bridge_version " +
+            "where bridge_date >= #{start} and bridge_date <= #{end} and version = #{version}")
     @Results({
             @Result(property = "date", column = "bridge_date"),
             @Result(property = "users", column = "user_number")

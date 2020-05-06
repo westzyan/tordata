@@ -25,6 +25,79 @@ public class BridgeDBDistributorService {
         return bridgeDBDistributorDao.listUserByStartAndEnd(start, end);
     }
 
+    public List<List<String>> listBridgeDBDistByDate(String start, String end) {
+        List<List<String>> result = new ArrayList<List<String>>();
+        String preDate;
+        List<BridgeDBDistributor> list = bridgeDBDistributorDao.listUserByStartAndEnd(start, end);
+        if (list.size() > 0) {
+            preDate = DateTimeUtil.dateToStr(list.get(0).getDate());
+        } else {
+            return result;
+        }
+
+        List<String> dateList = new ArrayList<String>();
+        List<String> emailList = new ArrayList<String>();
+        List<String> httpsList = new ArrayList<String>();
+        List<String> moatList = new ArrayList<String>();
+
+        String email = "0";
+        String https = "0";
+        String moat = "0";
+
+        for (BridgeDBDistributor bridgeDBDistributor : list) {
+            Date curDate = bridgeDBDistributor.getDate();
+            String dateStr = DateTimeUtil.dateToStr(curDate);
+            if (preDate.equals(dateStr)) {
+                switch (bridgeDBDistributor.getDistributor()) {
+                    case "email":
+                        email = String.valueOf(bridgeDBDistributor.getRequests());
+                        break;
+                    case "https":
+                        https = String.valueOf(bridgeDBDistributor.getRequests());
+                        break;
+                    case "moat":
+                        moat = String.valueOf(bridgeDBDistributor.getRequests());
+                        break;
+                }
+            } else {
+                dateList.add(preDate);
+                emailList.add(email);
+                httpsList.add(https);
+                moatList.add(moat);
+
+                email = "0";
+                https = "0";
+                moat = "0";
+
+                preDate = dateStr;
+
+                switch (bridgeDBDistributor.getDistributor()) {
+                    case "email":
+                        email = String.valueOf(bridgeDBDistributor.getRequests());
+                        break;
+                    case "https":
+                        https = String.valueOf(bridgeDBDistributor.getRequests());
+                        break;
+                    case "moat":
+                        moat = String.valueOf(bridgeDBDistributor.getRequests());
+                        break;
+                }
+
+            }
+        }
+        dateList.add(preDate);
+        emailList.add(email);
+        httpsList.add(https);
+        moatList.add(moat);
+
+        result.add(dateList);
+        result.add(emailList);
+        result.add(httpsList);
+        result.add(moatList);
+
+        return result;
+    }
+
     /**
      * 填充后续的数据
      * 查询最新的日期，然后startTime为最新日期的后一天，endTime为当天

@@ -3,6 +3,7 @@ package com.zyan.tordata.service;
 import com.zyan.tordata.dao.BridgeDBTransportDao;
 import com.zyan.tordata.dao.UserStatsBridgeVersionDao;
 import com.zyan.tordata.domain.BridgeDBTransport;
+import com.zyan.tordata.domain.UserStatsBridgeTransport;
 import com.zyan.tordata.domain.UserStatsBridgeVersion;
 import com.zyan.tordata.result.Const;
 import com.zyan.tordata.util.DateTimeUtil;
@@ -23,6 +24,120 @@ public class BridgeDBTransportService {
 
     public List<BridgeDBTransport> listUserByStartAndEnd(String start, String end) {
         return bridgeDBTransportDao.listUserByStartAndEnd(start, end);
+    }
+
+    /**
+     * 将制定时间段内的所有数据进行统计，例如2018-03-02到2019-03-02日期中每一种混淆插件的个数
+     * 返回 不同类型pt的个数,这里只有fte,obfs2,obfs3,obfs4,scramblesuit,vanilla
+     * @param start 开始
+     * @param end 结束
+     * @return list
+     */
+    public List<List<String>> listBridgeDBPTByDate(String start, String end) {
+        List<List<String>> result = new ArrayList<List<String>>();
+        String preDate;
+        List<BridgeDBTransport> list = bridgeDBTransportDao.listUserByStartAndEnd(start, end);
+        if (list.size() > 0) {
+            preDate = DateTimeUtil.dateToStr(list.get(0).getDate());
+        } else {
+            return result;
+        }
+
+        List<String> dateList = new ArrayList<String>();
+        List<String> obfs2List = new ArrayList<String>();
+        List<String> obfs3List = new ArrayList<String>();
+        List<String> obfs4List = new ArrayList<String>();
+        List<String> fteList = new ArrayList<String>();
+        List<String> scramblesuitList = new ArrayList<String>();
+        List<String> vanillaList = new ArrayList<String>();
+        String obfs2 = "0";
+        String obfs3 = "0";
+        String obfs4 = "0";
+        String fte = "0";
+        String scramblesuit = "0";
+        String vanilla = "0";
+        for (BridgeDBTransport bridgeDBTransport : list) {
+            Date curDate = bridgeDBTransport.getDate();
+            String dateStr = DateTimeUtil.dateToStr(curDate);
+            if (preDate.equals(dateStr)) {
+                switch (bridgeDBTransport.getTransport()) {
+                    case "vanilla":
+                        vanilla = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "obfs2":
+                        obfs2 = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "obfs3":
+                        obfs3 = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "obfs4":
+                        obfs4 = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "fte":
+                        fte = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "scramblesuit":
+                        scramblesuit = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                }
+            } else {
+                dateList.add(preDate);
+                vanillaList.add(vanilla);
+                obfs2List.add(obfs2);
+                obfs3List.add(obfs3);
+                obfs4List.add(obfs4);
+                fteList.add(fte);
+                scramblesuitList.add(scramblesuit);
+
+                obfs2 = "0";
+                obfs3 = "0";
+                obfs4 = "0";
+                fte = "0";
+                scramblesuit = "0";
+                vanilla = "0";
+
+                preDate = dateStr;
+
+                switch (bridgeDBTransport.getTransport()) {
+                    case "vanilla":
+                        vanilla = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "obfs2":
+                        obfs2 = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "obfs3":
+                        obfs3 = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "obfs4":
+                        obfs4 = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "fte":
+                        fte = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                    case "scramblesuit":
+                        scramblesuit = String.valueOf(bridgeDBTransport.getRequests());
+                        break;
+                }
+            }
+        }
+        dateList.add(preDate);
+        obfs2List.add(obfs2);
+        obfs3List.add(obfs3);
+        obfs4List.add(obfs4);
+        fteList.add(fte);
+        scramblesuitList.add(scramblesuit);
+        vanillaList.add(vanilla);
+
+
+        result.add(dateList);
+        result.add(fteList);
+        result.add(obfs2List);
+        result.add(obfs3List);
+        result.add(obfs4List);
+        result.add(scramblesuitList);
+        result.add(vanillaList);
+
+        return result;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.zyan.tordata.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zyan.tordata.domain.UserStatsBridgeCountry;
+import com.zyan.tordata.domain.UserStatsBridgeVersion;
 import com.zyan.tordata.domain.UserStatsRelayCountry;
 import com.zyan.tordata.result.CodeMsg;
 import com.zyan.tordata.result.Result;
@@ -156,7 +157,135 @@ public class UsersController {
         if (map == null || map.size() == 0) {
             return Result.error(CodeMsg.NULL_DATA);
         }
+        if (country.equals("??")){
+            country = "全球";
+        }
         return Result.success(start+country, map);
+    }
+
+    @RequestMapping("/users/bridge_version_default")
+    @ResponseBody
+    public Result<List<UserStatsBridgeVersion>> getBridgeVersionDefault(@Param("version") String version) {
+        //默认当前三个月数据
+        String end = DateTimeUtil.dateToStr(new Date());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -3);
+        Date startDate = calendar.getTime();
+        String start = DateTimeUtil.dateToStr(startDate);
+        log.info("请求一次/users/bridge_version_default，参数为start:{},end:{},version:{}", start, end, version);
+        if (version.equals("all")){
+            version = "";
+        }
+        List<UserStatsBridgeVersion> list = userStatsBridgeVersionService.listUserByStartAndEndAndVersion(start, end, version);
+        return Result.success(list);
+    }
+
+    @RequestMapping("/users/bridge_version")
+    @ResponseBody
+    public Result<List<UserStatsBridgeVersion>> getBridgeVersion(@Param("start") String start,@Param("end") String end,@Param("version") String version) {
+        log.info("请求一次/users/bridge_version_default，参数为start:{},end:{},version:{}", start, end, version);
+        if (version.equals("all")){
+            version = "";
+        }
+        List<UserStatsBridgeVersion> list = userStatsBridgeVersionService.listUserByStartAndEndAndVersion(start, end, version);
+        if (list.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(list);
+    }
+
+    @RequestMapping("/users/bridgeDB_Transport_default")
+    @ResponseBody
+    public Result<List<List<String>>> getBridgeDBTransport() {
+        //默认当前三个月数据
+        String end = DateTimeUtil.dateToStr(new Date());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -3);
+        Date startDate = calendar.getTime();
+        String start = DateTimeUtil.dateToStr(startDate);
+        log.info("请求一次/users/bridge_version_default，参数为start:{},end:{}", start, end);
+
+        List<List<String>> lists = bridgeDBTransportService.listBridgeDBPTByDate(start, end);
+        if (lists.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(lists);
+    }
+
+
+    @RequestMapping("/users/bridgeDB_Transport")
+    @ResponseBody
+    public Result<List<List<String>>> getBridgeDBTransport(@Param("start") String start,@Param("end") String end) {
+
+        log.info("请求一次/users/bridge_version，参数为start:{},end:{}", start, end);
+
+        List<List<String>> lists = bridgeDBTransportService.listBridgeDBPTByDate(start, end);
+        if (lists.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(lists);
+    }
+
+    @RequestMapping("/users/bridgeDB_distributor_default")
+    @ResponseBody
+    public Result<List<List<String>>> getBridgeDBDistributor() {
+        //默认当前三个月数据
+        String end = DateTimeUtil.dateToStr(new Date());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -3);
+        Date startDate = calendar.getTime();
+        String start = DateTimeUtil.dateToStr(startDate);
+        log.info("请求一次/users/bridgeDB_distributor_default，参数为start:{},end:{}", start, end);
+
+        List<List<String>> lists = bridgeDBDistributorService.listBridgeDBDistByDate(start, end);
+        if (lists.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(lists);
+    }
+
+
+    @RequestMapping("/users/bridgeDB_distributor")
+    @ResponseBody
+    public Result<List<List<String>>> getBridgeDBDistributor(@Param("start") String start,@Param("end") String end) {
+
+        log.info("请求一次/users/bridgeDB_distributor，参数为start:{},end:{}", start, end);
+
+        List<List<String>> lists = bridgeDBDistributorService.listBridgeDBDistByDate(start, end);
+        if (lists.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(lists);
+    }
+
+
+
+    @RequestMapping("/users/top_bridge_default")
+    @ResponseBody
+    public Result<List<UserStatsBridgeCountry>> topBridgeDefault() {
+        log.info("请求一次/users/top_bridge_default");
+        List<UserStatsBridgeCountry> list = userStatsBridgeCountryService.listBridgeUserByDateAndNumberDescDefault();
+        if (list.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(list);
+    }
+
+    @RequestMapping("/users/top_bridge")
+    @ResponseBody
+    public Result<List<UserStatsBridgeCountry>> topBridge(@Param("start") String start) {
+        log.info("请求一次/users/top_bridge,参数为：start:{}",start);
+        List<UserStatsBridgeCountry> list = userStatsBridgeCountryService.listBridgeUserByDateAndNumberDesc(start);
+        if (list.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(list);
     }
 
 
@@ -205,7 +334,7 @@ public class UsersController {
     @RequestMapping("/users/fillBridgeDBTransport")
     @ResponseBody
     public Result<Integer> fillBridgeDBTransport() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = bridgeDBDistributorService.fillBridgeDBDistributor();
+        int number = bridgeDBTransportService.fillUserStatsBridgeVersion();
         return Result.success(number);
     }
 }

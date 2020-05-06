@@ -19,7 +19,7 @@ import java.util.*;
 @Slf4j
 public class UserStatsBridgeVersionService {
     @Autowired
-    UserStatsBridgeVersionDao userStatsBridgeVersionDao;
+    private UserStatsBridgeVersionDao userStatsBridgeVersionDao;
 
     public List<UserStatsBridgeVersion> listUserByStartAndEndAndVersion(String start, String end, String version) {
         return userStatsBridgeVersionDao.listUserByStartAndEndAndVersion(start, end, version);

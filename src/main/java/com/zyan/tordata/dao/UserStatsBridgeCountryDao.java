@@ -27,6 +27,15 @@ public interface UserStatsBridgeCountryDao {
     })
     public List<UserStatsBridgeCountry> listAllUser();
 
+
+    @Select("SELECT * FROM userstats_bridge_country where bridge_date = #{start} and country_code != '' and country_code != '??' order by user_number desc;")
+    @Results({
+            @Result(property = "users", column = "user_number"),
+            @Result(property = "country", column = "country_code"),
+            @Result(property = "date", column = "bridge_date")
+    })
+    public List<UserStatsBridgeCountry> listTopBridge(@Param("start") String start);
+
     @Select("select max(bridge_date) from userstats_bridge_country")
     public Date getLastDate();
 

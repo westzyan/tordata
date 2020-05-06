@@ -25,6 +25,7 @@ public class UserStatsBridgeTransportService {
 
     /**
      * 将制定时间段内的所有数据进行统计，例如2018-03-02到2019-03-02日期中每一种混淆插件的个数
+     * 这里为了将日期也一并放里面，所以使用了<List<String>，本来应该为Integer的，但是由于前端不懂，所以直接后端处理
      * @param start
      * @param end
      * @return

@@ -92,7 +92,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/"><i class="" aria-hidden="true"></i> Home</a></li>
 
-                    <li class=" active"><a href="/userstats-bridge-transport.html"><i class="" aria-hidden="true"></i>
+                    <li class=" active"><a href="/bridgedb-transport.html"><i class="" aria-hidden="true"></i>
                         用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
                     <li class=""><a href="/networksize.html"><i class="" aria-hidden="true"></i> 服务器信息&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -134,21 +134,29 @@
 
             <li role="presentation"><a href="relay-country.html" data-tab="userstats-relay-country">中继用户</a></li>
 
-            <li role="presentation"><a href="userstats-bridge-country.html" data-tab="userstats-bridge-country">桥节点用户（国家）</a></li>
+            <li role="presentation"><a href="userstats-bridge-country.html" data-tab="userstats-bridge-country">桥节点用户（国家）</a>
+            </li>
 
-            <li role="presentation" class="active"><a href="userstats-bridge-transport.html" data-tab="userstats-bridge-transport">桥节点用户（混淆方式）</a></li>
+            <li role="presentation"><a href="userstats-bridge-transport.html"
+                                                      data-tab="userstats-bridge-transport">桥节点用户（混淆方式）</a></li>
 
-            <li role="presentation"><a href="userstats-bridge-combined.html" data-tab="userstats-bridge-combined">桥节点用户（国家与混淆方式）</a></li>
+            <li role="presentation"><a href="userstats-bridge-combined.html" data-tab="userstats-bridge-combined">桥节点用户（国家与混淆方式）</a>
+            </li>
 
-            <li role="presentation"><a href="userstats-bridge-version.html" data-tab="userstats-bridge-version">桥节点用户（IP版本）</a></li>
+            <li role="presentation"><a href="userstats-bridge-version.html" data-tab="userstats-bridge-version">桥节点用户（IP版本）</a>
+            </li>
 
-            <li role="presentation"><a href="bridgedb-transport.html" data-tab="bridgedb-transport">BridgeDB请求（混淆方式）</a></li>
+            <li role="presentation"  class="active"><a href="bridgedb-transport.html" data-tab="bridgedb-transport">BridgeDB请求（混淆方式）</a>
+            </li>
 
-            <li role="presentation"><a href="bridgedb-distributor.html" data-tab="bridgedb-distributor">BridgeDB请求（分发商）</a></li>
+            <li role="presentation"><a href="bridgedb-distributor.html"
+                                       data-tab="bridgedb-distributor">BridgeDB请求（分发商）</a></li>
 
-            <li role="presentation"><a href="userstats-relay-table.html" data-tab="userstats-relay-table">中继用户Top国家和地区</a></li>
+            <li role="presentation"><a href="userstats-relay-table.html"
+                                       data-tab="userstats-relay-table">中继用户Top国家和地区</a></li>
 
-            <li role="presentation"><a href="userstats-bridge-table.html" data-tab="userstats-bridge-table">网桥用户Top国家和地区</a></li>
+            <li role="presentation"><a href="userstats-bridge-table.html"
+                                       data-tab="userstats-bridge-table">网桥用户Top国家和地区</a></li>
 
 
         </ul>
@@ -159,11 +167,7 @@
 
                 <div class="row">
                     <div class="col-md-8">
-
-                        <!-- <img src="头像.jpg" width="600" height="375" alt="Relay users graph"> -->
                         <div id="main" style="width: 800px; height: 600px;"></div>
-                        <!-- <img src="头像.jpg" width="200" height="375" alt="Relay users graph">
-                        <img src="头像.jpg" width="200" height="375" alt="Relay users graph"> -->
                     </div>
 
                     <div class="col-md-4">
@@ -237,36 +241,28 @@
 
     // 新建productName与nums数组来接受数据，因为我们
     var date = [];
-    var all_PT = [];
+    var fte = [];
     var obfs2 = [];
     var obfs3 = [];
     var obfs4 = [];
-    var websocket = [];
-    var fte = [];
-    var meek = [];
     var scramblesuit = [];
-    var snowflake = [];
-    var defaultOP = [];
+    var vanilla = [];
     //AJAX接收数据主体
     $.ajax({
         type: "GET",
-        url: "/users/bridge_transport_default",
+        url: "/users/bridgeDB_Transport_default",
         dataType: "json",
         data: {},
         async: false,
         success: function (result) {
             if (result.code == 0) {
                 date = result.data[0];
-                all_PT = result.data[1];
+                fte = result.data[1];
                 obfs2 = result.data[2];
                 obfs3 = result.data[3];
                 obfs4 = result.data[4];
-                websocket = result.data[5];
-                fte = result.data[6];
-                meek = result.data[7];
-                scramblesuit = result.data[8];
-                snowflake = result.data[9];
-                defaultOP = result.data[10];
+                scramblesuit = result.data[5];
+                vanilla = result.data[6];
             } else {
                 layer.msg(result.msg);
             }
@@ -279,22 +275,20 @@
     //指定图表的配置项和数据
     var option = {
         title: {
-            text: '网桥混淆插件用户变化图'
+            text: '向BridgeDB发送网桥混淆插件请求变化图'
         },
         tooltip: {},
         legend: {
-            data: ['PT总用户', 'obfs2', 'obfs3', 'obfs4', 'websocket', 'fte', 'meek', 'scramblesuit', 'snowflake', 'defaultOP']
+            data: ['fte', 'obfs2', 'obfs3', 'obfs4',  'scramblesuit', 'vanilla']
         },
         xAxis: {
-            //结合
             data: date
         },
-
         yAxis: {},
         series: [{
-            name: 'PT总用户',
+            name: 'fte',
             type: 'line',
-            data: all_PT
+            data: fte
         }, {
             name: 'obfs2',
             type: 'line',
@@ -307,30 +301,14 @@
             name: 'obfs4',
             type: 'line',
             data: obfs4
-        }, {
-            name: 'websocket',
-            type: 'line',
-            data: websocket
-        }, {
-            name: 'fte',
-            type: 'line',
-            data: fte
-        }, {
-            name: 'meek',
-            type: 'line',
-            data: meek
-        }, {
+        },, {
             name: 'scramblesuit',
             type: 'line',
             data: scramblesuit
         }, {
-            name: 'snowflake',
+            name: 'vanilla',
             type: 'line',
-            data: snowflake
-        }, {
-            name: 'defaultOP',
-            type: 'line',
-            data: defaultOP
+            data: vanilla
         }],
         dataZoom: [
             {
@@ -367,37 +345,32 @@
 <script type="text/javascript">
     function getData() {
         // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'), 'macarons');
+
+        // 新建productName与nums数组来接受数据，因为我们
         var date = [];
-        var all_PT = [];
+        var fte = [];
         var obfs2 = [];
         var obfs3 = [];
         var obfs4 = [];
-        var websocket = [];
-        var fte = [];
-        var meek = [];
         var scramblesuit = [];
-        var snowflake = [];
-        var defaultOP = [];
+        var vanilla = [];
         //AJAX接收数据主体
         $.ajax({
             type: "GET",
-            url: "/users/bridge_transport",
+            url: "/users/bridgeDB_Transport",
             dataType: "json",
             data: $('#form1').serialize(),
             async: false,
             success: function (result) {
                 if (result.code == 0) {
                     date = result.data[0];
-                    all_PT = result.data[1];
+                    fte = result.data[1];
                     obfs2 = result.data[2];
                     obfs3 = result.data[3];
                     obfs4 = result.data[4];
-                    websocket = result.data[5];
-                    fte = result.data[6];
-                    meek = result.data[7];
-                    scramblesuit = result.data[8];
-                    snowflake = result.data[9];
-                    defaultOP = result.data[10];
+                    scramblesuit = result.data[5];
+                    vanilla = result.data[6];
                 } else {
                     layer.msg(result.msg);
                 }
@@ -410,22 +383,20 @@
         //指定图表的配置项和数据
         var option = {
             title: {
-                text: '网桥混淆插件用户变化图'
+                text: '向BridgeDB发送网桥混淆插件请求变化图'
             },
             tooltip: {},
             legend: {
-                data: ['PT总用户', 'obfs2', 'obfs3', 'obfs4', 'websocket', 'fte', 'meek', 'scramblesuit', 'snowflake', 'defaultOP']
+                data: ['fte', 'obfs2', 'obfs3', 'obfs4',  'scramblesuit', 'vanilla']
             },
             xAxis: {
-                //结合
                 data: date
             },
-
             yAxis: {},
             series: [{
-                name: 'PT总用户',
+                name: 'fte',
                 type: 'line',
-                data: all_PT
+                data: fte
             }, {
                 name: 'obfs2',
                 type: 'line',
@@ -438,30 +409,14 @@
                 name: 'obfs4',
                 type: 'line',
                 data: obfs4
-            }, {
-                name: 'websocket',
-                type: 'line',
-                data: websocket
-            }, {
-                name: 'fte',
-                type: 'line',
-                data: fte
-            }, {
-                name: 'meek',
-                type: 'line',
-                data: meek
-            }, {
+            },, {
                 name: 'scramblesuit',
                 type: 'line',
                 data: scramblesuit
             }, {
-                name: 'snowflake',
+                name: 'vanilla',
                 type: 'line',
-                data: snowflake
-            }, {
-                name: 'defaultOP',
-                type: 'line',
-                data: defaultOP
+                data: vanilla
             }],
             dataZoom: [
                 {
