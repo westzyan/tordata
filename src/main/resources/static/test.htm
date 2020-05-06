@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>relay 情况</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- jquery -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" src="/jquery-validation/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/jquery-validation/localization/messages_zh.min.js"></script>
+    <!-- layer -->
+    <script type="text/javascript" src="/layer/layer.js"></script>
+    <!-- common.js -->
+    <script type="text/javascript" src="/js/common.js"></script>
+    <!-- echarts.js -->
+    <script type="text/javascript" src="/js/echarts.common.js"></script>
+
+<!--    <style type="text/css">-->
+<!--        html, body {-->
+<!--            height: 100%;-->
+<!--            width: 100%;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            background: url('/img/bg.jpg') no-repeat;-->
+<!--            background-size: 100% 100%;-->
+<!--        }-->
+<!--    </style>-->
+</head>
+<body>
+<div id="main" style="width: 1500px; height: 800px;"></div>
+</body>
+</html>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 新建productName与nums数组来接受数据，因为我们
+    var date = [];
+    var users = [];
+    var upper = [];
+    var lower = [];
+    //AJAX接收数据主体
+    $.ajax({
+        type: "GET",
+        url: "/echart",
+        dataType: "json",
+        async: false,
+        data: {},
+        success: function (result) {
+            for (var i = 0; i < result.data.length; i++) {
+                date.push(result.data[i].date);
+                users.push(result.data[i].users);
+                upper.push(result.data[i].upper);
+                lower.push(result.data[i].lower);
+            }
+        },
+        error: function () {
+            alert("获取后台数据失败！");
+        }
+    });
+
+    //指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '中继用户变化图'
+        },
+        tooltip: {},
+        legend: {
+            data: ['下界', '平均', '上界']
+        },
+        xAxis: {
+            //结合
+            data: date
+        },
+
+        yAxis: {},
+        series: [{
+            name: '下界',
+            type: 'line',
+            //结合
+            data: lower
+        }, {
+            name: '平均',
+            type: 'line',
+            //结合
+            data: users
+        }, {
+            name: '上界',
+            type: 'line',
+            //结合
+            data: upper
+        }],
+        dataZoom: [
+            {
+                type: 'inside',// 内置于坐标系中
+                start: 0,
+                end: 30,
+                xAxisIndex: [0]
+            },
+            {
+                type: 'slider',//有单独的滑动条，用户在滑动条上进行缩放或漫游。inside是直接可以是在内部拖动显示
+                show: true,//是否显示 组件。如果设置为 false，不会显示，但是数据过滤的功能还存在。
+                start: 0,//数据窗口范围的起始百分比0-100
+                end: 50,//数据窗口范围的结束百分比0-100
+                xAxisIndex: [0],// 此处表示控制第一个xAxis，设置 dataZoom-slider 组件控制的 x轴 可是已数组[0,2]表示控制第一，三个；xAxisIndex: 2 ，表示控制第二个。yAxisIndex属性同理
+                bottom: -10 //距离底部的距离
+            }
+        ],
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {
+                    show: true,
+                    excludeComponents: ['toolbox'],
+                    pixelRatio: 2
+                }
+            }
+        }
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+

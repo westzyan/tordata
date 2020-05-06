@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface UserStatsRelayCountryDao {
 
-    @Select("select id, country, user_number, lower_number, upper_number, frac, relay_date from userstats_relay_country where country = '' and start = #{start} and end =#{end} ")
+    @Select("select id, country, user_number, lower_number, upper_number, frac, relay_date from userstats_relay_country " +
+            "where country = #{country} and relay_date >= #{start} and relay_date <= #{end} ")
     @Results({
             @Result(property = "users", column = "user_number"),
             @Result(property = "lower", column = "lower_number"),
@@ -20,7 +21,7 @@ public interface UserStatsRelayCountryDao {
             @Result(property = "date", column = "relay_date")
 
     })
-    public List<UserStatsRelayCountry> listAllUserByStartAndEnd(@Param("start") String start, @Param("end") String end);
+    public List<UserStatsRelayCountry> listAllUserByCountryAndDate(@Param("country") String country, @Param("start") String start, @Param("end") String end);
 
     @Select("select id, country, user_number, lower_number, upper_number, frac, relay_date from userstats_relay_country where country = '' ")
     @Results({

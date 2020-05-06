@@ -1,5 +1,6 @@
 package com.zyan.tordata.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zyan.tordata.annotation.JSONField;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,7 +14,8 @@ public class UserStatsRelayCountry {
     private Integer upper;
     private Integer frac;
 
-    @JSONField(format="yyyy-MM-dd")
+
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date date;
 
     public Long getId() {

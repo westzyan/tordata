@@ -25,6 +25,11 @@ public class UserStatsBridgeCountryService {
         return userStatsBridgeCountryDao.listAllUser();
     }
 
+    public List<UserStatsBridgeCountry> listUserByCountryAndDate(String country, String start, String end) {
+        return userStatsBridgeCountryDao.listUserByCountryAndDate(country, start, end);
+    }
+
+
     /**
      * 填充后续的数据
      * 查询最新的日期，然后startTime为最新日期的后一天，endTime为当天

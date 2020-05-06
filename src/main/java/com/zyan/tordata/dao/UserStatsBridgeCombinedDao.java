@@ -11,8 +11,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserStatsBridgeCombinedDao {
-    @Select("select id, bridge_date, country_code, transport_type, low_number, high_number, frac from userstats_bridge_combined " +
-            "where bridge_date > #{start} and bridge_date < #{end} and country_code = #{countryCode}")
+    @Select("select * from userstats_bridge_combined " +
+            "where bridge_date = #{start} and country_code = #{countryCode}")
     @Results({
             @Result(property = "date", column = "bridge_date"),
             @Result(property = "country", column = "country_code"),
@@ -20,7 +20,7 @@ public interface UserStatsBridgeCombinedDao {
             @Result(property = "low", column = "low_number"),
             @Result(property = "high", column = "high_number")
     })
-    public List<UserStatsBridgeCombined> listUserByStartAndEnd(@Param("start") String start, @Param("end") String end, @Param("countryCode") String countryCode);
+    public List<UserStatsBridgeCombined> listUserByCountryAndDate(@Param("start") String start, @Param("countryCode") String countryCode);
 
 //    @Select("select * from userstats_bridge_country where country_code = '' ")
 //    @Results({

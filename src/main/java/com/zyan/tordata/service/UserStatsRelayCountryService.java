@@ -22,6 +22,11 @@ public class UserStatsRelayCountryService {
         return userStatsRelayCountryDao.listAllUser();
     }
 
+
+    public List<UserStatsRelayCountry> listUserByCountryAndDate(String country, String start, String end) {
+        return userStatsRelayCountryDao.listAllUserByCountryAndDate(country, start, end);
+    }
+
     /**
      * 填充后续的数据
      * 查询最新的日期，然后startTime为最新日期的后一天，endTime为当天

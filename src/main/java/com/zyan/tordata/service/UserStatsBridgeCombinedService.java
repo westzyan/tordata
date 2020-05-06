@@ -22,9 +22,63 @@ public class UserStatsBridgeCombinedService {
     @Autowired
     UserStatsBridgeCombinedDao userStatsBridgeCombinedDao;
 
-    public List<UserStatsBridgeCombined> listUserByStartAndEnd(String start, String end, String countryCode) {
-        return userStatsBridgeCombinedDao.listUserByStartAndEnd(start, end, countryCode);
+
+    /**
+     * 统计某一个某个国家的不同类型的pt用户数量
+     * @param start 日期
+     * @param countryCode 国家
+     * @return
+     */
+    public Map<String, Integer> mapCountryAndDate(String start, String countryCode) {
+        List<UserStatsBridgeCombined> list = userStatsBridgeCombinedDao.listUserByCountryAndDate(start, countryCode);
+        if (list.size() == 0){
+            log.info("userStatsBridgeCombinedDao 查询到start: size:{}",list.size());
+            return null;
+        }
+        String defaultOP = "<OR>";
+        String obfs2 = "obfs2";
+        String obfs3 = "obfs3";
+        String obfs4 = "obfs4";
+        String websocket = "websocket";
+        String fte = "fte";
+        String meek = "meek";
+        String scramblesuit = "scramblesuit";
+        String snowflake = "snowflake";
+        Map<String, Integer> map = new HashMap<>();
+        for (UserStatsBridgeCombined userStatsBridgeCombined : list) {
+            switch (userStatsBridgeCombined.getTransport()) {
+                case "<OR>":
+                    map.put(defaultOP,userStatsBridgeCombined.getHigh());
+                    break;
+                case "obfs2":
+                    map.put(obfs2,userStatsBridgeCombined.getHigh());
+                    break;
+                case "obfs3":
+                    map.put(obfs3,userStatsBridgeCombined.getHigh());
+                    break;
+                case "obfs4":
+                    map.put(obfs4,userStatsBridgeCombined.getHigh());
+                    break;
+                case "websocket":
+                    map.put(websocket,userStatsBridgeCombined.getHigh());
+                    break;
+                case "fte":
+                    map.put(fte,userStatsBridgeCombined.getHigh());
+                    break;
+                case "meek":
+                    map.put(meek,userStatsBridgeCombined.getHigh());
+                    break;
+                case "scramblesuit":
+                    map.put(scramblesuit,userStatsBridgeCombined.getHigh());
+                    break;
+                case "snowflake":
+                    map.put(snowflake,userStatsBridgeCombined.getHigh());
+                    break;
+            }
+        }
+        return map;
     }
+
 
     /**
      * 填充后续的数据

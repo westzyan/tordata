@@ -1,9 +1,12 @@
 package com.zyan.tordata.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class OnionServiceTraffic {
     private Long id;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date date;
     private Double relayed;
     private Double frac;

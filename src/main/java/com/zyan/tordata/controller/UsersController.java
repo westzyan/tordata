@@ -2,10 +2,14 @@ package com.zyan.tordata.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.zyan.tordata.domain.UserStatsBridgeCountry;
 import com.zyan.tordata.domain.UserStatsRelayCountry;
 import com.zyan.tordata.result.CodeMsg;
 import com.zyan.tordata.result.Result;
 import com.zyan.tordata.service.*;
+import com.zyan.tordata.util.DateTimeUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import java.util.*;
 
+@Slf4j
 @Controller
 public class UsersController {
 
@@ -35,29 +40,136 @@ public class UsersController {
 
     @RequestMapping("/users/allUser")
     @ResponseBody
-    public Result<String> getAllUserStatsRelayCountry(){
+    public Result<String> getAllUserStatsRelayCountry() {
         List<UserStatsRelayCountry> userStatsRelayCountryList = userStatsRelayCountryService.listAllUser();
-        if (userStatsRelayCountryList != null){
-            String userJson = JSON.toJSONStringWithDateFormat(userStatsRelayCountryList,"yyyy-MM-dd");
+        if (userStatsRelayCountryList != null) {
+            String userJson = JSON.toJSONStringWithDateFormat(userStatsRelayCountryList, "yyyy-MM-dd");
             return Result.success(userJson);
-        }else {
+        } else {
             //TODO 启动获取数据函数
 
             return Result.error(CodeMsg.NULL_DATA);
         }
     }
 
-
-    @RequestMapping("/users/allUser1")
+    @RequestMapping("/users/relay_country")
     @ResponseBody
-    public Result<Integer> getAllUserStatsRelayCountry1() throws NoSuchAlgorithmException, KeyManagementException {
+    public Result<List<UserStatsRelayCountry>> getAllUserStatsRelayCountry(@Param("country") String country,
+                                                                           @Param("start") String start,
+                                                                           @Param("end") String end) {
+        log.info("请求一次/users/relay_country，参数为country:{},start:{},end:{}", country, start, end);
+        if (country.equals("all")) {
+            country = "";
+        }
+        List<UserStatsRelayCountry> list = userStatsRelayCountryService.listUserByCountryAndDate(country, start, end);
+        return Result.success(list);
+    }
+
+    @RequestMapping("/users/bridge_country_default")
+    @ResponseBody
+    public Result<List<UserStatsBridgeCountry>> getBridgeCountryDefault() {
+        //默认当前三个月所有国家数据
+        String country = "";
+        String end = DateTimeUtil.dateToStr(new Date());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -3);
+        Date startDate = calendar.getTime();
+        String start = DateTimeUtil.dateToStr(startDate);
+        log.info("请求一次/users/bridge_country_default，参数为country:{},start:{},end:{}", country, start, end);
+        List<UserStatsBridgeCountry> list = userStatsBridgeCountryService.listUserByCountryAndDate(country, start, end);
+        return Result.success(list);
+    }
+
+    @RequestMapping("/users/bridge_country")
+    @ResponseBody
+    public Result<List<UserStatsBridgeCountry>> getBridgeCountry(@Param("country") String country,
+                                                                 @Param("start") String start,
+                                                                 @Param("end") String end) {
+        log.info("请求一次/users/bridge_country，参数为country:{},start:{},end:{},", country, start, end);
+        if (country.equals("all")) {
+            country = "";
+        }
+        List<UserStatsBridgeCountry> list = userStatsBridgeCountryService.listUserByCountryAndDate(country, start, end);
+        return Result.success(list);
+    }
+
+
+    @RequestMapping("/users/bridge_transport_default")
+    @ResponseBody
+    public Result<List<List<String>>> getBridgeTransportDefault() {
+        //默认当前三个月数据
+        String end = DateTimeUtil.dateToStr(new Date());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -3);
+        Date startDate = calendar.getTime();
+        String start = DateTimeUtil.dateToStr(startDate);
+        log.info("请求一次/users/bridge_transport_default，参数为start:{},end:{}", start, end);
+        List<List<String>> list = userStatsBridgeTransportService.listTransportUser(start, end);
+        return Result.success(list);
+    }
+
+    @RequestMapping("/users/bridge_transport")
+    @ResponseBody
+    public Result<List<List<String>>> getBridgeTransport(@Param("start") String start, @Param("end") String end) {
+        log.info("请求一次/users/bridge_transport，参数为start:{},end:{},", start, end);
+        List<List<String>> list = userStatsBridgeTransportService.listTransportUser(start, end);
+        return Result.success(list);
+    }
+
+    @RequestMapping("/users/test")
+    @ResponseBody
+    public Result<Map<String, Integer>> getBridgeTransport() {
+        log.info("请求一次/users/test");
+        Map<String, Integer> map1 = new HashMap<String, Integer>();
+        map1.put("fdjsal", 3);
+        map1.put("33", 35);
+        map1.put("444", 36);
+        return Result.success(map1);
+    }
+
+    @RequestMapping("/users/bridge_combined_default")
+    @ResponseBody
+    public Result<Map<String, Integer>> getBridgeCombinedDefault() {
+        String country = "??";  //代表所有国家的数据
+        String date = DateTimeUtil.dateToStr(new Date());
+//        String date = "2019-03-05";
+        log.info("请求一次/users/bridge_combined_default，参数为date:{},country:{},", date, country);
+        Map<String, Integer> map = userStatsBridgeCombinedService.mapCountryAndDate(date, country);
+        if (map == null || map.size() == 0) {
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(map);
+    }
+
+    @RequestMapping("/users/bridge_combined")
+    @ResponseBody
+    public Result<Map<String, Integer>> getBridgeCombined(@Param("start") String start, @Param("country") String country) {
+        if (country.equals("all")){
+            country = "??";
+        }
+        log.info("请求一次/users/bridge_combined，参数为start:{},country:{},", start, country);
+        Map<String, Integer> map = userStatsBridgeCombinedService.mapCountryAndDate(start, country);
+        if (map == null || map.size() == 0) {
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(start+country, map);
+    }
+
+
+    @RequestMapping("/users/fillUserStatsRelay")
+    @ResponseBody
+    public Result<Integer> fillUserStatsRelay() throws NoSuchAlgorithmException, KeyManagementException {
         int number = userStatsRelayCountryService.fillUserStatsRelay();
         return Result.success(number);
     }
 
     @RequestMapping("/users/fillBridgeCountry")
     @ResponseBody
-    public Result<Integer> fill() throws NoSuchAlgorithmException, KeyManagementException {
+    public Result<Integer> fillBridgeCountry() throws NoSuchAlgorithmException, KeyManagementException {
         int number = userStatsBridgeCountryService.fillUserStatsBridgeCountry();
         return Result.success(number);
     }

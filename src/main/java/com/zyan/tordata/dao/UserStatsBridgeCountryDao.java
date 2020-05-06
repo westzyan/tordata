@@ -11,13 +11,13 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserStatsBridgeCountryDao {
-    @Select("select id, country, user_number, lower_number, upper_number, frac, relay_date from userstats_relay_country where start = #{start} and end =#{end} ")
+    @Select("select * from userstats_bridge_country where country_code = #{country} and bridge_date >= #{start} and bridge_date <= #{end} ")
     @Results({
             @Result(property = "users", column = "user_number"),
             @Result(property = "country", column = "country_code"),
             @Result(property = "date", column = "bridge_date")
     })
-    public List<UserStatsBridgeCountry> listUserByStartAndEnd(@Param("start") String start, @Param("end") String end);
+    public List<UserStatsBridgeCountry> listUserByCountryAndDate(@Param("country") String country, @Param("start") String start, @Param("end") String end);
 
     @Select("select id, country_code, user_number,  frac, bridge_date from userstats_bridge_country where country_code = '' ")
     @Results({

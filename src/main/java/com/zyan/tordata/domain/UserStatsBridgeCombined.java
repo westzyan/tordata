@@ -1,5 +1,7 @@
 package com.zyan.tordata.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class UserStatsBridgeCombined {
@@ -9,6 +11,8 @@ public class UserStatsBridgeCombined {
     private Integer low;
     private Integer high;
     private Integer frac;
+
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date date;
 
     public Long getId() {
