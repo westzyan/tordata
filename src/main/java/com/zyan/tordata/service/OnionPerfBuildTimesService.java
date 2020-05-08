@@ -21,9 +21,11 @@ public class OnionPerfBuildTimesService {
     @Autowired
     private OnionPerfBuildTimesDao onionPerfBuildTimesDao;
 
-    public List<OnionPerfBuildTimes> listTorPerfByCondition(String start, String end){
-        return onionPerfBuildTimesDao.listOnionPerfLatenciesByCondition(start, end);
+    public List<OnionPerfBuildTimes> listTorPerfByCondition(String start, String end, String source){
+        return onionPerfBuildTimesDao.listOnionPerfLatenciesByCondition(start, end, source);
     }
+
+
 
     //TODO 需要设置定时任务
     public int fillBuildTimes() throws KeyManagementException, NoSuchAlgorithmException {

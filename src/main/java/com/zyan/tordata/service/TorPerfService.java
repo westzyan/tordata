@@ -24,6 +24,95 @@ public class TorPerfService {
         return torPerfDao.listAllUserByCondition(filesize, server, start, end);
     }
 
+
+    public List<List<String>> listTorperf(int filesize, String server, String start, String end){
+        List<List<String>> result = new ArrayList<List<String>>();
+        String preDate;
+        List<TorPerf> list = torPerfDao.listAllUserByCondition(filesize, server, start, end);
+        if (list.size() > 0) {
+            preDate = DateTimeUtil.dateToStr(list.get(0).getDate());
+        } else {
+            return result;
+        }
+        List<String> dateList = new ArrayList<String>();
+        List<String> moriaList = new ArrayList<String>();
+        List<String> torperfList = new ArrayList<String>();
+        List<String> sivList = new ArrayList<String>();
+        List<String> op_hkList = new ArrayList<String>();
+        List<String> op_nlList = new ArrayList<String>();
+        List<String> op_usList = new ArrayList<String>();
+
+        String moria = "0";
+        String torperf = "0";
+        String siv = "0";
+        String op_hk = "0";
+        String op_nl = "0";
+        String op_us = "0";
+
+        for (TorPerf torPerf1 : list) {
+            Date curDate = torPerf1.getDate();
+            String dateStr = DateTimeUtil.dateToStr(curDate);
+            if (!preDate.equals(dateStr)){
+                dateList.add(preDate);
+                moriaList.add(moria);
+                torperfList.add(torperf);
+                sivList.add(siv);
+                op_hkList.add(op_hk);
+                op_nlList.add(op_nl);
+                op_usList.add(op_us);
+
+                moria = "0";
+                torperf = "0";
+                siv = "0";
+                op_hk = "0";
+                op_nl = "0";
+                op_us = "0";
+
+                preDate = dateStr;
+            }
+
+            switch (torPerf1.getSource()){
+                case "moria":
+                    moria = String.valueOf(torPerf1.getMd());
+                    break;
+                case "torperf":
+                    torperf = String.valueOf(torPerf1.getMd());
+                    break;
+                case "siv":
+                    siv = String.valueOf(torPerf1.getMd());
+                    break;
+                case "op-hk":
+                    op_hk = String.valueOf(torPerf1.getMd());
+                    break;
+                case "op-nl":
+                    op_nl = String.valueOf(torPerf1.getMd());
+                    break;
+                case "op-us":
+                    op_us = String.valueOf(torPerf1.getMd());
+                    break;
+            }
+        }
+        dateList.add(preDate);
+        moriaList.add(moria);
+        torperfList.add(torperf);
+        sivList.add(siv);
+        op_hkList.add(op_hk);
+        op_nlList.add(op_nl);
+        op_usList.add(op_us);
+
+        result.add(dateList);
+        result.add(moriaList);
+        result.add(torperfList);
+        result.add(sivList);
+        result.add(op_hkList);
+        result.add(op_nlList);
+        result.add(op_usList);
+
+        return result;
+    }
+
+
+
     //TODO 需要设置定时任务
     public int fillTorPerf() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = torPerfDao.getLastDate();

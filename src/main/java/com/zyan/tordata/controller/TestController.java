@@ -35,25 +35,25 @@ public class TestController {
     public static void getCountries(){
         ResourceBundleBasedAdapter resourceBundleBasedAdapter = ((ResourceBundleBasedAdapter) LocaleProviderAdapter.forJRE());
         OpenListResourceBundle resource = resourceBundleBasedAdapter.getLocaleData().getLocaleNames(Locale.CHINA);
-        System.out.println(resource.getString("CN"));
+        System.out.println(resource.getString("AB"));
 
     }
     public static void main(String[] args) {
         getCountries();
-        List<List<Object>> lists = new ArrayList<>();
-        List<String> list1 = new ArrayList<>();
-        List<Integer> list2 = new ArrayList<>();
-        list1.add("sss");
-        list1.add("ddd");
-        list2.add(1);
-        list2.add(2);
-        lists.add(Collections.singletonList(list1));
-        lists.add(Collections.singletonList(list2));
-
-
-        for (int i = 0; i < lists.get(0).size(); i++) {
-            System.out.println(lists.get(0).get(i));
-        }
+//        List<List<Object>> lists = new ArrayList<>();
+//        List<String> list1 = new ArrayList<>();
+//        List<Integer> list2 = new ArrayList<>();
+//        list1.add("sss");
+//        list1.add("ddd");
+//        list2.add(1);
+//        list2.add(2);
+//        lists.add(Collections.singletonList(list1));
+//        lists.add(Collections.singletonList(list2));
+//
+//
+//        for (int i = 0; i < lists.get(0).size(); i++) {
+//            System.out.println(lists.get(0).get(i));
+//        }
     }
 }
 

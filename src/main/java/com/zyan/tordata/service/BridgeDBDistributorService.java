@@ -108,6 +108,8 @@ public class BridgeDBDistributorService {
     public int fillBridgeDBDistributor() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = bridgeDBDistributorDao.getLastDate();
         System.out.println(lastDate);
+
+        //TODO 这里用字符串比较
         if (lastDate.equals(new Date())) {
             return 0;
         }

@@ -63,40 +63,7 @@ public class UserStatsBridgeTransportService {
         for (UserStatsBridgeTransport userStatsBridgeTransport : list) {
             Date curDate = userStatsBridgeTransport.getDate();
             String dateStr = DateTimeUtil.dateToStr(curDate);
-            if (preDate.equals(dateStr)) {
-                switch (userStatsBridgeTransport.getTransport()) {
-                    case "!<OR>":
-                        allPt = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "<OR>":
-                        defaultOP = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "obfs2":
-                        obfs2 = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "obfs3":
-                        obfs3 = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "obfs4":
-                        obfs4 = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "websocket":
-                        websocket = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "fte":
-                        fte = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "meek":
-                        meek = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "scramblesuit":
-                        scramblesuit = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "snowflake":
-                        snowflake = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                }
-            } else {
+            if (!preDate.equals(dateStr)) {
                 dateList.add(preDate);
                 allPtList.add(allPt);
                 defaultOPList.add(defaultOP);
@@ -122,39 +89,38 @@ public class UserStatsBridgeTransportService {
 
                 preDate = dateStr;
 
-                switch (userStatsBridgeTransport.getTransport()) {
-                    case "!<OR>":
-                        allPt = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "<OR>":
-                        defaultOP = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "obfs2":
-                        obfs2 = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "obfs3":
-                        obfs3 = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "obfs4":
-                        obfs4 = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "websocket":
-                        websocket = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "fte":
-                        fte = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "meek":
-                        meek = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "scramblesuit":
-                        scramblesuit = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                    case "snowflake":
-                        snowflake = String.valueOf(userStatsBridgeTransport.getUsers());
-                        break;
-                }
-
+            }
+            switch (userStatsBridgeTransport.getTransport()) {
+                case "!<OR>":
+                    allPt = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "<OR>":
+                    defaultOP = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "obfs2":
+                    obfs2 = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "obfs3":
+                    obfs3 = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "obfs4":
+                    obfs4 = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "websocket":
+                    websocket = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "fte":
+                    fte = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "meek":
+                    meek = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "scramblesuit":
+                    scramblesuit = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
+                case "snowflake":
+                    snowflake = String.valueOf(userStatsBridgeTransport.getUsers());
+                    break;
             }
         }
         dateList.add(preDate);

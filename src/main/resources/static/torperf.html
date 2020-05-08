@@ -92,7 +92,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/"><i class="" aria-hidden="true"></i> Home</a></li>
 
-                    <li class=" active"><a href="/userstats-bridge-transport.html"><i class="" aria-hidden="true"></i>
+                    <li class=""><a href="/userstats-bridge-transport.html"><i class="" aria-hidden="true"></i>
                         用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
                     <li class=""><a href="/networksize.html"><i class="" aria-hidden="true"></i> 服务器信息&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -101,13 +101,12 @@
                     <li class=""><a href="/bandwidth.html"><i class="" aria-hidden="true"></i> 流量信息&nbsp;&nbsp;&nbsp;&nbsp;</a>
                     </li>
 
-                    <li class=""><a href="/torperf.html"><i class="" aria-hidden="true"></i> 性能&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    <li class="active"><a href="/torperf.html"><i class="" aria-hidden="true"></i> 性能&nbsp;&nbsp;&nbsp;&nbsp;</a>
                     </li>
 
                     <li class=""><a href="/hidserv-dir-onions-seen.html"><i class="" aria-hidden="true"></i> 洋葱服务&nbsp;&nbsp;&nbsp;&nbsp;</a>
                     </li>
 
-                    <li class=""><a href="/webstats-tb.html"><i class="" aria-hidden="true"></i> Applications</a></li>
 
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -119,12 +118,12 @@
     <div class="container">
         <ul class="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li class="active">用户信息</li>
+            <li class="active">性能</li>
         </ul>
     </div>
 
     <div class="container">
-        <p>通过客户端对中继以及网桥节点发送的请求，预估用户数量</p>
+        <p>Tor网络的速度以及可靠性</p>
     </div>
 
     <div class="container">
@@ -132,24 +131,11 @@
         <!-- tabs -->
         <ul class="nav nav-tabs">
 
-            <li role="presentation"><a href="relay-country.html" data-tab="userstats-relay-country">中继用户</a></li>
+            <li role="presentation" class="active"><a href="torperf.html" data-tab="torperf">通过Tor网络下载文件的时间</a></li>
 
-            <li role="presentation"><a href="userstats-bridge-country.html" data-tab="userstats-bridge-country">桥节点用户（国家）</a></li>
+            <li role="presentation"><a href="onionperf-buildtimes.html" data-tab="onionperf-buildtimes">电路建立时间</a></li>
 
-            <li role="presentation" class="active"><a href="userstats-bridge-transport.html" data-tab="userstats-bridge-transport">桥节点用户（混淆方式）</a></li>
-
-            <li role="presentation"><a href="userstats-bridge-combined.html" data-tab="userstats-bridge-combined">桥节点用户（国家与混淆方式）</a></li>
-
-            <li role="presentation"><a href="userstats-bridge-version.html" data-tab="userstats-bridge-version">桥节点用户（IP版本）</a></li>
-
-            <li role="presentation"><a href="bridgedb-transport.html" data-tab="bridgedb-transport">BridgeDB请求（混淆方式）</a></li>
-
-            <li role="presentation"><a href="bridgedb-distributor.html" data-tab="bridgedb-distributor">BridgeDB请求（分发商）</a></li>
-
-            <li role="presentation"><a href="userstats-relay-table.html" data-tab="userstats-relay-table">中继用户Top国家和地区</a></li>
-
-            <li role="presentation"><a href="userstats-bridge-table.html" data-tab="userstats-bridge-table">网桥用户Top国家和地区</a></li>
-
+            <li role="presentation"><a href="onionperf-throughput.html" data-tab="onionperf-throughput">吞吐量</a></li>
 
         </ul>
 
@@ -176,6 +162,33 @@
                                 <label for="end">End date:</label>
                                 <input type="date" name="end" size="10" value="2020-05-04" placeholder="yyyy-mm-dd"
                                        id="end">
+                            </p>
+                            <p><b>Server:</b>
+
+                                <label class="radio-label">
+                                    <input type="radio" name="server" value="public" checked> public
+                                </label>
+
+                                <label class="radio-label">
+                                    <input type="radio" name="server" value="onion"> onion
+                                </label>
+
+                            </p>
+
+                            <p><b>File size:</b>
+
+                                <label class="radio-label">
+                                    <input type="radio" name="filesize" value="51200" checked> 50 KiB
+                                </label>
+
+                                <label class="radio-label">
+                                    <input type="radio" name="filesize" value="1048576"> 1 MiB
+                                </label>
+
+                                <label class="radio-label">
+                                    <input type="radio" name="filesize" value="5242880"> 5 MiB
+                                </label>
+
                             </p>
                             <p>
                                 <input class="submit" type="button" value="更新图像" onclick="getData()">
@@ -235,36 +248,28 @@
 
     // 新建productName与nums数组来接受数据，因为我们
     var date = [];
-    var all_PT = [];
-    var obfs2 = [];
-    var obfs3 = [];
-    var obfs4 = [];
-    var websocket = [];
-    var fte = [];
-    var meek = [];
-    var scramblesuit = [];
-    var snowflake = [];
-    var defaultOP = [];
+    var moria = [];
+    var torperf = [];
+    var siv = [];
+    var op_hk = [];
+    var op_nl = [];
+    var op_us = [];
     //AJAX接收数据主体
     $.ajax({
         type: "GET",
-        url: "/users/bridge_transport_default",
+        url: "/perf/torperf_default",
         dataType: "json",
         data: {},
         async: false,
         success: function (result) {
             if (result.code == 0) {
                 date = result.data[0];
-                all_PT = result.data[1];
-                obfs2 = result.data[2];
-                obfs3 = result.data[3];
-                obfs4 = result.data[4];
-                websocket = result.data[5];
-                fte = result.data[6];
-                meek = result.data[7];
-                scramblesuit = result.data[8];
-                snowflake = result.data[9];
-                defaultOP = result.data[10];
+                moria = result.data[1];
+                torperf = result.data[2];
+                siv = result.data[3];
+                op_hk = result.data[4];
+                op_nl = result.data[5];
+                op_us = result.data[6];
             } else {
                 layer.msg(result.msg);
             }
@@ -277,11 +282,11 @@
     //指定图表的配置项和数据
     var option = {
         title: {
-            text: '网桥混淆插件用户变化图'
+            text: '通过tor下载文件时间'
         },
         tooltip: {},
         legend: {
-            data: ['PT总用户', 'obfs2', 'obfs3', 'obfs4', 'websocket', 'fte', 'meek', 'scramblesuit', 'snowflake', 'defaultOP']
+            data: ['moria', 'torperf', 'siv', 'op_hk', 'op_nl', 'op_us']
         },
         xAxis: {
             //结合
@@ -290,45 +295,29 @@
 
         yAxis: {},
         series: [{
-            name: 'PT总用户',
+            name: 'moria',
             type: 'line',
-            data: all_PT
+            data: moria
         }, {
-            name: 'obfs2',
+            name: 'torperf',
             type: 'line',
-            data: obfs2
+            data: torperf
         }, {
-            name: 'obfs3',
+            name: 'siv',
             type: 'line',
-            data: obfs3
+            data: siv
         }, {
-            name: 'obfs4',
+            name: 'op_hk',
             type: 'line',
-            data: obfs4
+            data: op_hk
         }, {
-            name: 'websocket',
+            name: 'op_nl',
             type: 'line',
-            data: websocket
+            data: op_nl
         }, {
-            name: 'fte',
+            name: 'op_us',
             type: 'line',
-            data: fte
-        }, {
-            name: 'meek',
-            type: 'line',
-            data: meek
-        }, {
-            name: 'scramblesuit',
-            type: 'line',
-            data: scramblesuit
-        }, {
-            name: 'snowflake',
-            type: 'line',
-            data: snowflake
-        }, {
-            name: 'defaultOP',
-            type: 'line',
-            data: defaultOP
+            data: op_us
         }],
         dataZoom: [
             {
@@ -363,37 +352,32 @@
 <script type="text/javascript">
     function getData() {
         // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'), 'macarons');
+
+        // 新建productName与nums数组来接受数据，因为我们
         var date = [];
-        var all_PT = [];
-        var obfs2 = [];
-        var obfs3 = [];
-        var obfs4 = [];
-        var websocket = [];
-        var fte = [];
-        var meek = [];
-        var scramblesuit = [];
-        var snowflake = [];
-        var defaultOP = [];
+        var moria = [];
+        var torperf = [];
+        var siv = [];
+        var op_hk = [];
+        var op_nl = [];
+        var op_us = [];
         //AJAX接收数据主体
         $.ajax({
             type: "GET",
-            url: "/users/bridge_transport",
+            url: "/perf/torperf",
             dataType: "json",
             data: $('#form1').serialize(),
             async: false,
             success: function (result) {
                 if (result.code == 0) {
                     date = result.data[0];
-                    all_PT = result.data[1];
-                    obfs2 = result.data[2];
-                    obfs3 = result.data[3];
-                    obfs4 = result.data[4];
-                    websocket = result.data[5];
-                    fte = result.data[6];
-                    meek = result.data[7];
-                    scramblesuit = result.data[8];
-                    snowflake = result.data[9];
-                    defaultOP = result.data[10];
+                    moria = result.data[1];
+                    torperf = result.data[2];
+                    siv = result.data[3];
+                    op_hk = result.data[4];
+                    op_nl = result.data[5];
+                    op_us = result.data[6];
                 } else {
                     layer.msg(result.msg);
                 }
@@ -406,11 +390,11 @@
         //指定图表的配置项和数据
         var option = {
             title: {
-                text: '网桥混淆插件用户变化图'
+                text: '通过tor下载文件时间'
             },
             tooltip: {},
             legend: {
-                data: ['PT总用户', 'obfs2', 'obfs3', 'obfs4', 'websocket', 'fte', 'meek', 'scramblesuit', 'snowflake', 'defaultOP']
+                data: ['moria', 'torperf', 'siv', 'op_hk', 'op_nl', 'op_us']
             },
             xAxis: {
                 //结合
@@ -419,45 +403,29 @@
 
             yAxis: {},
             series: [{
-                name: 'PT总用户',
+                name: 'moria',
                 type: 'line',
-                data: all_PT
+                data: moria
             }, {
-                name: 'obfs2',
+                name: 'torperf',
                 type: 'line',
-                data: obfs2
+                data: torperf
             }, {
-                name: 'obfs3',
+                name: 'siv',
                 type: 'line',
-                data: obfs3
+                data: siv
             }, {
-                name: 'obfs4',
+                name: 'op_hk',
                 type: 'line',
-                data: obfs4
+                data: op_hk
             }, {
-                name: 'websocket',
+                name: 'op_nl',
                 type: 'line',
-                data: websocket
+                data: op_nl
             }, {
-                name: 'fte',
+                name: 'op_us',
                 type: 'line',
-                data: fte
-            }, {
-                name: 'meek',
-                type: 'line',
-                data: meek
-            }, {
-                name: 'scramblesuit',
-                type: 'line',
-                data: scramblesuit
-            }, {
-                name: 'snowflake',
-                type: 'line',
-                data: snowflake
-            }, {
-                name: 'defaultOP',
-                type: 'line',
-                data: defaultOP
+                data: op_us
             }],
             dataZoom: [
                 {

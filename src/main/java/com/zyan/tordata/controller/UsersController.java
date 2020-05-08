@@ -331,40 +331,6 @@ public class UsersController {
     }
 
 
-    @RequestMapping("/onion/onion_service_default")
-    @ResponseBody
-    public Result<List<List<Object>>> getOnionServiceDefault() {
-        //默认当前三个月数据
-        String end = DateTimeUtil.dateToStr(new Date());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.MONTH, -3);
-        Date startDate = calendar.getTime();
-        String start = DateTimeUtil.dateToStr(startDate);
-        log.info("请求一次/onion/onion_service_default，参数为start:{},end:{}", start, end);
-        List<List<Object>> lists = onionUniqueAddressService.listOnionServiceData(start, end);
-        if (lists.size() == 0){
-            return Result.error(CodeMsg.NULL_DATA);
-        }
-        return Result.success(lists);
-    }
-
-
-    @RequestMapping("/onion/onion_service")
-    @ResponseBody
-    public Result<List<List<Object>>> getOnionService(@Param("start") String start,@Param("end") String end) {
-
-        log.info("请求一次/onion/onion_service，参数为start:{},end:{}", start, end);
-
-        List<List<Object>> lists = onionUniqueAddressService.listOnionServiceData(start, end);
-        if (lists.size() == 0){
-            return Result.error(CodeMsg.NULL_DATA);
-        }
-        return Result.success(lists);
-    }
-
-
-
     @RequestMapping("/users/fillUserStatsRelay")
     @ResponseBody
     public Result<Integer> fillUserStatsRelay() throws NoSuchAlgorithmException, KeyManagementException {
