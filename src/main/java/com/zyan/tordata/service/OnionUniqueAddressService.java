@@ -21,9 +21,23 @@ public class OnionUniqueAddressService {
 
     @Autowired
     private OnionUniqueAddressDao onionUniqueAddressDao;
+    @Autowired
+    private OnionServiceTrafficService onionServiceTrafficService;
 
     public List<OnionUniqueAddress> listOnionUniqueAddress(String start, String end){
         return onionUniqueAddressDao.listOnionAddress(start, end);
+    }
+
+    public List<List<Object>> listOnionServiceData(String start, String end){
+        List<List<Object>> lists = new ArrayList<>();
+        List<OnionUniqueAddress> list1 = onionUniqueAddressDao.listOnionAddress(start, end);
+        List<OnionServiceTraffic> list2 = onionServiceTrafficService.listOnionServiceTraffic(start, end);
+        if (list1.size() == 0 || list2.size() == 0){
+            return lists;
+        }
+        lists.add(Collections.singletonList(list1));
+        lists.add(Collections.singletonList(list2));
+        return lists;
     }
 
     //TODO 需要设置定时任务

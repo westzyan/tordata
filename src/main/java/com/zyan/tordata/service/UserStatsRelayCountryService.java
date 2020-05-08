@@ -114,8 +114,7 @@ public class UserStatsRelayCountryService {
         System.out.println(usersList.size());
         //填充到数据库中
         int fillNumber = userStatsRelayCountryDao.insertUsers(usersList);
-        System.out.println(fillNumber);
-
+        log.info("写入了{}条数据",fillNumber);
         return fillNumber;
     }
 

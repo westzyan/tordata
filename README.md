@@ -17,3 +17,13 @@ String str = bd.toPlainString();
 如果这个数字的长度是道在int的范围内的话，是可以转专换成int类型：
 int a = Integer.parsInt(str);
 ```
+3.国家代码转换异常：Can't find resource for bundle sun.util.resources.LocaleNames, key XK
+```
+//将国家代码转换为国家名称
+ResourceBundleBasedAdapter resourceBundleBasedAdapter = ((ResourceBundleBasedAdapter) LocaleProviderAdapter.forJRE());
+OpenListResourceBundle resource = resourceBundleBasedAdapter.getLocaleData().getLocaleNames(Locale.CHINA);
+String countryCode = "CN"
+String countryName = resource.getString(countryCode);
+这里遇到XK代码，无法转换
+直接捕获异常，不再转换
+```

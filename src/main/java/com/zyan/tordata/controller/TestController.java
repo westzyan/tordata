@@ -13,10 +13,7 @@ import sun.util.locale.provider.LocaleProviderAdapter;
 import sun.util.locale.provider.ResourceBundleBasedAdapter;
 import sun.util.resources.OpenListResourceBundle;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,6 +40,20 @@ public class TestController {
     }
     public static void main(String[] args) {
         getCountries();
+        List<List<Object>> lists = new ArrayList<>();
+        List<String> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        list1.add("sss");
+        list1.add("ddd");
+        list2.add(1);
+        list2.add(2);
+        lists.add(Collections.singletonList(list1));
+        lists.add(Collections.singletonList(list2));
+
+
+        for (int i = 0; i < lists.get(0).size(); i++) {
+            System.out.println(lists.get(0).get(i));
+        }
     }
 }
 

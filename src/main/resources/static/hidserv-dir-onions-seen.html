@@ -92,7 +92,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/"><i class="" aria-hidden="true"></i> Home</a></li>
 
-                    <li class=" active"><a href="/userstats-bridge-transport.html"><i class="" aria-hidden="true"></i>
+                    <li class=""><a href="/bridgedb-transport.html"><i class="" aria-hidden="true"></i>
                         用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
                     <li class=""><a href="/networksize.html"><i class="" aria-hidden="true"></i> 服务器信息&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -104,7 +104,7 @@
                     <li class=""><a href="/torperf.html"><i class="" aria-hidden="true"></i> 性能&nbsp;&nbsp;&nbsp;&nbsp;</a>
                     </li>
 
-                    <li class=""><a href="/hidserv-dir-onions-seen.html"><i class="" aria-hidden="true"></i> 洋葱服务&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    <li class=" active"><a href="/hidserv-dir-onions-seen.html"><i class="" aria-hidden="true"></i> 洋葱服务&nbsp;&nbsp;&nbsp;&nbsp;</a>
                     </li>
 
                     <li class=""><a href="/webstats-tb.html"><i class="" aria-hidden="true"></i> Applications</a></li>
@@ -119,38 +119,19 @@
     <div class="container">
         <ul class="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li class="active">用户信息</li>
+            <li class="active">隐藏服务信息</li>
         </ul>
     </div>
 
     <div class="container">
-        <p>通过客户端对中继以及网桥节点发送的请求，预估用户数量</p>
+        <p> </p>
     </div>
 
     <div class="container">
 
         <!-- tabs -->
         <ul class="nav nav-tabs">
-
-            <li role="presentation"><a href="relay-country.html" data-tab="userstats-relay-country">中继用户</a></li>
-
-            <li role="presentation"><a href="userstats-bridge-country.html" data-tab="userstats-bridge-country">桥节点用户（国家）</a></li>
-
-            <li role="presentation" class="active"><a href="userstats-bridge-transport.html" data-tab="userstats-bridge-transport">桥节点用户（混淆方式）</a></li>
-
-            <li role="presentation"><a href="userstats-bridge-combined.html" data-tab="userstats-bridge-combined">桥节点用户（国家与混淆方式）</a></li>
-
-            <li role="presentation"><a href="userstats-bridge-version.html" data-tab="userstats-bridge-version">桥节点用户（IP版本）</a></li>
-
-            <li role="presentation"><a href="bridgedb-transport.html" data-tab="bridgedb-transport">BridgeDB请求（混淆方式）</a></li>
-
-            <li role="presentation"><a href="bridgedb-distributor.html" data-tab="bridgedb-distributor">BridgeDB请求（分发商）</a></li>
-
-            <li role="presentation"><a href="userstats-relay-table.html" data-tab="userstats-relay-table">中继用户Top国家和地区</a></li>
-
-            <li role="presentation"><a href="userstats-bridge-table.html" data-tab="userstats-bridge-table">网桥用户Top国家和地区</a></li>
-
-
+            <li role="presentation"  class="active"><a href="hidserv-dir-onions-seen.html" data-tab="hidserv-dir-onions-seen">隐藏服务信息</a></li>
         </ul>
 
         <!-- tab-content -->
@@ -159,23 +140,19 @@
 
                 <div class="row">
                     <div class="col-md-8">
-
-                        <div id="main" style="width: 800px; height: 600px;"></div>
-
+                        <div id="main1" style="width: 800px; height: 600px;"></div>
+                        <div id="main2" style="width: 800px; height: 600px;"></div>
                     </div>
-
                     <div class="col-md-4">
 
                         <form id="form1" onsubmit="return false" action="##" method="get">
                             <p>
                                 <label for="start">Start date:</label>
-                                <input type="date" name="start" size="10" value="2020-02-04" placeholder="yyyy-mm-dd"
-                                       id="start">
+                                <input type="date" name="start" size="10" value="2020-02-04" placeholder="yyyy-mm-dd" id="start">
                             </p>
                             <p>
                                 <label for="end">End date:</label>
-                                <input type="date" name="end" size="10" value="2020-05-04" placeholder="yyyy-mm-dd"
-                                       id="end">
+                                <input type="date" name="end" size="10" value="2020-05-04" placeholder="yyyy-mm-dd" id="end">
                             </p>
                             <p>
                                 <input class="submit" type="button" value="更新图像" onclick="getData()">
@@ -231,40 +208,30 @@
 
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'), 'macarons');
-
+    var myChart1 = echarts.init(document.getElementById('main1'), 'macarons');
+    var myChart2 = echarts.init(document.getElementById('main2'), 'macarons');
     // 新建productName与nums数组来接受数据，因为我们
-    var date = [];
-    var all_PT = [];
-    var obfs2 = [];
-    var obfs3 = [];
-    var obfs4 = [];
-    var websocket = [];
-    var fte = [];
-    var meek = [];
-    var scramblesuit = [];
-    var snowflake = [];
-    var defaultOP = [];
+    var date1 = [];
+    var date2 = [];
+    var onions = [];
+    var relayed = [];
     //AJAX接收数据主体
     $.ajax({
         type: "GET",
-        url: "/users/bridge_transport_default",
+        url: "/onion/onion_service_default",
         dataType: "json",
         data: {},
         async: false,
         success: function (result) {
             if (result.code == 0) {
-                date = result.data[0];
-                all_PT = result.data[1];
-                obfs2 = result.data[2];
-                obfs3 = result.data[3];
-                obfs4 = result.data[4];
-                websocket = result.data[5];
-                fte = result.data[6];
-                meek = result.data[7];
-                scramblesuit = result.data[8];
-                snowflake = result.data[9];
-                defaultOP = result.data[10];
+                for (var i = 0; i < result.data[0][0].length; i++) {
+                    date1.push(result.data[0][0][i].date);
+                    onions.push(result.data[0][0][i].onions);
+                }
+                for (var i = 0; i < result.data[1][0].length; i++) {
+                    date2.push(result.data[1][0][i].date);
+                    relayed.push(result.data[1][0][i].relayed);
+                }
             } else {
                 layer.msg(result.msg);
             }
@@ -275,66 +242,74 @@
     });
 
     //指定图表的配置项和数据
-    var option = {
+    var option1 = {
         title: {
-            text: '网桥混淆插件用户变化图'
+            text: '洋葱地址数量变化图'
         },
         tooltip: {},
         legend: {
-            data: ['PT总用户', 'obfs2', 'obfs3', 'obfs4', 'websocket', 'fte', 'meek', 'scramblesuit', 'snowflake', 'defaultOP']
+            data: ['onion service address']
         },
         xAxis: {
-            //结合
-            data: date
+            data: date1
         },
-
         yAxis: {},
         series: [{
-            name: 'PT总用户',
+            name: 'onion service address',
             type: 'line',
-            data: all_PT
-        }, {
-            name: 'obfs2',
-            type: 'line',
-            data: obfs2
-        }, {
-            name: 'obfs3',
-            type: 'line',
-            data: obfs3
-        }, {
-            name: 'obfs4',
-            type: 'line',
-            data: obfs4
-        }, {
-            name: 'websocket',
-            type: 'line',
-            data: websocket
-        }, {
-            name: 'fte',
-            type: 'line',
-            data: fte
-        }, {
-            name: 'meek',
-            type: 'line',
-            data: meek
-        }, {
-            name: 'scramblesuit',
-            type: 'line',
-            data: scramblesuit
-        }, {
-            name: 'snowflake',
-            type: 'line',
-            data: snowflake
-        }, {
-            name: 'defaultOP',
-            type: 'line',
-            data: defaultOP
+            data: onions
         }],
         dataZoom: [
             {
                 type: 'inside',// 内置于坐标系中
-                start: 0,
-                end: 30,
+                xAxisIndex: [0]
+            },
+            {
+                type: 'slider',//有单独的滑动条，用户在滑动条上进行缩放或漫游。inside是直接可以是在内部拖动显示
+                show: true,//是否显示 组件。如果设置为 false，不会显示，但是数据过滤的功能还存在。
+                start: 0,//数据窗口范围的起始百分比0-100
+                end: 50,//数据窗口范围的结束百分比0-100
+                xAxisIndex: [0],// 此处表示控制第一个xAxis，设置 dataZoom-slider 组件控制的 x轴 可是已数组[0,2]表示控制第一，三个；xAxisIndex: 2 ，表示控制第二个。yAxisIndex属性同理
+                bottom: -10 //距离底部的距离
+            }
+        ],
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {
+                    show: true,
+                    excludeComponents: ['toolbox'],
+                    pixelRatio: 2
+                }
+            }
+        }
+    };
+
+    var option2 = {
+        title: {
+            text: '隐藏服务流量变化图'
+        },
+        tooltip: {},
+        legend: {
+            data: ['onion service traffic']
+        },
+        xAxis: {
+            data: date2
+        },
+        yAxis: [
+            {
+                name: '流量Gbit/s',
+                type: 'value'
+            }
+        ],
+        series: [{
+            name: 'onion service traffic',
+            type: 'line',
+            data: relayed
+        }],
+        dataZoom: [
+            {
+                type: 'inside',// 内置于坐标系中
                 xAxisIndex: [0]
             },
             {
@@ -358,44 +333,38 @@
         }
     };
     // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+    myChart1.setOption(option1);
+    myChart2.setOption(option2);
 </script>
 
 
 <script type="text/javascript">
     function getData() {
         // 基于准备好的dom，初始化echarts实例
-        var date = [];
-        var all_PT = [];
-        var obfs2 = [];
-        var obfs3 = [];
-        var obfs4 = [];
-        var websocket = [];
-        var fte = [];
-        var meek = [];
-        var scramblesuit = [];
-        var snowflake = [];
-        var defaultOP = [];
+        var myChart1 = echarts.init(document.getElementById('main1'), 'macarons');
+        var myChart2 = echarts.init(document.getElementById('main2'), 'macarons');
+        // 新建productName与nums数组来接受数据，因为我们
+        var date1 = [];
+        var date2 = [];
+        var onions = [];
+        var relayed = [];
         //AJAX接收数据主体
         $.ajax({
             type: "GET",
-            url: "/users/bridge_transport",
+            url: "/onion/onion_service",
             dataType: "json",
             data: $('#form1').serialize(),
             async: false,
             success: function (result) {
                 if (result.code == 0) {
-                    date = result.data[0];
-                    all_PT = result.data[1];
-                    obfs2 = result.data[2];
-                    obfs3 = result.data[3];
-                    obfs4 = result.data[4];
-                    websocket = result.data[5];
-                    fte = result.data[6];
-                    meek = result.data[7];
-                    scramblesuit = result.data[8];
-                    snowflake = result.data[9];
-                    defaultOP = result.data[10];
+                    for (var i = 0; i < result.data[0][0].length; i++) {
+                        date1.push(result.data[0][0][i].date);
+                        onions.push(result.data[0][0][i].onions);
+                    }
+                    for (var i = 0; i < result.data[1][0].length; i++) {
+                        date2.push(result.data[1][0][i].date);
+                        relayed.push(result.data[1][0][i].relayed);
+                    }
                 } else {
                     layer.msg(result.msg);
                 }
@@ -406,60 +375,70 @@
         });
 
         //指定图表的配置项和数据
-        var option = {
+        var option1 = {
             title: {
-                text: '网桥混淆插件用户变化图'
+                text: '洋葱地址数量变化图'
             },
             tooltip: {},
             legend: {
-                data: ['PT总用户', 'obfs2', 'obfs3', 'obfs4', 'websocket', 'fte', 'meek', 'scramblesuit', 'snowflake', 'defaultOP']
+                data: ['onion service address']
             },
             xAxis: {
-                //结合
-                data: date
+                data: date1
             },
-
             yAxis: {},
             series: [{
-                name: 'PT总用户',
+                name: 'onion service address',
                 type: 'line',
-                data: all_PT
-            }, {
-                name: 'obfs2',
+                data: onions
+            }],
+            dataZoom: [
+                {
+                    type: 'inside',// 内置于坐标系中
+                    xAxisIndex: [0]
+                },
+                {
+                    type: 'slider',//有单独的滑动条，用户在滑动条上进行缩放或漫游。inside是直接可以是在内部拖动显示
+                    show: true,//是否显示 组件。如果设置为 false，不会显示，但是数据过滤的功能还存在。
+                    start: 0,//数据窗口范围的起始百分比0-100
+                    end: 50,//数据窗口范围的结束百分比0-100
+                    xAxisIndex: [0],// 此处表示控制第一个xAxis，设置 dataZoom-slider 组件控制的 x轴 可是已数组[0,2]表示控制第一，三个；xAxisIndex: 2 ，表示控制第二个。yAxisIndex属性同理
+                    bottom: -10 //距离底部的距离
+                }
+            ],
+            toolbox: {
+                show: true,
+                feature: {
+                    saveAsImage: {
+                        show: true,
+                        excludeComponents: ['toolbox'],
+                        pixelRatio: 2
+                    }
+                }
+            }
+        };
+
+        var option2 = {
+            title: {
+                text: '隐藏服务流量变化图'
+            },
+            tooltip: {},
+            legend: {
+                data: ['onion service traffic']
+            },
+            xAxis: {
+                data: date2
+            },
+            yAxis: [
+                {
+                    name: '流量Gbit/s',
+                    type: 'value'
+                }
+            ],
+            series: [{
+                name: 'onion service traffic',
                 type: 'line',
-                data: obfs2
-            }, {
-                name: 'obfs3',
-                type: 'line',
-                data: obfs3
-            }, {
-                name: 'obfs4',
-                type: 'line',
-                data: obfs4
-            }, {
-                name: 'websocket',
-                type: 'line',
-                data: websocket
-            }, {
-                name: 'fte',
-                type: 'line',
-                data: fte
-            }, {
-                name: 'meek',
-                type: 'line',
-                data: meek
-            }, {
-                name: 'scramblesuit',
-                type: 'line',
-                data: scramblesuit
-            }, {
-                name: 'snowflake',
-                type: 'line',
-                data: snowflake
-            }, {
-                name: 'defaultOP',
-                type: 'line',
-                data: defaultOP
+                data: relayed
             }],
             dataZoom: [
                 {
@@ -487,6 +466,7 @@
             }
         };
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+        myChart1.setOption(option1);
+        myChart2.setOption(option2);
     }
 </script>

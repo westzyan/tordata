@@ -12,6 +12,7 @@ import com.zyan.tordata.util.DateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +39,8 @@ public class UsersController {
     private BridgeDBDistributorService bridgeDBDistributorService;
     @Autowired
     private BridgeDBTransportService bridgeDBTransportService;
+    @Autowired
+    private OnionUniqueAddressService onionUniqueAddressService;
 
     @RequestMapping("/users/allUser")
     @ResponseBody
@@ -51,6 +54,22 @@ public class UsersController {
 
             return Result.error(CodeMsg.NULL_DATA);
         }
+    }
+
+    @RequestMapping("/users/relay_country_default")
+    @ResponseBody
+    public Result<List<UserStatsRelayCountry>> getAllUserStatsRelayCountryDefault() {
+        //默认当前三个月所有国家数据
+        String country = "";
+        String end = DateTimeUtil.dateToStr(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -3);
+        Date startDate = calendar.getTime();
+        String start = DateTimeUtil.dateToStr(startDate);
+        log.info("请求一次/users/relay_country_default，参数为country:{},start:{},end:{}", country, start, end);
+        List<UserStatsRelayCountry> list = userStatsRelayCountryService.listUserByCountryAndDate(country, start, end);
+        return Result.success(list);
     }
 
     @RequestMapping("/users/relay_country")
@@ -265,6 +284,29 @@ public class UsersController {
     }
 
 
+    @RequestMapping("/users/top_relay_default")
+    @ResponseBody
+    public Result<List<UserStatsRelayCountry>> topRelayDefault() {
+        log.info("请求一次/users/top_relay_default");
+        List<UserStatsRelayCountry> list = userStatsRelayCountryService.listRelayUserByDateAndNumberDescDefault();
+        if (list.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(list);
+    }
+
+    @RequestMapping("/users/top_relay")
+    @ResponseBody
+    public Result<List<UserStatsRelayCountry>> topRelay(@Param("start") String start) {
+        log.info("请求一次/users/top_relay,参数为：start:{}",start);
+        List<UserStatsRelayCountry> list = userStatsRelayCountryService.listRelayUserByDateAndNumberDesc(start);
+        if (list.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(list);
+    }
+
+
 
     @RequestMapping("/users/top_bridge_default")
     @ResponseBody
@@ -289,9 +331,44 @@ public class UsersController {
     }
 
 
+    @RequestMapping("/onion/onion_service_default")
+    @ResponseBody
+    public Result<List<List<Object>>> getOnionServiceDefault() {
+        //默认当前三个月数据
+        String end = DateTimeUtil.dateToStr(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -3);
+        Date startDate = calendar.getTime();
+        String start = DateTimeUtil.dateToStr(startDate);
+        log.info("请求一次/onion/onion_service_default，参数为start:{},end:{}", start, end);
+        List<List<Object>> lists = onionUniqueAddressService.listOnionServiceData(start, end);
+        if (lists.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(lists);
+    }
+
+
+    @RequestMapping("/onion/onion_service")
+    @ResponseBody
+    public Result<List<List<Object>>> getOnionService(@Param("start") String start,@Param("end") String end) {
+
+        log.info("请求一次/onion/onion_service，参数为start:{},end:{}", start, end);
+
+        List<List<Object>> lists = onionUniqueAddressService.listOnionServiceData(start, end);
+        if (lists.size() == 0){
+            return Result.error(CodeMsg.NULL_DATA);
+        }
+        return Result.success(lists);
+    }
+
+
+
     @RequestMapping("/users/fillUserStatsRelay")
     @ResponseBody
     public Result<Integer> fillUserStatsRelay() throws NoSuchAlgorithmException, KeyManagementException {
+
         int number = userStatsRelayCountryService.fillUserStatsRelay();
         return Result.success(number);
     }

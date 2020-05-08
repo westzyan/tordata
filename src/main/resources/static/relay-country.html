@@ -733,7 +733,7 @@
 
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
+    var myChart = echarts.init(document.getElementById('main'),"shine");
 
     // 新建productName与nums数组来接受数据，因为我们
     var date = [];
@@ -743,7 +743,7 @@
     //AJAX接收数据主体
     $.ajax({
         type: "GET",
-        url: "/echart",
+        url: "/users/relay_country_default",
         dataType: "json",
         data: {},
         async: false,
@@ -799,8 +799,6 @@
         dataZoom: [
             {
                 type: 'inside',// 内置于坐标系中
-                start: 0,
-                end: 30,
                 xAxisIndex: [0]
             },
             {
@@ -897,8 +895,6 @@
             dataZoom: [
                 {
                     type: 'inside',// 内置于坐标系中
-                    start: 0,
-                    end: 30,
                     xAxisIndex: [0]
                 },
                 {
