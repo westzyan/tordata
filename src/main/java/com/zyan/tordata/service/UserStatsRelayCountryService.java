@@ -50,6 +50,11 @@ public class UserStatsRelayCountryService {
         return list;
     }
 
+    public String getLastDate(){
+        return DateTimeUtil.dateToStr(userStatsRelayCountryDao.getLastDate());
+    }
+
+
     public List<UserStatsRelayCountry> listRelayUserByDateAndNumberDescDefault(){
 
         Date date = userStatsRelayCountryDao.getLastDate();

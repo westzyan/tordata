@@ -1,6 +1,7 @@
 package com.zyan.tordata.controller;
 
 import com.zyan.tordata.domain.UserStatsRelayCountry;
+import com.zyan.tordata.result.Const;
 import com.zyan.tordata.result.Result;
 import com.zyan.tordata.service.UserStatsRelayCountryService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,17 @@ public class TestController {
         System.out.println(resource.getString("AB"));
 
     }
+
+
+    public void test(){
+        String lastDate = userStatsRelayCountryService.getLastDate();
+        if (!lastDate.equals(Const.lastDate)){
+            System.out.println("ssssssssssss");
+
+        }
+    }
+
+
     public static void main(String[] args) {
         getCountries();
 //        List<List<Object>> lists = new ArrayList<>();
