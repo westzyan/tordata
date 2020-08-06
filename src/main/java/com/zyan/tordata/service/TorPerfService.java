@@ -93,14 +93,15 @@ public class TorPerfService {
                     op_us = String.valueOf(torPerf1.getMd());
                     break;
             }
+            dateList.add(preDate);
+            moriaList.add(moria);
+            torperfList.add(torperf);
+            sivList.add(siv);
+            op_hkList.add(op_hk);
+            op_nlList.add(op_nl);
+            op_usList.add(op_us);
         }
-        dateList.add(preDate);
-        moriaList.add(moria);
-        torperfList.add(torperf);
-        sivList.add(siv);
-        op_hkList.add(op_hk);
-        op_nlList.add(op_nl);
-        op_usList.add(op_us);
+
 
         result.add(dateList);
         result.add(moriaList);
@@ -114,8 +115,8 @@ public class TorPerfService {
     }
 
 
-//    @Async("executor")
-//    @Scheduled(cron = "0 0/2 * * * ? ")
+    @Async("executor")
+    @Scheduled(cron = "0 0/30 * * * ?  ")
     public void fillTorPerf() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = torPerfDao.getLastDate();
         String lastDateStr = DateTimeUtil.dateToStr(lastDate);
@@ -181,12 +182,13 @@ public class TorPerfService {
         }
     }
 
-    public static void main(String[] args) {
-        String s = "2017-07-12,51200,op-us,onion,,,";
-        String[] strings = s.split(",",7);
-        System.out.println(strings.length);
-        for (String string : strings) {
-            System.out.println(string);
-        }
+    public static void main(String[] args) throws NoSuchAlgorithmException, KeyManagementException {
+//        String s = "2017-07-12,51200,op-us,onion,,,";
+//        String[] strings = s.split(",",7);
+//        System.out.println(strings.length);
+//        for (String string : strings) {
+//            System.out.println(string);
+//        }
+//        new TorPerfService().fillTorPerf();
     }
 }

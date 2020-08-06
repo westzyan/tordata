@@ -33,7 +33,7 @@ public class UserStatsBridgeCountryService {
         return userStatsBridgeCountryDao.listUserByCountryAndDate(country, start, end);
     }
 
-    public List<UserStatsBridgeCountry> listBridgeUserByDateAndNumberDesc(String start){
+    public List<UserStatsBridgeCountry> listBridgeUserByDateAndNumberDesc(String start) {
 
         //将国家代码转换为国家名称
         ResourceBundleBasedAdapter resourceBundleBasedAdapter = ((ResourceBundleBasedAdapter) LocaleProviderAdapter.forJRE());
@@ -43,7 +43,7 @@ public class UserStatsBridgeCountryService {
             String country = userStatsBridgeCountry.getCountry().toUpperCase();
             try {
                 country = resource.getString(country);
-            }catch (MissingResourceException e){
+            } catch (MissingResourceException e) {
                 log.error("国家代码转换异常：{}", e.getMessage());
             }
             userStatsBridgeCountry.setCountry(country);
@@ -51,7 +51,7 @@ public class UserStatsBridgeCountryService {
         return list;
     }
 
-    public List<UserStatsBridgeCountry> listBridgeUserByDateAndNumberDescDefault(){
+    public List<UserStatsBridgeCountry> listBridgeUserByDateAndNumberDescDefault() {
 
         Date date = userStatsBridgeCountryDao.getLastDate();
         String dateStr = DateTimeUtil.dateToStr(date);
@@ -63,7 +63,7 @@ public class UserStatsBridgeCountryService {
             String country = userStatsBridgeCountry.getCountry().toUpperCase();
             try {
                 country = resource.getString(country);
-            }catch (MissingResourceException e){
+            } catch (MissingResourceException e) {
                 log.error("国家代码转换异常：{}", e.getMessage());
             }
             userStatsBridgeCountry.setCountry(country);
@@ -76,15 +76,15 @@ public class UserStatsBridgeCountryService {
      * 填充后续的数据
      * 查询最新的日期，然后startTime为最新日期的后一天，endTime为当天
      */
-//    @Async("executor")
-//    @Scheduled(cron = "0 0/2 * * * ? ")
+    @Async("executor")
+    @Scheduled(cron = "0 0/30 * * * ?  ")
     public void fillUserStatsBridgeCountry() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = userStatsBridgeCountryDao.getLastDate();
         String lastDateStr = DateTimeUtil.dateToStr(lastDate);
-        log.info("last date:{}",lastDateStr);
+        log.info("last date:{}", lastDateStr);
         String newDate = DateTimeUtil.dateToStr(new Date());
         if (lastDateStr.equals(newDate)) {
-            log.info("new date:{}",newDate);
+            log.info("new date:{}", newDate);
             return;
         }
         Calendar calendar = new GregorianCalendar();
@@ -108,16 +108,16 @@ public class UserStatsBridgeCountryService {
             userStatsBridgeCountry.setFrac(Integer.parseInt(fields[3]));
             usersList.add(userStatsBridgeCountry);
         }
-        if (usersList.size() == 0){
+        if (usersList.size() == 0) {
             log.info("未下载到数据");
             return;
         }
         //填充到数据库中
         int fillNumber = userStatsBridgeCountryDao.insertUsers(usersList);
-        if (fillNumber < 0){
+        if (fillNumber < 0) {
             log.error("本次写入失败");
-        }else {
-            log.info("写入了{}条数据",fillNumber);
+        } else {
+            log.info("写入了{}条数据", fillNumber);
         }
     }
 

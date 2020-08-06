@@ -26,8 +26,8 @@ public class OnionServiceTrafficService {
         return onionServiceTrafficDao.listOnionServiceTraffic(start, end);
     }
 
-//    @Async("executor")
-//    @Scheduled(cron = "0 0/2 * * * ? ")
+    @Async("executor")
+    @Scheduled(cron = "0 0/30 * * * ?  ")
     public void fillOnionServiceTraffic() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = onionServiceTrafficDao.getLastDate();
         String lastDateStr = DateTimeUtil.dateToStr(lastDate);

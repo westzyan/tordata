@@ -27,8 +27,9 @@ public class OnionPerfBuildTimesService {
         return onionPerfBuildTimesDao.listOnionPerfLatenciesByCondition(start, end, source);
     }
 
-//    @Async("executor")
-//    @Scheduled(cron = "0 0/2 * * * ? ")
+
+    @Async("executor")
+    @Scheduled(cron = "0 0/30 * * * ?  ")
     public void fillBuildTimes() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = onionPerfBuildTimesDao.getLastDate();
         String lastDateStr = DateTimeUtil.dateToStr(lastDate);

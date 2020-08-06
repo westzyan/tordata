@@ -150,11 +150,9 @@ public class RelaysByTorVersionService {
     /**
      * 填充后续的数据
      * 查询最新的日期，然后startTime为最新日期的后一天，endTime为当天
-     *
-     * @return 返回填充的数据条数
      */
-//    @Async("executor")
-//    @Scheduled(cron = "0 0/2 * * * ? ")
+    @Async("executor")
+     @Scheduled(cron = "0 0/30 * * * ?  ")
     public void fillVersionAndRelays() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = relaysByTorVersionDao.getLastDate();
         String lastDateStr = DateTimeUtil.dateToStr(lastDate);

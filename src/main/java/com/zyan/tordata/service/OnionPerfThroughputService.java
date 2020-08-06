@@ -29,11 +29,14 @@ public class OnionPerfThroughputService {
         return onionPerfThroughputDao.listOnionPerfLatenciesByCondition(server, start, end);
     }
 
-    public int fillOnionPerfLatencies() throws KeyManagementException, NoSuchAlgorithmException {
+
+    @Async("executor")
+    @Scheduled(cron = "0 0/30 * * * ?  ")
+    public void fillOnionPerfLatencies() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = onionPerfThroughputDao.getLastDate();
         System.out.println(DateTimeUtil.dateToStr(lastDate));
         if (lastDate.equals(new Date())) {
-            return 0;
+            return;
         }
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(lastDate);
@@ -75,12 +78,11 @@ public class OnionPerfThroughputService {
         }
         log.info("写入了{}条数据", rows);
 
-        return rows;
     }
 
 
-//    @Async("executor")
-//    @Scheduled(cron = "0 0/2 * * * ? ")
+    @Async("executor")
+    @Scheduled(cron = "0 0/30 * * * ?  ")
     public void fillOnion() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = onionPerfThroughputDao.getLastDate();
         String lastDateStr = DateTimeUtil.dateToStr(lastDate);

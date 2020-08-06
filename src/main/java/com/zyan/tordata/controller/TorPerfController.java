@@ -73,6 +73,7 @@ public class TorPerfController {
     public Result<List<OnionPerfBuildTimes>> getTorPerfBuildTimes(@Param("start") String start, @Param("end") String end ,@Param("source") String source) {
 
         log.info("请求一次/perf/onion_buildtimes，参数为start:{},end:{},source:{}", start, end, source);
+        //todo 有问题
         List<OnionPerfBuildTimes> list = onionPerfBuildTimesService.listTorPerfByCondition(start, end, source);
         if (list.size() == 0){
             return Result.error(CodeMsg.NULL_DATA);
@@ -80,12 +81,12 @@ public class TorPerfController {
         return Result.success(list);
     }
 
-//    @RequestMapping("/perf/fillTorPerf")
-//    @ResponseBody
-//    public Result<Integer> fillTorPerf() throws NoSuchAlgorithmException, KeyManagementException {
-//        int number = torPerfService.fillTorPerf();
-//        return Result.success(number);
-//    }
+    @RequestMapping("/perf/fillTorPerf")
+    @ResponseBody
+    public Result<Integer> fillTorPerf() throws NoSuchAlgorithmException, KeyManagementException {
+        torPerfService.fillTorPerf();
+        return Result.success(0);
+    }
     //http://localhost:8080/perf/search?filesize=5242880&server=public&start=2018-01-01&end=2020-04-24
     @GetMapping(value = "/perf/search")
     @ResponseBody
@@ -95,12 +96,12 @@ public class TorPerfController {
         return Result.success(list);
     }
 
-//    @RequestMapping("/perf/fillBuildTimes")
-//    @ResponseBody
-//    public Result<Integer> fillBuildTimes() throws NoSuchAlgorithmException, KeyManagementException {
-//        int number = onionPerfBuildTimesService.fillBuildTimes();
-//        return Result.success(number);
-//    }
+    @RequestMapping("/perf/fillBuildTimes")
+    @ResponseBody
+    public Result<Integer> fillBuildTimes() throws NoSuchAlgorithmException, KeyManagementException {
+        onionPerfBuildTimesService.fillBuildTimes();
+        return Result.success(0);
+    }
 //
 //    @RequestMapping("/perf/fillLatencies")
 //    @ResponseBody
@@ -109,11 +110,11 @@ public class TorPerfController {
 //        return Result.success(number);
 //    }
 
-    @RequestMapping("/perf/fillThroughput")
-    @ResponseBody
-    public Result<Integer> fillThroughput() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = onionPerfThroughputService.fillOnionPerfLatencies();
-        return Result.success(number);
-    }
+//    @RequestMapping("/perf/fillThroughput")
+//    @ResponseBody
+//    public Result<Integer> fillThroughput() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = onionPerfThroughputService.fillOnionPerfLatencies();
+//        return Result.success(number);
+//    }
 
 }

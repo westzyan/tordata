@@ -42,8 +42,8 @@ public class OnionUniqueAddressService {
         return lists;
     }
 
-//    @Async("executor")
-//    @Scheduled(cron = "0 0/2 * * * ? ")
+    @Async("executor")
+    @Scheduled(cron = "0 0/30 * * * ?  ")
     public void fillOnionUniqueAddress() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = onionUniqueAddressDao.getLastDate();
         String lastDateStr = DateTimeUtil.dateToStr(lastDate);
