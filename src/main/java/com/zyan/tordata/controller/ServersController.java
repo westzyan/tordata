@@ -69,13 +69,13 @@ public class ServersController {
         }
     }
 
-    @RequestMapping("/servers/fillRelaysAndBridge")
-    @ResponseBody
-    public Result<Integer> fillRelaysAndBridges() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/servers/fillRelaysAndBridge");
-        int number = relaysAndBridgesService.fillRelaysAndBridges();
-        return Result.success(number);
-    }
+//    @RequestMapping("/servers/fillRelaysAndBridge")
+//    @ResponseBody
+//    public Result<Integer> fillRelaysAndBridges() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/servers/fillRelaysAndBridge");
+//        int number = relaysAndBridgesService.fillRelaysAndBridges();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/servers/relaysAndFlagDefault")
     @ResponseBody
@@ -105,13 +105,13 @@ public class ServersController {
         return Result.success(lists);
     }
 
-    @RequestMapping("/servers/fillRelaysAndFlag")
-    @ResponseBody
-    public Result<Integer> fillRelaysAndFlag() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/servers/fillRelaysAndFlag");
-        int number = relaysByRelayFlagService.fillRelaysAndFlag();
-        return Result.success(number);
-    }
+//    @RequestMapping("/servers/fillRelaysAndFlag")
+//    @ResponseBody
+//    public Result<Integer> fillRelaysAndFlag() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/servers/fillRelaysAndFlag");
+//        int number = relaysByRelayFlagService.fillRelaysAndFlag();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/servers/versionAndRelaysDefault")
     @ResponseBody
@@ -142,13 +142,13 @@ public class ServersController {
     }
 
 
-    @RequestMapping("/servers/fillVersionAndRelays")
-    @ResponseBody
-    public Result<Integer> fillVersionAndRelays() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/servers/fillVersionAndRelays");
-        int number = relaysByTorVersionService.fillVersionAndRelays();
-        return Result.success(number);
-    }
+//    @RequestMapping("/servers/fillVersionAndRelays")
+//    @ResponseBody
+//    public Result<Integer> fillVersionAndRelays() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/servers/fillVersionAndRelays");
+//        int number = relaysByTorVersionService.fillVersionAndRelays();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/servers/platformDefault")
     @ResponseBody
@@ -180,13 +180,13 @@ public class ServersController {
         }
     }
 
-    @RequestMapping("/servers/fillPlatform")
-    @ResponseBody
-    public Result<Integer> fillPlatform() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/servers/fillPlatform，");
-        int number = relaysByPlatformService.fillPlatform();
-        return Result.success(number);
-    }
+//    @RequestMapping("/servers/fillPlatform")
+//    @ResponseBody
+//    public Result<Integer> fillPlatform() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/servers/fillPlatform，");
+//        int number = relaysByPlatformService.fillPlatform();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/servers/relaysIpVersionDefault")
     @ResponseBody
@@ -218,13 +218,13 @@ public class ServersController {
         }
     }
 
-    @RequestMapping("/servers/fillRelaysIpVersion")
-    @ResponseBody
-    public Result<Integer> fillRelaysIpVersion() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/servers/fillRelaysIpVersion");
-        int number = relaysByIpVersionService.fillRelaysIpVersion();
-        return Result.success(number);
-    }
+//    @RequestMapping("/servers/fillRelaysIpVersion")
+//    @ResponseBody
+//    public Result<Integer> fillRelaysIpVersion() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/servers/fillRelaysIpVersion");
+//        int number = relaysByIpVersionService.fillRelaysIpVersion();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/servers/bridgesIpVersionDefault")
     @ResponseBody
@@ -256,13 +256,13 @@ public class ServersController {
         }
     }
 
-    @RequestMapping("/servers/fillBridgesIpVersion")
-    @ResponseBody
-    public Result<Integer> fillBridgesIpVersion() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/servers/fillBridgesIpVersion");
-        int number = bridgesByIpVersionService.fillBridgesIpVersion();
-        return Result.success(number);
-    }
+//    @RequestMapping("/servers/fillBridgesIpVersion")
+//    @ResponseBody
+//    public Result<Integer> fillBridgesIpVersion() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/servers/fillBridgesIpVersion");
+//        int number = bridgesByIpVersionService.fillBridgesIpVersion();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/servers/totalConWDefault")
     @ResponseBody
@@ -293,11 +293,11 @@ public class ServersController {
     }
 
 
-    @RequestMapping("/servers/fillTotalConW")
-    @ResponseBody
-    public Result<Integer>fillTotalConW() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/servers/fillTotalConW");
-        int number = totalConsensusWeightsAcrossBwAuService.fillTotalCW();
-        return Result.success(number);
-    }
+//    @RequestMapping("/servers/fillTotalConW")
+//    @ResponseBody
+//    public Result<Integer>fillTotalConW() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/servers/fillTotalConW");
+//        int number = totalConsensusWeightsAcrossBwAuService.fillTotalCW();
+//        return Result.success(number);
+//    }
 }

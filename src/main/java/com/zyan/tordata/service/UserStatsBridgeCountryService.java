@@ -8,6 +8,8 @@ import com.zyan.tordata.util.DateTimeUtil;
 import com.zyan.tordata.util.DownloadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import sun.util.locale.provider.LocaleProviderAdapter;
 import sun.util.locale.provider.ResourceBundleBasedAdapter;
@@ -73,14 +75,17 @@ public class UserStatsBridgeCountryService {
     /**
      * 填充后续的数据
      * 查询最新的日期，然后startTime为最新日期的后一天，endTime为当天
-     * @return 返回填充的数据条数
      */
-    //TODO 需要设置定时任务
-    public int fillUserStatsBridgeCountry() throws KeyManagementException, NoSuchAlgorithmException {
+//    @Async("executor")
+//    @Scheduled(cron = "0 0/2 * * * ? ")
+    public void fillUserStatsBridgeCountry() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = userStatsBridgeCountryDao.getLastDate();
-        System.out.println(lastDate);
-        if (lastDate.equals(new Date())) {
-            return 0;
+        String lastDateStr = DateTimeUtil.dateToStr(lastDate);
+        log.info("last date:{}",lastDateStr);
+        String newDate = DateTimeUtil.dateToStr(new Date());
+        if (lastDateStr.equals(newDate)) {
+            log.info("new date:{}",newDate);
+            return;
         }
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(lastDate);
@@ -103,12 +108,17 @@ public class UserStatsBridgeCountryService {
             userStatsBridgeCountry.setFrac(Integer.parseInt(fields[3]));
             usersList.add(userStatsBridgeCountry);
         }
-        System.out.println(usersList.size());
+        if (usersList.size() == 0){
+            log.info("未下载到数据");
+            return;
+        }
         //填充到数据库中
         int fillNumber = userStatsBridgeCountryDao.insertUsers(usersList);
-        log.info("写入了{}条数据",fillNumber);
-
-        return fillNumber;
+        if (fillNumber < 0){
+            log.error("本次写入失败");
+        }else {
+            log.info("写入了{}条数据",fillNumber);
+        }
     }
 
 

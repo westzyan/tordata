@@ -31,7 +31,7 @@ public interface UserStatsBridgeTransportDao {
     public Date getLastDate();
 
     @Insert({"<script> " +
-            "insert into userstats_bridge_transport(bridgedb_date, transport_type, user_number, frac) values"+
+            "insert into userstats_bridge_transport(bridge_date, transport_type, user_number, frac) values"+
             "<foreach collection=\"list\" item=\"item\" index=\"index\"  separator=\",\"> "+
             "(#{item.date},#{item.transport},#{item.users},#{item.frac})"+
             "</foreach> " +

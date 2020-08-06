@@ -11,6 +11,7 @@ import com.zyan.tordata.util.DateTimeUtil;
 import com.zyan.tordata.util.DownloadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,6 @@ public class OnionPerfThroughputService {
         return onionPerfThroughputDao.listOnionPerfLatenciesByCondition(server, start, end);
     }
 
-    //TODO 需要设置定时任务
     public int fillOnionPerfLatencies() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = onionPerfThroughputDao.getLastDate();
         System.out.println(DateTimeUtil.dateToStr(lastDate));
@@ -79,7 +79,8 @@ public class OnionPerfThroughputService {
     }
 
 
-    @Scheduled(cron = "0/20 * * * * *")
+//    @Async("executor")
+//    @Scheduled(cron = "0 0/2 * * * ? ")
     public void fillOnion() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = onionPerfThroughputDao.getLastDate();
         String lastDateStr = DateTimeUtil.dateToStr(lastDate);
@@ -113,7 +114,10 @@ public class OnionPerfThroughputService {
             onionPerfThroughput.setHigh(Integer.parseInt(fields[7]));
             usersList.add(onionPerfThroughput);
         }
-        System.out.println(usersList.size());
+        if (list.size() == 0){
+            log.info("未下载到数据");
+            return;
+        }
         //填充到数据库中, 为了加快写入速度，也为了避免堆溢出，每400条写入一次
         int rows = 0;
         for (int i = 0; i < usersList.size() / 400 + 1; i++) {
@@ -127,7 +131,11 @@ public class OnionPerfThroughputService {
             }
             rows = rows + onionPerfThroughputDao.insertPerfThroughput(sublist);
         }
-        log.info("写入了{}条数据", rows);
+        if (rows < 0){
+            log.error("本次写入失败");
+        }else {
+            log.info("写入了{}条数据", rows);
+        }
     }
 
 }

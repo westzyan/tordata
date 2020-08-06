@@ -80,12 +80,12 @@ public class TorPerfController {
         return Result.success(list);
     }
 
-    @RequestMapping("/perf/fillTorPerf")
-    @ResponseBody
-    public Result<Integer> fillTorPerf() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = torPerfService.fillTorPerf();
-        return Result.success(number);
-    }
+//    @RequestMapping("/perf/fillTorPerf")
+//    @ResponseBody
+//    public Result<Integer> fillTorPerf() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = torPerfService.fillTorPerf();
+//        return Result.success(number);
+//    }
     //http://localhost:8080/perf/search?filesize=5242880&server=public&start=2018-01-01&end=2020-04-24
     @GetMapping(value = "/perf/search")
     @ResponseBody
@@ -95,19 +95,19 @@ public class TorPerfController {
         return Result.success(list);
     }
 
-    @RequestMapping("/perf/fillBuildTimes")
-    @ResponseBody
-    public Result<Integer> fillBuildTimes() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = onionPerfBuildTimesService.fillBuildTimes();
-        return Result.success(number);
-    }
-
-    @RequestMapping("/perf/fillLatencies")
-    @ResponseBody
-    public Result<Integer> fillLatencies() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = onionPerfLatenciesService.fillOnionPerfLatencies();
-        return Result.success(number);
-    }
+//    @RequestMapping("/perf/fillBuildTimes")
+//    @ResponseBody
+//    public Result<Integer> fillBuildTimes() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = onionPerfBuildTimesService.fillBuildTimes();
+//        return Result.success(number);
+//    }
+//
+//    @RequestMapping("/perf/fillLatencies")
+//    @ResponseBody
+//    public Result<Integer> fillLatencies() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = onionPerfLatenciesService.fillOnionPerfLatencies();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/perf/fillThroughput")
     @ResponseBody

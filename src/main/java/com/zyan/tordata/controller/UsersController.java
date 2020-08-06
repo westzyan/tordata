@@ -331,53 +331,53 @@ public class UsersController {
     }
 
 
-    @RequestMapping("/users/fillUserStatsRelay")
-    @ResponseBody
-    public Result<Integer> fillUserStatsRelay() throws NoSuchAlgorithmException, KeyManagementException {
+//    @RequestMapping("/users/fillUserStatsRelay")
+//    @ResponseBody
+//    public Result<Integer> fillUserStatsRelay() throws NoSuchAlgorithmException, KeyManagementException {
+//
+//        int number = userStatsRelayCountryService.fillUserStatsRelay();
+//        return Result.success(number);
+//    }
+//
+//    @RequestMapping("/users/fillBridgeCountry")
+//    @ResponseBody
+//    public Result<Integer> fillBridgeCountry() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = userStatsBridgeCountryService.fillUserStatsBridgeCountry();
+//        return Result.success(number);
+//    }
 
-        int number = userStatsRelayCountryService.fillUserStatsRelay();
-        return Result.success(number);
-    }
+//    @RequestMapping("/users/fillBridgeTransport")
+//    @ResponseBody
+//    public Result<Integer> fillBridgeTransport() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = userStatsBridgeTransportService.fillUserStatsBridgeTransport();
+//        return Result.success(number);
+//    }
 
-    @RequestMapping("/users/fillBridgeCountry")
-    @ResponseBody
-    public Result<Integer> fillBridgeCountry() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = userStatsBridgeCountryService.fillUserStatsBridgeCountry();
-        return Result.success(number);
-    }
+//    @RequestMapping("/users/fillBridgeCombined")
+//    @ResponseBody
+//    public Result<Integer> fillBridgeCombined() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = userStatsBridgeCombinedService.fillUserStatsBridgeCombined();
+//        return Result.success(number);
+//    }
 
-    @RequestMapping("/users/fillBridgeTransport")
-    @ResponseBody
-    public Result<Integer> fillBridgeTransport() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = userStatsBridgeTransportService.fillUserStatsBridgeTransport();
-        return Result.success(number);
-    }
+//    @RequestMapping("/users/fillBridgeVersion")
+//    @ResponseBody
+//    public Result<Integer> fillBridgeVersion() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = userStatsBridgeVersionService.fillUserStatsBridgeVersion();
+//        return Result.success(number);
+//    }
 
-    @RequestMapping("/users/fillBridgeCombined")
-    @ResponseBody
-    public Result<Integer> fillBridgeCombined() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = userStatsBridgeCombinedService.fillUserStatsBridgeCombined();
-        return Result.success(number);
-    }
-
-    @RequestMapping("/users/fillBridgeVersion")
-    @ResponseBody
-    public Result<Integer> fillBridgeVersion() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = userStatsBridgeVersionService.fillUserStatsBridgeVersion();
-        return Result.success(number);
-    }
-
-    @RequestMapping("/users/fillBridgeDBDistributor")
-    @ResponseBody
-    public Result<Integer> fillBridgeDBDistributor() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = bridgeDBDistributorService.fillBridgeDBDistributor();
-        return Result.success(number);
-    }
-
-    @RequestMapping("/users/fillBridgeDBTransport")
-    @ResponseBody
-    public Result<Integer> fillBridgeDBTransport() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = bridgeDBTransportService.fillUserStatsBridgeVersion();
-        return Result.success(number);
-    }
+//    @RequestMapping("/users/fillBridgeDBDistributor")
+//    @ResponseBody
+//    public Result<Integer> fillBridgeDBDistributor() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = bridgeDBDistributorService.fillBridgeDBDistributor();
+//        return Result.success(number);
+//    }
+//
+//    @RequestMapping("/users/fillBridgeDBTransport")
+//    @ResponseBody
+//    public Result<Integer> fillBridgeDBTransport() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = bridgeDBTransportService.fillUserStatsBridgeVersion();
+//        return Result.success(number);
+//    }
 }

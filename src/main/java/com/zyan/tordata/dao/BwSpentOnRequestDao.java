@@ -26,7 +26,7 @@ public interface BwSpentOnRequestDao {
     @Insert({"<script> " +
             "insert into bw_on_answering_directory_requests (traffic_date,dirread,dirwrite,dirauthread,dirauthwrite) values" +
             "<foreach collection=\"list\" item=\"item\" index=\"index\"  separator=\",\"> " +
-            "(#{item.date},#{item.dirread},#{item.dirwrite},#{item.dirauthread},#{item.exits},#{item.dirauthwrite})" +
+            "(#{item.date},#{item.dirread},#{item.dirwrite},#{item.dirauthread},#{item.dirauthwrite})" +
             "</foreach> " +
             "</script>"})
     Integer insertBwOnRequest(List<BwSpentOnRequest> list);

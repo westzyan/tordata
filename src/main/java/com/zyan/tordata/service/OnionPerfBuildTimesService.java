@@ -9,6 +9,8 @@ import com.zyan.tordata.util.DateTimeUtil;
 import com.zyan.tordata.util.DownloadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.security.KeyManagementException;
@@ -25,14 +27,16 @@ public class OnionPerfBuildTimesService {
         return onionPerfBuildTimesDao.listOnionPerfLatenciesByCondition(start, end, source);
     }
 
-
-
-    //TODO 需要设置定时任务
-    public int fillBuildTimes() throws KeyManagementException, NoSuchAlgorithmException {
+//    @Async("executor")
+//    @Scheduled(cron = "0 0/2 * * * ? ")
+    public void fillBuildTimes() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = onionPerfBuildTimesDao.getLastDate();
-        System.out.println(DateTimeUtil.dateToStr(lastDate));
-        if (lastDate.equals(new Date())) {
-            return 0;
+        String lastDateStr = DateTimeUtil.dateToStr(lastDate);
+        log.info("last date:{}",lastDateStr);
+        String newDate = DateTimeUtil.dateToStr(new Date());
+        if (lastDateStr.equals(newDate)) {
+            log.info("new date:{}",newDate);
+            return;
         }
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(lastDate);
@@ -56,7 +60,10 @@ public class OnionPerfBuildTimesService {
             onionPerfBuildTimes.setQ3(Integer.parseInt(fields[5]));
             usersList.add(onionPerfBuildTimes);
         }
-        System.out.println(usersList.size());
+        if (list.size() == 0){
+            log.info("未下载到数据");
+            return;
+        }
         //填充到数据库中, 为了加快写入速度，也为了避免堆溢出，每400条写入一次
         int rows = 0;
         for (int i = 0; i < usersList.size() / 400 + 1; i++) {
@@ -70,9 +77,11 @@ public class OnionPerfBuildTimesService {
             }
             rows = rows + onionPerfBuildTimesDao.insertPerfBuildTimes(sublist);
         }
-        log.info("写入了{}条数据", rows);
-
-        return rows;
+        if (rows < 0){
+            log.error("本次写入失败");
+        }else {
+            log.info("写入了{}条数据", rows);
+        }
     }
 
     public static void main(String[] args) {

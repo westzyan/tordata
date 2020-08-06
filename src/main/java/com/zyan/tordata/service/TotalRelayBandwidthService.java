@@ -8,6 +8,8 @@ import com.zyan.tordata.util.DateTimeUtil;
 import com.zyan.tordata.util.DownloadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.security.KeyManagementException;
@@ -27,15 +29,17 @@ public class TotalRelayBandwidthService {
     /**
      * 填充后续的数据
      * 查询最新的日期，然后startTime为最新日期的后一天，endTime为当天
-     *
-     * @return 返回填充的数据条数
      */
-    //TODO 需要设置定时任务
-    public int fillAdvbwAndBwhists() throws KeyManagementException, NoSuchAlgorithmException {
+//    @Async("executor")
+//    @Scheduled(cron = "0 0/2 * * * ? ")
+    public void fillAdvbwAndBwhists() throws KeyManagementException, NoSuchAlgorithmException {
         Date lastDate = totalRelayBandwidthDao.getLastDate();
-        System.out.println(lastDate);
-        if (lastDate.equals(new Date())) {
-            return 0;
+        String lastDateStr = DateTimeUtil.dateToStr(lastDate);
+        log.info("last date:{}",lastDateStr);
+        String newDate = DateTimeUtil.dateToStr(new Date());
+        if (lastDateStr.equals(newDate)) {
+            log.info("new date:{}",newDate);
+            return;
         }
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(lastDate);
@@ -50,15 +54,27 @@ public class TotalRelayBandwidthService {
         List<String> list = DownloadUtil.downloadCSV(url);
         List<TotalRelayBandwidth> totalRelayBandwidthList = new ArrayList<TotalRelayBandwidth>();
         for (String s : list) {
-            String[] fields = s.split(",");
+            String[] fields = s.split(",",3);
             TotalRelayBandwidth totalRelayBandwidth = new TotalRelayBandwidth();
             totalRelayBandwidth.setDate(DateTimeUtil.strToDate(fields[0]));
-            totalRelayBandwidth.setAdvbw(fields[1]);
-            totalRelayBandwidth.setBwhist(fields[2]);
+            if (fields[1].equals("")) {
+                totalRelayBandwidth.setAdvbw("");
+            }else{
+                totalRelayBandwidth.setAdvbw(fields[1]);
+            }
+
+            if (fields[2].equals("")) {
+                totalRelayBandwidth.setBwhist("");
+            }else{
+                totalRelayBandwidth.setBwhist(fields[2]);
+            }
 
             totalRelayBandwidthList.add(totalRelayBandwidth);
         }
-        log.info(String.valueOf(totalRelayBandwidthList.size()));
+        if (totalRelayBandwidthList.size() == 0){
+            log.info("未下载到数据");
+            return;
+        }
         //填充到数据库中
         int rows = 0;
         for (int i = 0; i < totalRelayBandwidthList.size() / 400 + 1; i++) {
@@ -72,8 +88,10 @@ public class TotalRelayBandwidthService {
             }
             rows = rows + totalRelayBandwidthDao.insertAdvbwAndBwhists(sublist);
         }
-        log.info("写入了{}条数据", rows);
-
-        return rows;
+        if (rows < 0){
+            log.error("本次写入失败");
+        }else {
+            log.info("写入了{}条数据", rows);
+        }
     }
 }

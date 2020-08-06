@@ -61,17 +61,17 @@ public class OnionController {
         return Result.success(lists);
     }
 
-    @RequestMapping("/fillOnionServiceTraffic")
-    @ResponseBody
-    public Result<Integer> fillOnionServiceTraffic() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = onionServiceTrafficService.fillOnionServiceTraffic();
-        return Result.success(number);
-    }
-
-    @RequestMapping("/fillOnionUniqueAddress")
-    @ResponseBody
-    public Result<Integer> fillOnionUniqueAddress() throws NoSuchAlgorithmException, KeyManagementException {
-        int number = onionUniqueAddressService.fillOnionUniqueAddress();
-        return Result.success(number);
-    }
+//    @RequestMapping("/fillOnionServiceTraffic")
+//    @ResponseBody
+//    public Result<Integer> fillOnionServiceTraffic() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = onionServiceTrafficService.fillOnionServiceTraffic();
+//        return Result.success(number);
+//    }
+//
+//    @RequestMapping("/fillOnionUniqueAddress")
+//    @ResponseBody
+//    public Result<Integer> fillOnionUniqueAddress() throws NoSuchAlgorithmException, KeyManagementException {
+//        int number = onionUniqueAddressService.fillOnionUniqueAddress();
+//        return Result.success(number);
+//    }
 }

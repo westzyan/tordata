@@ -69,13 +69,13 @@ public class TrafficController {
         }
     }
 
-    @RequestMapping("/traffic/fillAdvbwAndBwhist")
-    @ResponseBody
-    public Result<Integer> fillAdvbwAndBwhists() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/traffic/fillAdvbwAndBwhist");
-        int number = totalRelayBandwidthService.fillAdvbwAndBwhists();
-        return Result.success(number);
-    }
+//    @RequestMapping("/traffic/fillAdvbwAndBwhist")
+//    @ResponseBody
+//    public Result<Integer> fillAdvbwAndBwhists() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/traffic/fillAdvbwAndBwhist");
+//        int number = totalRelayBandwidthService.fillAdvbwAndBwhists();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/traffic/advAndConBwDefault")
     @ResponseBody
@@ -105,13 +105,13 @@ public class TrafficController {
         return Result.success(lists);
     }
 
-    @RequestMapping("/traffic/fillAdvAndConBw")
-    @ResponseBody
-    public Result<Integer> fillAdvAndConBw() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/traffic/fillAdvAndConBw");
-        int number = advAndConBWByRelayFlagsService.fillAAndCBW();
-        return Result.success(number);
-    }
+//    @RequestMapping("/traffic/fillAdvAndConBw")
+//    @ResponseBody
+//    public Result<Integer> fillAdvAndConBw() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/traffic/fillAdvAndConBw");
+//        int number = advAndConBWByRelayFlagsService.fillAAndCBW();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/traffic/advBwDefault")
     @ResponseBody
@@ -143,13 +143,13 @@ public class TrafficController {
         }
     }
 
-    @RequestMapping("/traffic/fillAdvBw")
-    @ResponseBody
-    public Result<Integer> fillBandwidthIpVersion() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/traffic/fillAdvBw");
-        int number = advBWByIpVersionService.fillAdvBWByIpVersion();
-        return Result.success(number);
-    }
+//    @RequestMapping("/traffic/fillAdvBw")
+//    @ResponseBody
+//    public Result<Integer> fillBandwidthIpVersion() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/traffic/fillAdvBw");
+//        int number = advBWByIpVersionService.fillAdvBWByIpVersion();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/traffic/advBwDisDefault")
     @ResponseBody
@@ -179,13 +179,13 @@ public class TrafficController {
         return Result.success(lists);
     }
 
-    @RequestMapping("/traffic/fillAdvBwDis")
-    @ResponseBody
-    public Result<Integer> fillAdvBwDis() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/traffic/fillAdvBwDis");
-        int number = advBwDistributionService.fillAdvBwDis();
-        return Result.success(number);
-    }
+//    @RequestMapping("/traffic/fillAdvBwDis")
+//    @ResponseBody
+//    public Result<Integer> fillAdvBwDis() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/traffic/fillAdvBwDis");
+//        int number = advBwDistributionService.fillAdvBwDis();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/traffic/advBwOfNthDefault")
     @ResponseBody
@@ -215,13 +215,13 @@ public class TrafficController {
         return Result.success(lists);
     }
 
-    @RequestMapping("/traffic/fillAdvBwOfNth")
-    @ResponseBody
-    public Result<Integer> fillAdvBwOfNth() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/traffic/fillAdvBwOfNth");
-        int number = advBwOfNthFastestRelaysService.fillAdvBwOfNth();
-        return Result.success(number);
-    }
+//    @RequestMapping("/traffic/fillAdvBwOfNth")
+//    @ResponseBody
+//    public Result<Integer> fillAdvBwOfNth() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/traffic/fillAdvBwOfNth");
+//        int number = advBwOfNthFastestRelaysService.fillAdvBwOfNth();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/traffic/bwOnRequestDefault")
     @ResponseBody
@@ -251,13 +251,13 @@ public class TrafficController {
         return Result.success(lists);
     }
 
-    @RequestMapping("/traffic/fillBwOnRequest")
-    @ResponseBody
-    public Result<Integer> fillBwOnRequest() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/traffic/fillBwOnRequest");
-        int number = bwSpentOnRequestService.fillBwOnRequest();
-        return Result.success(number);
-    }
+//    @RequestMapping("/traffic/fillBwOnRequest")
+//    @ResponseBody
+//    public Result<Integer> fillBwOnRequest() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/traffic/fillBwOnRequest");
+//        int number = bwSpentOnRequestService.fillBwOnRequest();
+//        return Result.success(number);
+//    }
 
     @RequestMapping("/traffic/fracOfConnDefault")
     @ResponseBody
@@ -290,11 +290,11 @@ public class TrafficController {
         }
     }
 
-    @RequestMapping("/traffic/fillFracOfConn")
-    @ResponseBody
-    public Result<Integer> fillFracOfConn() throws NoSuchAlgorithmException, KeyManagementException {
-        log.info("请求一次/traffic/fillFracOfConn");
-        int number = fracOfConnService.fillFracOfConn();
-        return Result.success(number);
-    }
+//    @RequestMapping("/traffic/fillFracOfConn")
+//    @ResponseBody
+//    public Result<Integer> fillFracOfConn() throws NoSuchAlgorithmException, KeyManagementException {
+//        log.info("请求一次/traffic/fillFracOfConn");
+//        int number = fracOfConnService.fillFracOfConn();
+//        return Result.success(number);
+//    }
 }

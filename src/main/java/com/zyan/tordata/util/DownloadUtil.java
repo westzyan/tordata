@@ -52,8 +52,8 @@ public class DownloadUtil{
         HttpURLConnection conn = null;
         try {
             url = new URL(address);
-            String host = "127.0.0.1";
-            int port = 1080;
+            String host = PropertiesUtil.getHttpProxy();
+            int port = PropertiesUtil.getHttpProxyPort();
             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(host, port));
             conn = (HttpURLConnection)url.openConnection(proxy);
             // 读取服务器端返回的内容
