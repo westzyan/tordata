@@ -27,3 +27,25 @@ String countryName = resource.getString(countryCode);
 这里遇到XK代码，无法转换
 直接捕获异常，不再转换
 ```
+
+```
+编译时报错：程序包sun.security.tools.keytool不存在，在pom.xml中加入如下插件
+<plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+        <source>1.8</source>
+        <target>1.8</target>
+        <encoding>utf-8</encoding>
+        <!-- 加入下面编译参数的配置及可以找到rt.jar -->
+        <compilerArguments>
+            <verbose />
+            <bootclasspath>${JAVA_HOME}/jre/lib/rt.jar${path.separator}${JAVA_HOME}/jre/lib/jce.jar</bootclasspath>
+        </compilerArguments>
+    </configuration>
+</plugin>
+```
+
+
+```$xslt
+
+```

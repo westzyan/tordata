@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html lang="cn" style="min-height:100%;">
+<head>
+
+    <title>Tor网络态势感知</title>
+
+    <meta charset="utf-8">
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+    <!-- yes, we are handheld friendly :) -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- icons for mobile devices -->
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon-152x152.png">
+    <link rel="shortcut icon" href="/images/android-icon.png" sizes="196x196">
+    <meta name="msapplication-square70x70logo" content="/images/smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/widetile.png">
+    <meta name="msapplication-square310x310logo" content="/images/largetile.png">
+
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script src="/bootstrap/js/bootstrap.js"></script>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/source-sans-pro.css">
+
+    <!-- Prism -->
+    <link rel="stylesheet" href="/css/prism.css">
+    <script src="/js/prism.js"></script>
+
+    <!-- custom styles and javascript -->
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js"></script>
+
+
+</head>
+
+<body class="noscript" style="background-image:url(images/ajax-loader.gif);background-repeat:no-repeat;background-position:center center;">
+
+<!-- Using evil inline stylesheets to hide the FOUC for slow connections... -->
+
+<div id="wrapper" style="display:none;">
+
+    <!-- backToTop-Button and Anchor -->
+    <noscript>
+        <div class="topButton" style="display:block;"><a href="#top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a></div>
+    </noscript>
+    <script type="text/javascript">
+        document.write('<div class="topButton" style="display:none;"><a href="#top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a></div>');
+    </script>
+    <a id="top"></a>
+
+    <!-- secondary navigation -->
+    <nav class="navbar navbar-default navbar-secondary">
+        <div class="container-fluid">
+            <input type="checkbox" id="navbar-toggle-checkbox">
+            <div class="navbar-header">
+                <label for="navbar-toggle-checkbox" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-secondary" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </label>
+                <a class="navbar-brand visible-xs" href="/"><img src="/images/tor-metrics-white.png" width="232" height="50" alt="Tor Metrics"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-secondary">
+                <ul class="nav navbar-nav navbar-right">
+
+                    <!-- we have to copy the primary navigation items here for mobile accessibility -->
+                    <li class="visible-xs section-header">Metrics</li>
+                    <li class="visible-xs active"><a href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i> Home</a></li>
+
+                    <li class="visible-xs"><a href="/userstats-relay-table.html"><i class="fa fa-users fa-fw" aria-hidden="true"></i> 用户信息</a></li>
+
+                    <li class="visible-xs"><a href="/servers.html"><i class="fa fa-server fa-fw" aria-hidden="true"></i> 服务器信息</a></li>
+
+                    <li class="visible-xs"><a href="/traffic.html"><i class="fa fa-road fa-fw" aria-hidden="true"></i> 流量信息</a></li>
+
+                    <li class="visible-xs"><a href="/torperf.html"><i class="fa fa-dashboard fa-fw" aria-hidden="true"></i> 性能</a></li>
+
+                    <li class="visible-xs"><a href="/hidserv-dir-onions-seen.html"><i class="fa fa-map-signs fa-fw" aria-hidden="true"></i> 洋葱服务</a></li>
+
+                    <!-- /end of primary copy -->
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!-- /secondary navigation -->
+
+    <!-- page header for every single page -->
+    <div class="page-header hidden-xs">
+        <a href="/"><img src="/images/tor-metrics-white@2x.png" width="232" height="50" alt="Tor Metrics" id="metrics-wordmark"></a>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /page header -->
+
+    <!-- primary navigation -->
+    <nav class="navbar navbar-default hidden-xs">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-primary">
+                <ul class="nav navbar-nav">
+                    <li ><a href="/"><i class="" aria-hidden="true"></i> Home</a></li>
+
+                    <li class=" active"><a href="/userstats-relay-table.html"><i class="" aria-hidden="true"></i> 用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+
+                    <li class=""><a href="/servers.html"><i class="" aria-hidden="true"></i> 服务器信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+
+                    <li class=""><a href="/traffic.html"><i class="" aria-hidden="true"></i> 流量信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+
+                    <li class=""><a href="/torperf.html"><i class="" aria-hidden="true"></i> 性能&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+
+                    <li class=""><a href="/hidserv-dir-onions-seen.html"><i class="" aria-hidden="true"></i> 洋葱服务&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+
+
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!-- /primary navigation -->
+
+
+
+    <div class="container">
+
+        <div class="dashboard">
+            <h2> Tor 网络态势感知</h2>
+            <p class="lead">公共Tor网络和Tor项目基础设施统计数据可视化</p>
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="userstats-relay-table.html"> <h3>用户信息</h3> <p>Tor用户所在国家以及连接到Tor网络上的方式</p></a>
+                </div>
+
+                <div class="col-sm-4">
+                    <a href="servers.html"> <h3>服务器信息</h3> <p>Tor中继路由节点以及网桥节点信息</p></a>
+                </div>
+
+                <div class="col-sm-4">
+                    <a href="traffic.html"> <h3>流量信息</h3> <p>Tor网络处理流量的能力</p></a>
+                </div>
+
+                <div class="col-sm-4">
+                    <a href="torperf.html"> <h3>性能信息</h3> <p>Tor网络的速度以及可靠性</p></a>
+                </div>
+
+                <div class="col-sm-4">
+                    <a href="hidserv-dir-onions-seen.html"> <h3>洋葱服务</h3> <p>洋葱服务的数量以及产生的流量</p></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="footer">
+
+        <div class="container no-gutter">
+            <div class="col-xs-6">
+                <p>
+                    &copy; 2018&ndash;2020 XDU
+                </p>
+            </div>
+        </div>
+
+        <div class="container small">
+
+            <p> 本网站数据来自于Tor官方统计结果，每天定时更新数据；
+            </p>
+
+        </div>
+
+    </div><!-- /footer -->
+
+</div><!-- /wrapper -->
+
+</body>
+</html>
+
+
+

@@ -2,7 +2,6 @@ package com.zyan.tordata.service;
 
 import com.zyan.tordata.dao.UserStatsBridgeCountryDao;
 import com.zyan.tordata.domain.UserStatsBridgeCountry;
-import com.zyan.tordata.domain.UserStatsRelayCountry;
 import com.zyan.tordata.result.Const;
 import com.zyan.tordata.util.DateTimeUtil;
 import com.zyan.tordata.util.DownloadUtil;
