@@ -31,11 +31,11 @@ public class SecurityController {
 
     @RequestMapping("/association_graph")
     @ResponseBody
-    public Result<String> getData() throws FileNotFoundException {
+    public Result<String> getData(String fileName) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         try {
             String str;
-            BufferedReader in = new BufferedReader(new FileReader("/home/ysr/下载/tordata/src/main/resources/static/json/data1.json"));
+            BufferedReader in = new BufferedReader(new FileReader(fileName));
             while ((str = in.readLine()) != null) {
                 sb.append(str.trim());
             }
@@ -52,6 +52,6 @@ public class SecurityController {
 
     public static void main(String[] args) throws FileNotFoundException {
         SecurityController securityController = new SecurityController();
-        securityController.getData();
+        securityController.getData("/home/ysr/下载/tordata/src/main/resources/static/json/data1.json");
     }
 }
