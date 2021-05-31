@@ -157,8 +157,8 @@
 
                         <form id="form1" name="form1" onsubmit="return false" action="##" method="get">
                             <p>
-                                <label for="start">日期:</label>
-                                <input type="date" name="start" size="10" value="2020-02-04" placeholder="yyyy-mm-dd" id="start">
+                                <label for="file_name">日期:</label>
+                                <input type="text" name="file_name" size="10" value="data1.json" id="file_name">
                             </p>
                             <p>
                                 <input class="submit" type="button" value="更新图像" onclick="getData()">
@@ -198,14 +198,13 @@
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'),'macarons');
-    var country = [];
-    var number = [];
+    var graph;
     var option;
     myChart.showLoading();
     //AJAX接收数据主体
     $.ajax({
         type: "GET",
-        url: "/security/association_graph",
+        url: "/security/association_graph_default",
         dataType: "json",
         data: {},
         async: false,
@@ -224,7 +223,7 @@
     //指定图表的配置项和数据
     option = {
         title: {
-            text: 'Les Miserables',
+            text: '安全评估',
             subtext: 'Default layout',
             top: 'bottom',
             left: 'right'
@@ -263,25 +262,21 @@
     function getData() {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'),'macarons');
-        var country = [];
-        var number = [];
+        var graph;
+        var option;
         //AJAX接收数据主体
         $.ajax({
             type: "GET",
-            url: "/users/top_relay",
+            url: "/security/association_graph",
             dataType: "json",
             data: $('#form1').serialize(),
             async: false,
             success: function (result) {
                 if(result.code == 0){
-                    for (var i = 0; i < result.data.length; i++) {
-                        country.push(result.data[i].country);
-                        number.push(result.data[i].users);
-                    }
+                    graph = result.data;
                 }else{
                     layer.msg(result.msg);
                 }
-
             },
             error: function () {
                 layer.msg("获取后台数据失败！");
@@ -291,58 +286,35 @@
         //指定图表的配置项和数据
         option = {
             title: {
-                text: '中继Top国家和地区'
+                text: '安全评估',
+                subtext: 'Default layout',
+                top: 'bottom',
+                left: 'right'
             },
-            legend: {
-                data: ['中继Top国家和地区']
-            },
-            toolbox: {
-                // y: 'bottom',
-                feature: {
-                    magicType: {
-                        type: ['stack', 'tiled']
+            tooltip: {},
+            legend: [{
+                // selectedMode: 'single',
+                data: graph.categories.map(function (a) {
+                    return a.name;
+                })
+            }],
+            series: [
+                {
+                    name: 'Les Miserables',
+                    type: 'graph',
+                    layout: 'force',
+                    data: graph.nodes,
+                    links: graph.links,
+                    categories: graph.categories,
+                    roam: true,
+                    label: {
+                        position: 'right'
                     },
-                    dataView: {},
-                    saveAsImage: {
-                        pixelRatio: 2
+                    force: {
+                        repulsion: 100
                     }
                 }
-            },
-            dataZoom: [
-                {
-                    type: 'inside',// 内置于坐标系中
-                    xAxisIndex: [0]
-                },
-                {
-                    type: 'slider',//有单独的滑动条，用户在滑动条上进行缩放或漫游。inside是直接可以是在内部拖动显示
-                    show: true,//是否显示 组件。如果设置为 false，不会显示，但是数据过滤的功能还存在。
-                    start: 0,//数据窗口范围的起始百分比0-100
-                    end: 50,//数据窗口范围的结束百分比0-100
-                    xAxisIndex: [0],// 此处表示控制第一个xAxis，设置 dataZoom-slider 组件控制的 x轴 可是已数组[0,2]表示控制第一，三个；xAxisIndex: 2 ，表示控制第二个。yAxisIndex属性同理
-                    bottom: -10 //距离底部的距离
-                }
-            ],
-            tooltip: {},
-            xAxis: {
-                data: country,
-                splitLine: {
-                    show: false
-                }
-            },
-            yAxis: {
-            },
-            series: [{
-                name: '中继Top国家和地区',
-                type: 'bar',
-                data: number,
-                animationDelay: function (idx) {
-                    return idx * 10;
-                }
-            }],
-            animationEasing: 'elasticOut',
-            animationDelayUpdate: function (idx) {
-                return idx * 5;
-            }
+            ]
         };
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
