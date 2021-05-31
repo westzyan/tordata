@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+    <title>机器学习模型脆弱性评估</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
+</head>
+
+<body class="bg02">
+<header class="header">
+    <h3>机器学习模型脆弱性评估</h3>
+</header>
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <div class="row fill-h">
+            <div class="col-lg-7 fill-h">/*第一模块雷达图*/
+                <div class="xpanel-wrapper xpanel-wrapper-1">
+                    <div class="xpanel">
+                        <div class="fill-h" id="mCharts"></div>
+                    </div>
+                </div>
+            </div>
+            /*第二模块指标输入*/
+            <div class="col-lg-5 fill-h">
+                <div class="xpanel-wrapper xpanel-wrapper-2">
+                    <div class="xpanel">
+                        <div class="fill-h" id="heatmapChart">
+                            <div class="chart-div chart-done">
+                                <table class="data-t">
+                                    <tr>
+                                        <td>
+                                            <p><span id="indicator1">0</span></p>
+                                            <p>顺时针旋转45°</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator2">0</span></p>
+                                            <p>逆时针旋转45°</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator3">0</span></p>
+                                            <p>平均精度</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><span id="indicator4">0</span></p>
+                                            <p>数据集披露程度</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator5">0</span></p>
+                                            <p>异常值比重</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator6">0</span></p>
+                                            <p>数据合规性</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><span id="indicator7">0</span></p>
+                                            <p>对FGSM攻击的防御力</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator8">0</span></p>
+                                            <p>对BIM攻击的防御力</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator9">0</span></p>
+                                            <p>对DeepFool攻击的防御力</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><span id="indicator10">0</span></p>
+                                            <p>对PGD攻击的防御力</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator11">0</span></p>
+                                            <p>对C/W攻击的防御力</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator12">0</span></p>
+                                            <p>对DeepFool攻击的防御力</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><span id="indicator13">0</span></p>
+                                            <p>可解释性</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator14">0</span></p>
+                                            <p>模型合规性</p>
+                                        </td>
+                                        <td>
+                                            <p><span id="indicator15">0</span></p>
+                                            <p>模型披露程度</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><span id="indicator16">0</span></p>
+                                            <p>组织管理</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                /*第三模块总得分*/
+                <div class="xpanel-wrapper xpanel-wrapper-2">
+                    <div class="xpanel">
+                        <div class="fill-h" id="coordChart">
+                            <div class="chart-title"><span>贴近度</span>
+                                <div class="chart-div chart-done" style="line-height: 100px;">
+                                    <table class="data-t">
+                                        <tr>
+                                            <th><img src="img/icon-06.png"/></th>
+                                            <td>
+                                                <p><span id="closeness" style="font-size: 80px;">73</span></p>
+                                            </td>
+
+                                            <td>
+                                                <p align="left"><span id="introduction"
+                                                                      style="line-height: 25px;font-size: 15px;font-weight: normal;">
+													综合机器学习模型数据、算法、运行环境、管理等各项指标得出的机器学习模型脆弱性总体评价。贴近度分值越高说明该方案越接近理想方案。</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=nSxiPohfziUaCuONe4ViUP2N"></script>
+<script type="text/javascript" src="js/echarts-3.8.5.min.js"></script>
+<script type="text/javascript" src="js/echarts-bmap.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+
+        /*************** 雷达图 **************/
+            //初始化echarts实例
+            //1. ECharts最基本的代码结构
+            //2. 定义各个维度的最大值, 通过radar属性配置
+            //   准确率,可解释性,管理安全等每个维度的最大值都是100
+            //3. 准备模型数据, 设置给series下的data
+            //   最优解数据: 80, 90, 80, 82, 90.....
+            //   中兴手机1: 70, 82, 75, 70, 78（不大于最优值即可）
+            //4. 将type的值设置为radar
+        var mCharts = echarts.init(document.getElementById("mCharts"))
+        // 各个维度的最大值
+        var dataMax = [
+            {
+                name: '顺时针旋转45°mAP',
+                max: 100
+            },
+            {
+                name: '逆时针旋转45°mAP',
+                max: 100
+            },
+            {
+                name: '平均精度mAP',
+                max: 100
+            },
+            {
+                name: '对FGSM攻击的防御力',
+                max: 100
+            },
+            {
+                name: '对BIM攻击防御力',
+                max: 100
+            },
+            {
+                name: '对DeepFool攻击防御力',
+                max: 100
+            },
+            {
+                name: '对PGD攻击防御力',
+                max: 100
+            },
+            {
+                name: '对C/W攻击防御力',
+                max: 100
+            },
+            {
+                name: '数据集披露程度',
+                max: 100
+            },
+            {
+                name: '异常值比重',
+                max: 100
+            },
+            {
+                name: '数据合规性',
+                max: 100
+            },
+            {
+                name: '模型披露程度',
+                max: 100
+            },
+            {
+                name: '模型合规性',
+                max: 100
+            },
+            {
+                name: '可解释性',
+                max: 100
+            },
+            {
+                name: '组织管理',
+                max: 100
+            },
+            {
+                name: '运行环境',
+                max: 100
+            }
+
+
+        ]
+        var option = {
+            legend: {
+                data: ['理想方案', '测评方案'],
+                textStyle: { //图例文字的样式
+                    color: '#fff',
+                    fontSize: 16
+                },
+            },
+            radar: {
+                indicator: dataMax, // 配置各个维度的最大值
+                shape: 'polygon',// 配置雷达图最外层的图形 circle polygon
+                name: {
+                    textStyle: {
+                        color: '#fff',  // 设置字体颜色
+                    },
+                },
+            },
+            series: [
+                {
+                    type: 'radar', // radar 此图表时一个雷达图
+                    data: [
+                        {
+                            name: '理想方案',
+                            value: [80, 90, 80, 82, 90, 85, 85, 90, 85, 90, 75, 80, 90, 85, 75, 85],
+                            itemStyle: {// 设置曲线样式
+                                normal: {
+                                    color: 'rgba(255,225,0,.3)',
+                                    lineStyle: {
+                                        color: 'rgba(255,225,0,.3)',
+                                    },
+                                },
+
+                            },
+                            label: {//显示节点数值
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
+
+                        },
+                        {
+                            name: '测评方案',
+                            value: [70, 82, 75, 70, 78, 65, 75, 85, 60, 85, 60, 75, 80, 80, 75, 75],
+                            label: {//显示节点数值
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
+                        },
+                    ]
+                }
+            ],
+
+        }
+        mCharts.setOption(option)
+    });
+</script>
+<script type="text/javascript">
+    function getData() {
+        /*************** 雷达图 **************/
+            //初始化echarts实例
+            //1. ECharts最基本的代码结构
+            //2. 定义各个维度的最大值, 通过radar属性配置
+            //   准确率,可解释性,管理安全等每个维度的最大值都是100
+            //3. 准备模型数据, 设置给series下的data
+            //   最优解数据: 80, 90, 80, 82, 90.....
+            //   中兴手机1: 70, 82, 75, 70, 78（不大于最优值即可）
+            //4. 将type的值设置为radar
+        var mCharts = echarts.init(document.getElementById("mCharts"));
+        var evaluation_value;
+        $.ajax({
+            type: "GET",
+            url: "security/radar",
+            dataType: "json",
+            data: $('#form').serialize(),
+            async: false,
+            success: function (result) {
+                if(result.code == 0){
+                    evaluation_value = result.data;
+                }else{
+                    layer.msg(result.msg);
+                }
+            },
+            error: function () {
+                layer.msg("获取后台数据失败！");
+            }
+        });
+
+
+        // 各个维度的最大值
+        var dataMax = [
+            {
+                name: '顺时针旋转45°mAP',
+                max: 100
+            },
+            {
+                name: '逆时针旋转45°mAP',
+                max: 100
+            },
+            {
+                name: '平均精度mAP',
+                max: 100
+            },
+            {
+                name: '对FGSM攻击的防御力',
+                max: 100
+            },
+            {
+                name: '对BIM攻击防御力',
+                max: 100
+            },
+            {
+                name: '对DeepFool攻击防御力',
+                max: 100
+            },
+            {
+                name: '对PGD攻击防御力',
+                max: 100
+            },
+            {
+                name: '对C/W攻击防御力',
+                max: 100
+            },
+            {
+                name: '数据集披露程度',
+                max: 100
+            },
+            {
+                name: '异常值比重',
+                max: 100
+            },
+            {
+                name: '数据合规性',
+                max: 100
+            },
+            {
+                name: '模型披露程度',
+                max: 100
+            },
+            {
+                name: '模型合规性',
+                max: 100
+            },
+            {
+                name: '可解释性',
+                max: 100
+            },
+            {
+                name: '组织管理',
+                max: 100
+            },
+            {
+                name: '运行环境',
+                max: 100
+            }
+
+
+        ]
+        var option = {
+            legend: {
+                data: ['理想方案', '测评方案'],
+                textStyle: { //图例文字的样式
+                    color: '#fff',
+                    fontSize: 16
+                },
+            },
+            radar: {
+                indicator: dataMax, // 配置各个维度的最大值
+                shape: 'polygon',// 配置雷达图最外层的图形 circle polygon
+                name: {
+                    textStyle: {
+                        color: '#fff',  // 设置字体颜色
+                    },
+                },
+            },
+            series: [
+                {
+                    type: 'radar', // radar 此图表时一个雷达图
+                    data: [
+                        {
+                            name: '理想方案',
+                            value: [80, 90, 80, 82, 90, 85, 85, 90, 85, 90, 75, 80, 90, 85, 75, 85],
+                            itemStyle: {// 设置曲线样式
+                                normal: {
+                                    color: 'rgba(255,225,0,.3)',
+                                    lineStyle: {
+                                        color: 'rgba(255,225,0,.3)',
+                                    },
+                                },
+
+                            },
+                            label: {//显示节点数值
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
+
+                        },
+                        {
+                            name: '测评方案',
+                            value: evaluation_value,
+                            label: {//显示节点数值
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
+                        },
+                    ]
+                }
+            ],
+
+        }
+        mCharts.setOption(option)
+    }
+</script>
+
+</body>
+</html>

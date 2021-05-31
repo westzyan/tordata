@@ -3,43 +3,38 @@
 <head>
     <title>Tor态势感知</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="/static/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
-
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <!-- jQuery -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <!-- yes, we are handheld friendly :) -->
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-
     <!-- icons for mobile devices -->
-    <link rel="apple-touch-icon" href="/static/images/apple-touch-icon-152x152.png">
-    <link rel="shortcut icon" href="/static/images/android-icon.png" sizes="196x196">
-    <!-- jQuery -->
-    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon-152x152.png">
+    <link rel="shortcut icon" href="/images/android-icon.png" sizes="196x196">
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <!-- Fonts -->
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/fonts/source-sans-pro.css">
-
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/source-sans-pro.css">
     <!-- Prism -->
-    <link rel="stylesheet" href="/static/css/prism.css">
-    <script type="text/javascript" src="/static/js/prism.js"></script>
-
+    <link rel="stylesheet" href="/css/prism.css">
+    <script type="text/javascript" src="/js/prism.js"></script>
     <!-- custom styles and javascript -->
-    <link rel="stylesheet" href="/static/css/style.css">
-    <script type="text/javascript" src="/static/js/script.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/script.js"></script>
     <!-- layer -->
-    <script type="text/javascript" src="/static/layer/layer.js"></script>
+    <script type="text/javascript" src="/layer/layer.js"></script>
     <!-- common.js -->
-    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
     <!-- echarts.js -->
-    <script type="text/javascript" src="/static/js/echarts.common.js"></script>
-    <script type="text/javascript" src="/static/js/echarts.min.js"></script>
-    <script type="text/javascript" src="/static/js/macarons.js"></script>
-    <script type="text/javascript" src="/static/js/shine.js"></script>
+    <script type="text/javascript" src="/js/echarts.common.js"></script>
+    <script type="text/javascript" src="/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/js/macarons.js"></script>
+    <script type="text/javascript" src="/js/shine.js"></script>
 
 </head>
 
@@ -69,7 +64,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </label>
-                <a class="navbar-brand visible-xs" href="/"><img src="/static/images/tor-metrics-white.png" width="232" height="50" alt="Tor Metrics"></a>
+                <a class="navbar-brand visible-xs" href="/"><img src="images/tor-metrics-white.png" width="232" height="50" alt="Tor Metrics"></a>
             </div>
         </div><!-- /.container-fluid -->
     </nav>
@@ -77,7 +72,7 @@
 
     <!-- page header for every single page -->
     <div class="page-header hidden-xs">
-        <a href="/"><img src="/static/images/tor-metrics-white@2x.png" width="232" height="50" alt="Tor Metrics" id="metrics-wordmark"></a>
+        <a href="/"><img src="images/tor-metrics-white@2x.png" width="232" height="50" alt="Tor Metrics" id="metrics-wordmark"></a>
         <div class="clearfix"></div>
     </div>
     <!-- /page header -->
@@ -89,15 +84,15 @@
                 <ul class="nav navbar-nav">
                     <li ><a href="/"><i class="" aria-hidden="true"></i> Home</a></li>
 
-                    <li class=" active"><a href="/static/userstats-relay-table.html"><i class="" aria-hidden="true"></i> 用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li class=" active"><a href="/userstats-relay-table.html"><i class="" aria-hidden="true"></i> 用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
-                    <li class=""><a href="/static/servers.html"><i class="" aria-hidden="true"></i> 服务器信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li class=""><a href="/servers.html"><i class="" aria-hidden="true"></i> 服务器信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
-                    <li class=""><a href="/static/traffic.html"><i class="" aria-hidden="true"></i> 流量信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li class=""><a href="/traffic.html"><i class="" aria-hidden="true"></i> 流量信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
-                    <li class=""><a href="/static/torperf.html"><i class="" aria-hidden="true"></i> 性能&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li class=""><a href="/torperf.html"><i class="" aria-hidden="true"></i> 性能&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
-                    <li class=""><a href="/static/hidserv-dir-onions-seen.html"><i class="" aria-hidden="true"></i> 洋葱服务&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li class=""><a href="/hidserv-dir-onions-seen.html"><i class="" aria-hidden="true"></i> 洋葱服务&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -157,8 +152,8 @@
 
                         <form id="form1" name="form1" onsubmit="return false" action="##" method="get">
                             <p>
-                                <label for="file_name">日期:</label>
-                                <input type="text" name="file_name" size="10" value="data1.json" id="file_name">
+                                <label for="filename">文件:</label>
+                                <input type="text" name="file_name" size="10" value="data1.json" id="filename">
                             </p>
                             <p>
                                 <input class="submit" type="button" value="更新图像" onclick="getData()">
@@ -198,7 +193,9 @@
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'),'macarons');
-    var graph;
+    var nodes = [];
+    var links = [];
+    var categories = [];
     var option;
     myChart.showLoading();
     //AJAX接收数据主体
@@ -210,7 +207,9 @@
         async: false,
         success: function (result) {
             if(result.code == 0){
-                graph = result.data;
+                nodes = result.data[0];
+                links = result.data[1];
+                categories = result.data[2];
             }else{
                 layer.msg(result.msg);
             }
@@ -229,20 +228,20 @@
             left: 'right'
         },
         tooltip: {},
-        legend: [{
-            // selectedMode: 'single',
-            data: graph.categories.map(function (a) {
-                return a.name;
-            })
-        }],
+        // legend: [{
+        //     // selectedMode: 'single',
+        //     data: graph.categories.map(function (a) {
+        //         return a.name;
+        //     })
+        // }],
         series: [
             {
                 name: 'Les Miserables',
                 type: 'graph',
                 layout: 'force',
-                data: graph.nodes,
-                links: graph.links,
-                categories: graph.categories,
+                data: nodes,
+                links: links,
+                categories: categories,
                 roam: true,
                 label: {
                     position: 'right'
