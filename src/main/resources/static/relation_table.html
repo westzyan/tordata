@@ -201,7 +201,7 @@
     //AJAX接收数据主体
     $.ajax({
         type: "GET",
-        url: "/security/association_graph_default",
+        url: "/security/association_graph",
         dataType: "json",
         data: {},
         async: false,
@@ -213,11 +213,14 @@
             }else{
                 layer.msg(result.msg);
             }
+            alert(result.data);
         },
         error: function () {
             layer.msg("获取后台数据失败！");
         }
     });
+    alert(nodes);
+    alert(links);
 
     //指定图表的配置项和数据
     option = {
@@ -228,12 +231,9 @@
             left: 'right'
         },
         tooltip: {},
-        // legend: [{
-        //     // selectedMode: 'single',
-        //     data: graph.categories.map(function (a) {
-        //         return a.name;
-        //     })
-        // }],
+        // legend: [
+        //     "泪目1","泪目2"
+        // ],
         series: [
             {
                 name: 'Les Miserables',
@@ -266,7 +266,7 @@
         //AJAX接收数据主体
         $.ajax({
             type: "GET",
-            url: "/security/association_graph",
+            url: "/security/association_graph111",
             dataType: "json",
             data: $('#form1').serialize(),
             async: false,
