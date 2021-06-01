@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -101,27 +98,71 @@ public class SecurityController {
 
     @RequestMapping("/radar")
     @ResponseBody
-    public Result<List<Integer>> getRadarData(@Param("indicator1") int indicator1,
-                                              @Param("indicator2") int indicator2,
-                                              @Param("indicator3") int indicator3,
-                                              @Param("indicator4") int indicator4,
-                                              @Param("indicator5") int indicator5,
-                                              @Param("indicator6") int indicator6,
-                                              @Param("indicator7") int indicator7,
-                                              @Param("indicator8") int indicator8,
-                                              @Param("indicator9") int indicator9,
-                                              @Param("indicator10") int indicator10,
-                                              @Param("indicator11") int indicator11,
-                                              @Param("indicator12") int indicator12,
-                                              @Param("indicator13") int indicator13,
-                                              @Param("indicator14") int indicator14,
-                                              @Param("indicator15") int indicator15,
-                                              @Param("indicator16") int indicator16
-    ) throws FileNotFoundException {
+    public Result<List<List<Integer>>> getRadarData(@Param("indicator1") Integer indicator1,
+                                              @Param("indicator2") Integer indicator2,
+                                              @Param("indicator3") Integer indicator3,
+                                              @Param("indicator4") Integer indicator4,
+                                              @Param("indicator5") Integer indicator5,
+                                              @Param("indicator6") Integer indicator6,
+                                              @Param("indicator7") Integer indicator7,
+                                              @Param("indicator8") Integer indicator8,
+                                              @Param("indicator9") Integer indicator9,
+                                              @Param("indicator10") Integer indicator10,
+                                              @Param("indicator11") Integer indicator11,
+                                              @Param("indicator12") Integer indicator12,
+                                              @Param("indicator13") Integer indicator13,
+                                              @Param("indicator14") Integer indicator14,
+                                              @Param("indicator15") Integer indicator15,
+                                              @Param("indicator16") Integer indicator16
+    ) {
+        //经过一系列逻辑处理
+        List<Integer> list = new ArrayList<>();
+        list.add(indicator1);
+        list.add(indicator2);
+        list.add(indicator3);
+        list.add(indicator4);
+        list.add(indicator5);
+        list.add(indicator6);
+        list.add(indicator7);
+        list.add(indicator8);
+        list.add(indicator9);
+        list.add(indicator10);
+        list.add(indicator11);
+        list.add(indicator12);
+        list.add(indicator13);
+        list.add(indicator14);
+        list.add(indicator15);
+        list.add(indicator16);
+        for (Integer integer : list) {
+            System.out.println(integer);
+        }
+        List<Integer> result_list = new ArrayList<>();
+        double[] weights = {0.11,0.12,0.13,0.03,
+                            0.03,0.02,0.15,0.16,
+                            0.12,0.19,0.16,0.10,
+                            0.01,0.02,0.03,0.04};
+        double lastValue = 0;
+        for (int i = 0; i < 16; i++) {
+            lastValue = lastValue + list.get(i) * weights[i];
+        }
+        result_list.add((int)lastValue);
+        List<List<Integer>> objects = new ArrayList<>();
+        objects.add(list);
+        objects.add(result_list);
+        System.out.println(lastValue);
+        return Result.success(objects);
+    }
+
+
+    @RequestMapping("/radar_test")
+    @ResponseBody
+    public Result<List<Integer>> getRadarDataDefault() {
         //经过一系列逻辑处理
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 16; i++) {
-            list.add(i * 3);
+            Integer a = new Random().nextInt(100);
+            list.add(a);
+            System.out.println(a);
         }
         return Result.success(list);
     }

@@ -31,86 +31,91 @@
                 <div class="xpanel-wrapper xpanel-wrapper-2">
                     <div class="xpanel">
                         <div class="fill-h" id="heatmapChart">
+                            <form id="form" onsubmit="return false" action="##" method="get">
                             <div class="chart-div chart-done">
                                 <table class="data-t">
                                     <tr>
                                         <td>
-                                            <p><span id="indicator1">0</span></p>
+                                            <p><label for="indicator1"></label><input type="text" name="indicator1" size="10" value="100" id="indicator1"></p>
                                             <p>顺时针旋转45°</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator2">0</span></p>
+                                            <p><label for="indicator2"></label><input type="text" name="indicator2" size="10" value="100" id="indicator2"></p>
                                             <p>逆时针旋转45°</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator3">0</span></p>
+                                            <p><label for="indicator3"></label><input type="text" name="indicator3" size="10" value="100" id="indicator3"></p>
                                             <p>平均精度</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p><span id="indicator4">0</span></p>
+                                            <p><label for="indicator4"></label><input type="text" name="indicator4" size="10" value="100" id="indicator4"></p>
                                             <p>数据集披露程度</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator5">0</span></p>
+                                            <p><label for="indicator5"></label><input type="text" name="indicator5" size="10" value="100" id="indicator5"></p>
                                             <p>异常值比重</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator6">0</span></p>
+                                            <p><label for="indicator6"></label><input type="text" name="indicator6" size="10" value="100" id="indicator6"></p>
                                             <p>数据合规性</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p><span id="indicator7">0</span></p>
+                                            <p><label for="indicator7"></label><input type="text" name="indicator7" size="10" value="100" id="indicator7"></p>
                                             <p>对FGSM攻击的防御力</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator8">0</span></p>
+                                            <p><label for="indicator8"></label><input type="text" name="indicator8" size="10" value="100" id="indicator8"></p>
                                             <p>对BIM攻击的防御力</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator9">0</span></p>
+                                            <p><label for="indicator9"></label><input type="text" name="indicator9" size="10" value="100" id="indicator9"></p>
                                             <p>对DeepFool攻击的防御力</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p><span id="indicator10">0</span></p>
+                                            <p><label for="indicator10"></label><input type="text" name="indicator10" size="10" value="100" id="indicator10"></p>
                                             <p>对PGD攻击的防御力</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator11">0</span></p>
+                                            <p><label for="indicator11"></label><input type="text" name="indicator11" size="10" value="100" id="indicator11"></p>
                                             <p>对C/W攻击的防御力</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator12">0</span></p>
+                                            <p><label for="indicator12"></label><input type="text" name="indicator12" size="10" value="100" id="indicator12"></p>
                                             <p>对DeepFool攻击的防御力</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p><span id="indicator13">0</span></p>
+                                            <p><label for="indicator13"></label><input type="text" name="indicator13" size="10" value="100" id="indicator13"></p>
                                             <p>可解释性</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator14">0</span></p>
+                                            <p><label for="indicator14"></label><input type="text" name="indicator14" size="10" value="100" id="indicator14"></p>
                                             <p>模型合规性</p>
                                         </td>
                                         <td>
-                                            <p><span id="indicator15">0</span></p>
+                                            <p><label for="indicator15"></label><input type="text" name="indicator15" size="10" value="100" id="indicator15"></p>
                                             <p>模型披露程度</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p><span id="indicator16">0</span></p>
+                                            <p><label for="indicator16"></label><input type="text" name="indicator16" size="10" value="100" id="indicator16"></p>
                                             <p>组织管理</p>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
+                                <p>
+                                    <input class="submit" type="button" value="更新图像" onclick="getData()">
+                                </p>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -258,9 +263,9 @@
                             value: [80, 90, 80, 82, 90, 85, 85, 90, 85, 90, 75, 80, 90, 85, 75, 85],
                             itemStyle: {// 设置曲线样式
                                 normal: {
-                                    color: 'rgba(255,225,0,.3)',
+                                    color: 'rgba(0,225,0,.3)',
                                     lineStyle: {
-                                        color: 'rgba(255,225,0,.3)',
+                                        color: 'rgba(0,225,0,.3)',
                                     },
                                 },
 
@@ -308,6 +313,7 @@
             //4. 将type的值设置为radar
         var mCharts = echarts.init(document.getElementById("mCharts"));
         var evaluation_value;
+        var last_value = 100;
         $.ajax({
             type: "GET",
             url: "security/radar",
@@ -316,7 +322,8 @@
             async: false,
             success: function (result) {
                 if(result.code == 0){
-                    evaluation_value = result.data;
+                    evaluation_value = result.data[0];
+                    last_value = result.data[1][0];
                 }else{
                     layer.msg(result.msg);
                 }
@@ -326,7 +333,7 @@
             }
         });
 
-
+        document.getElementById("closeness").innerHTML = last_value;
         // 各个维度的最大值
         var dataMax = [
             {
@@ -422,9 +429,10 @@
                             value: [80, 90, 80, 82, 90, 85, 85, 90, 85, 90, 75, 80, 90, 85, 75, 85],
                             itemStyle: {// 设置曲线样式
                                 normal: {
-                                    color: 'rgba(255,225,0,.3)',
+                                    color: 'rgba(0,255,0,.3)',
                                     lineStyle: {
-                                        color: 'rgba(255,225,0,.3)',
+                                        color: 'rgba(0,225,0,.3)',
+                                        sizes: 5
                                     },
                                 },
 
