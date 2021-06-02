@@ -8,8 +8,6 @@ import com.zyan.tordata.domain.Link;
 import com.zyan.tordata.domain.Node;
 import com.zyan.tordata.result.CodeMsg;
 import com.zyan.tordata.result.Result;
-import com.zyan.tordata.service.OnionServiceTrafficService;
-import com.zyan.tordata.service.OnionUniqueAddressService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +22,6 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "/security")
 public class SecurityController {
-    @Autowired
-    private OnionServiceTrafficService onionServiceTrafficService;
-    @Autowired
-    private OnionUniqueAddressService onionUniqueAddressService;
-
-
     @RequestMapping("/association_graph")
     @ResponseBody
     public Result<List<String>> getData() {
@@ -137,10 +129,10 @@ public class SecurityController {
             System.out.println(integer);
         }
         List<Integer> result_list = new ArrayList<>();
-        double[] weights = {0.11,0.12,0.13,0.03,
-                            0.03,0.02,0.15,0.16,
-                            0.12,0.19,0.16,0.10,
-                            0.01,0.02,0.03,0.04};
+        double[] weights = {0.094211,0.094211,0.126751,0.043933,
+                            0.104014,0.015805,0.066251,0.065321,
+                            0.062217,0.058361,0.056751,0.104014,
+                            0.067642,0.093956,0.093956,0.032566};
         double lastValue = 0;
         for (int i = 0; i < 16; i++) {
             lastValue = lastValue + list.get(i) * weights[i];
@@ -151,19 +143,5 @@ public class SecurityController {
         objects.add(result_list);
         System.out.println(lastValue);
         return Result.success(objects);
-    }
-
-
-    @RequestMapping("/radar_test")
-    @ResponseBody
-    public Result<List<Integer>> getRadarDataDefault() {
-        //经过一系列逻辑处理
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
-            Integer a = new Random().nextInt(100);
-            list.add(a);
-            System.out.println(a);
-        }
-        return Result.success(list);
     }
 }

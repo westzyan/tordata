@@ -4,30 +4,25 @@
     <title>Tor态势感知</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
-
+    <!-- jQuery -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <!-- yes, we are handheld friendly :) -->
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-
     <!-- icons for mobile devices -->
     <link rel="apple-touch-icon" href="/images/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" href="/images/android-icon.png" sizes="196x196">
-    <!-- jQuery -->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-
     <!-- Fonts -->
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link rel="stylesheet" href="/fonts/source-sans-pro.css">
-
     <!-- Prism -->
     <link rel="stylesheet" href="/css/prism.css">
     <script type="text/javascript" src="/js/prism.js"></script>
-
     <!-- custom styles and javascript -->
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" src="/js/script.js"></script>
@@ -37,6 +32,7 @@
     <script type="text/javascript" src="/js/common.js"></script>
     <!-- echarts.js -->
     <script type="text/javascript" src="/js/echarts.common.js"></script>
+    <script type="text/javascript" src="/js/echarts.min.js"></script>
     <script type="text/javascript" src="/js/macarons.js"></script>
     <script type="text/javascript" src="/js/shine.js"></script>
 
@@ -68,7 +64,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </label>
-                <a class="navbar-brand visible-xs" href="/"><img src="/images/tor-metrics-white.png" width="232" height="50" alt="Tor Metrics"></a>
+                <a class="navbar-brand visible-xs" href="/"><img src="images/tor-metrics-white.png" width="232" height="50" alt="Tor Metrics"></a>
             </div>
         </div><!-- /.container-fluid -->
     </nav>
@@ -76,7 +72,7 @@
 
     <!-- page header for every single page -->
     <div class="page-header hidden-xs">
-        <a href="/"><img src="/images/tor-metrics-white@2x.png" width="232" height="50" alt="Tor Metrics" id="metrics-wordmark"></a>
+        <a href="/"><img src="images/tor-metrics-white@2x.png" width="232" height="50" alt="Tor Metrics" id="metrics-wordmark"></a>
         <div class="clearfix"></div>
     </div>
     <!-- /page header -->
@@ -88,7 +84,7 @@
                 <ul class="nav navbar-nav">
                     <li ><a href="/"><i class="" aria-hidden="true"></i> Home</a></li>
 
-                    <li class=" active"><a href="/userstats-bridge-version.html"><i class="" aria-hidden="true"></i> 用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li class=" active"><a href="/userstats-relay-table.html"><i class="" aria-hidden="true"></i> 用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
                     <li class=""><a href="/servers.html"><i class="" aria-hidden="true"></i> 服务器信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
@@ -97,8 +93,6 @@
                     <li class=""><a href="/torperf.html"><i class="" aria-hidden="true"></i> 性能&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 
                     <li class=""><a href="/hidserv-dir-onions-seen.html"><i class="" aria-hidden="true"></i> 洋葱服务&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-
-
 
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -132,13 +126,13 @@
 
             <li role="presentation"><a href="userstats-bridge-combined.html" data-tab="userstats-bridge-combined">桥节点用户（国家与混淆方式）</a></li>
 
-            <li role="presentation"   class="active"><a href="userstats-bridge-version.html" data-tab="userstats-bridge-version">桥节点用户（IP版本）</a></li>
+            <li role="presentation" ><a href="userstats-bridge-version.html" data-tab="userstats-bridge-version">桥节点用户（IP版本）</a></li>
 
             <li role="presentation"><a href="bridgedb-transport.html" data-tab="bridgedb-transport">BridgeDB请求（混淆方式）</a></li>
 
             <li role="presentation"><a href="bridgedb-distributor.html" data-tab="bridgedb-distributor">BridgeDB请求（分发商）</a></li>
 
-            <li role="presentation"><a href="userstats-relay-table.html" data-tab="userstats-relay-table">中继用户Top国家和地区</a></li>
+            <li role="presentation"   class="active"><a href="userstats-relay-table.html" data-tab="userstats-relay-table">中继用户Top国家和地区</a></li>
 
             <li role="presentation"><a href="userstats-bridge-table.html" data-tab="userstats-bridge-table">网桥用户Top国家和地区</a></li>
 
@@ -158,12 +152,8 @@
 
                         <form id="form1" name="form1" onsubmit="return false" action="##" method="get">
                             <p>
-                                <label for="start">Start date:</label>
-                                <input type="date" name="start" size="10" value="2020-02-04" placeholder="yyyy-mm-dd" id="start">
-                            </p>
-                            <p>
-                                <label for="end">End date:</label>
-                                <input type="date" name="end" size="10" value="2020-05-04" placeholder="yyyy-mm-dd" id="end">
+                                <label for="filename">文件:</label>
+                                <input type="text" name="file_name" size="10" value="data1.json" id="filename">
                             </p>
                             <p>
                                 <input class="submit" type="button" value="更新图像" onclick="getData()">
@@ -203,100 +193,99 @@
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'),'macarons');
-    var date = [];
-    var v4 = [];
-    var v6 = [];
+    var nodes = [];
+    var links = [];
+    var categories = [];
+    var option;
+    myChart.showLoading();
     //AJAX接收数据主体
     $.ajax({
         type: "GET",
-        url: "/users/bridge_version_default",
+        url: "/security/association_graph",
         dataType: "json",
-        data: {"version" : "v4"},
+        data: {},
         async: false,
         success: function (result) {
             if(result.code == 0){
-                for (var i = 0; i < result.data.length; i++) {
-                    date.push(result.data[i].date);
-                    v4.push(result.data[i].users);
-                }
+                nodes = [
+                    {
+                        "id": "1",
+                        "name": "Myriel",
+                        "symbolSize": 19.12381,
+                        "x": -266.82776,
+                        "y": 299.6904,
+                        "value": 28.685715,
+                        "category": 0
+                    },
+                    {
+                        "id": "1",
+                        "name": "Napoleon",
+                        "symbolSize": 2.6666666666666665,
+                        "x": -418.08344,
+                        "y": 446.8853,
+                        "value": 4,
+                        "category": 0
+                    }];
+                links = [
+                    {
+                        "source": "1",
+                        "target": "0"
+                    }];
+                categories = [
+                    {
+                        "name": "类目0"
+                    },
+                    {
+                        "name": "类目0"
+                    },
+                    {
+                        "name": "类目0"
+                    },
+                    {
+                        "name": "类目0"
+                    }];
             }else{
                 layer.msg(result.msg);
             }
-
+            // alert(result.data);
         },
         error: function () {
             layer.msg("获取后台数据失败！");
         }
     });
+    alert(nodes);
+    alert(links);
 
-    $.ajax({
-        type: "GET",
-        url: "/users/bridge_version_default",
-        dataType: "json",
-        data: {"version" : "all"},
-        async: false,
-        success: function (result) {
-            if(result.code == 0){
-                for (var i = 0; i < result.data.length; i++) {
-                    v6.push(result.data[i].users - v4[i]);
-                }
-            }else{
-                layer.msg(result.msg);
-            }
-
-        },
-        error: function () {
-            layer.msg("获取后台数据失败！");
-        }
-    });
     //指定图表的配置项和数据
-    var option = {
+    option = {
         title: {
-            text: '网桥用户IP版本变化图'
+            text: '安全评估',
+            subtext: 'Default layout',
+            top: 'bottom',
+            left: 'right'
         },
         tooltip: {},
-        legend: {
-            data: ['IPV4','IPV6']
-        },
-        xAxis: {
-            //结合
-            data: date
-        },
-
-        yAxis: {},
-        series: [{
-            name: 'IPV4',
-            type: 'line',
-            data: v4
-        },{
-            name: 'IPV6',
-            type: 'line',
-            data: v6
-        }],
-        dataZoom: [
-            {
-                type: 'inside',// 内置于坐标系中
-                xAxisIndex: [0]
-            },
-            {
-                type: 'slider',//有单独的滑动条，用户在滑动条上进行缩放或漫游。inside是直接可以是在内部拖动显示
-                show: true,//是否显示 组件。如果设置为 false，不会显示，但是数据过滤的功能还存在。
-                start: 0,//数据窗口范围的起始百分比0-100
-                end: 50,//数据窗口范围的结束百分比0-100
-                xAxisIndex: [0],// 此处表示控制第一个xAxis，设置 dataZoom-slider 组件控制的 x轴 可是已数组[0,2]表示控制第一，三个；xAxisIndex: 2 ，表示控制第二个。yAxisIndex属性同理
-                bottom: -10 //距离底部的距离
-            }
+        legend: [{
+            name: "类目0"
+        }
         ],
-        toolbox: {
-            show: true,
-            feature: {
-                saveAsImage: {
-                    show: true,
-                    excludeComponents: ['toolbox'],
-                    pixelRatio: 2
+        series: [
+            {
+                name: 'Les Miserables',
+                type: 'graph',
+                layout: 'force',
+                data: nodes,
+                links: links,
+                categories: categories,
+                roam: true,
+                label: {
+                    position: 'right'
+                },
+                force: {
+                    repulsion: 100
                 }
             }
-        }
+        ]
     };
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
@@ -307,47 +296,21 @@
     function getData() {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'),'macarons');
-        var date = [];
-        var v4 = [];
-        var v6 = [];
+        var graph;
+        var option;
         //AJAX接收数据主体
         $.ajax({
             type: "GET",
-            url: "/users/bridge_version",
+            url: "/security/association_graph111",
             dataType: "json",
-            data: {"version" : "v4","start": document.form1.start.value ,"end":document.form1.end.value},
+            data: $('#form1').serialize(),
             async: false,
             success: function (result) {
                 if(result.code == 0){
-                    for (var i = 0; i < result.data.length; i++) {
-                        date.push(result.data[i].date);
-                        v4.push(result.data[i].users);
-                    }
+                    graph = result.data;
                 }else{
                     layer.msg(result.msg);
                 }
-
-            },
-            error: function () {
-                layer.msg("获取后台数据失败！");
-            }
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/users/bridge_version",
-            dataType: "json",
-            data: {"version" : "all","start": document.form1.start.value ,"end":document.form1.end.value},
-            async: false,
-            success: function (result) {
-                if(result.code == 0){
-                    for (var i = 0; i < result.data.length; i++) {
-                        v6.push(result.data[i].users - v4[i]);
-                    }
-                }else{
-                    layer.msg(result.msg);
-                }
-
             },
             error: function () {
                 layer.msg("获取后台数据失败！");
@@ -355,53 +318,37 @@
         });
 
         //指定图表的配置项和数据
-        var option = {
+        option = {
             title: {
-                text: '网桥用户IP版本变化图'
+                text: '安全评估',
+                subtext: 'Default layout',
+                top: 'bottom',
+                left: 'right'
             },
             tooltip: {},
-            legend: {
-                data: ['IPV4','IPV6']
-            },
-            xAxis: {
-                //结合
-                data: date
-            },
-
-            yAxis: {},
-            series: [{
-                name: 'IPV4',
-                type: 'line',
-                data: v4
-            },{
-                name: 'IPV6',
-                type: 'line',
-                data: v6
+            legend: [{
+                // selectedMode: 'single',
+                data: graph.categories.map(function (a) {
+                    return a.name;
+                })
             }],
-            dataZoom: [
+            series: [
                 {
-                    type: 'inside',// 内置于坐标系中
-                    xAxisIndex: [0]
-                },
-                {
-                    type: 'slider',//有单独的滑动条，用户在滑动条上进行缩放或漫游。inside是直接可以是在内部拖动显示
-                    show: true,//是否显示 组件。如果设置为 false，不会显示，但是数据过滤的功能还存在。
-                    start: 0,//数据窗口范围的起始百分比0-100
-                    end: 50,//数据窗口范围的结束百分比0-100
-                    xAxisIndex: [0],// 此处表示控制第一个xAxis，设置 dataZoom-slider 组件控制的 x轴 可是已数组[0,2]表示控制第一，三个；xAxisIndex: 2 ，表示控制第二个。yAxisIndex属性同理
-                    bottom: -10 //距离底部的距离
-                }
-            ],
-            toolbox: {
-                show: true,
-                feature: {
-                    saveAsImage: {
-                        show: true,
-                        excludeComponents: ['toolbox'],
-                        pixelRatio: 2
+                    name: 'Les Miserables',
+                    type: 'graph',
+                    layout: 'force',
+                    data: graph.nodes,
+                    links: graph.links,
+                    categories: graph.categories,
+                    roam: true,
+                    label: {
+                        position: 'right'
+                    },
+                    force: {
+                        repulsion: 100
                     }
                 }
-            }
+            ]
         };
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
