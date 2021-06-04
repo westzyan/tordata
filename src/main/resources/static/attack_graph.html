@@ -1,0 +1,1139 @@
+<!--
+    THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/zh/editor.html?c=graph-simple
+-->
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+<input class="button" type="button" value="预测" onclick="getData()">
+<div id="container" style="height: 50%; width: 30%"></div>
+<div id="host_level_threat" style="height: 30%; width:30%"></div>
+<script type="text/javascript"
+        src="./echarts.min.js"></script>
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option;
+
+    option = {
+        title: {
+            text: '原始数据'
+        },
+        tooltip: {},
+        animationDurationUpdate: 1500,
+        animationEasingUpdate: 'quinticInOut',
+        series: [
+            {
+                type: 'graph',
+                layout: 'none',
+                symbolSize: 50,
+                roam: true,
+                label: {
+                    show: true
+                },
+                edgeSymbol: ['circle', 'arrow'],
+                edgeSymbolSize: [4, 10],
+                edgeLabel: {
+                    fontSize: 20
+                },
+                data: [
+                    {
+                        "name": "t1",
+                        "x": 150,
+                        "y": 50,
+                        "value": 28.685715
+                    },
+                    {
+                        "name": "t2",
+                        "x": 200,
+                        "y": 150,
+                        "value": 4
+                    },
+                    {
+                        "name": "t3",
+                        "x": 170,
+                        "y": 300,
+                        "value": 9.485714
+                    },
+                    {
+                        "name": "t4",
+                        "x": 0,
+                        "y": 250,
+                        "value": 9.485714
+                    },
+                    {
+                        "name": "t5",
+                        "x": 400,
+                        "y": 50,
+                        "value": 4
+                    },
+                    {
+                        "name": "t6",
+                        "x": 450,
+                        "y": 170,
+                        "value": 4
+                    },
+                    {
+                        "name": "t7",
+                        "x": 310,
+                        "y": 270,
+                        "value": 4
+                    },
+                    {
+                        "name": "t8",
+                        "x": 100,
+                        "y": 300,
+                        "value": 4
+                    },
+                    {
+                        "id": "e1",
+                        "name": "e1",
+                        "x": 100,
+                        "y": 50,
+                        "value": 4
+                    },
+                    {
+                        "id": "e2",
+                        "name": "e2",
+                        "x": 150,
+                        "y": 150,
+                        "value": 4
+                    },
+                    {
+                        "id": "e3",
+                        "name": "e3",
+                        "x": 250,
+                        "y": 250,
+                        "value": 4
+                    },
+                    {
+                        "id": "e4",
+                        "name": "e4",
+                        "x": 100,
+                        "y": 250,
+                        "value": 100
+                    },
+                    {
+                        "id": "e5",
+                        "name": "e5",
+                        "x": 300,
+                        "y": 50,
+                        "value": 6.742859
+                    },
+                    {
+                        "id": "e6",
+                        "name": "e6",
+                        "x": 350,
+                        "y": 150,
+                        "value": 4
+                    },
+                    {
+                        "id": "e7",
+                        "name": "e7",
+                        "x": 350,
+                        "y": 350,
+                        "value": 4
+                    },
+                    {
+                        "id": "e8",
+                        "name": "e8",
+                        "x": 150,
+                        "y": 350,
+                        "value": 4
+                    },
+                    {
+                        "name": "g1",
+                        "x": 0,
+                        "y": 150,
+                        "value": 25.942856
+                    },
+                    {
+                        "name": "g2",
+                        "x": 150,
+                        "y": 250,
+                        "value": 20.457146
+                    },
+                    {
+                        "name": "g3",
+                        "x": 200,
+                        "y": 320,
+                        "value": 20.457146
+                    },
+                    {
+                        "name": "g4",
+                        "x": 50,
+                        "y": 370,
+                        "value": 20.457146
+                    },
+                    {
+                        "name": "g5",
+                        "x": 270,
+                        "y": 170,
+                        "value": 20.457146
+                    },
+                    {
+                        "name": "g6",
+                        "x": 400,
+                        "y": 270,
+                        "value": 20.457146
+                    },
+                    {
+                        "name": "g7",
+                        "x": 250,
+                        "y": 400,
+                        "value": 20.457146
+                    },
+                    {
+                        "name": "g8",
+                        "x": 350,
+                        "y": 400,
+                        "value": 42.4
+                    },
+                    {
+                        "name": "c1",
+                        "x": 200,
+                        "y": 0,
+                        "value": 31.428574
+                    },
+                    {
+                        "name": "c2",
+                        "x": 0,
+                        "y": 0,
+                        "value": 45.142853
+                    },
+                    {
+                        "name": "c3",
+                        "x": 100,
+                        "y": 0,
+                        "value": 31.428574
+                    },
+                    {
+                        "name": "c4",
+                        "x": 70,
+                        "y": 100,
+                        "value": 47.88571
+                    },
+                    {
+                        "name": "c5",
+                        "x": 150,
+                        "y": 100,
+                        "value": 12.228573
+                    },
+                    {
+                        "name": "c6",
+                        "x": 200,
+                        "y": 100,
+                        "value": 23.2
+                    },
+                    {
+                        "name": "c7",
+                        "x": 150,
+                        "y": 200,
+                        "value": 6.742859
+                    },
+                    {
+                        "name": "c8",
+                        "x": 200,
+                        "y": 200,
+                        "value": 12.228573
+                    },
+                    {
+                        "name": "c9",
+                        "x": 250,
+                        "y": 200,
+                        "value": 4
+                    },
+                    {
+                        "name": "c10",
+                        "x": 250,
+                        "y": 300,
+                        "value": 6.742859
+                    },
+                    {
+                        "name": "c11",
+                        "x": 50,
+                        "y": 170,
+                        "value": 31.428574
+                    },
+                    {
+                        "name": "c12",
+                        "x": 0,
+                        "y": 200,
+                        "value": 45.142853
+                    },
+                    {
+                        "name": "c13",
+                        "x": 0,
+                        "y": 300,
+                        "value": 31.428574
+                    },
+                    {
+                        "name": "c14",
+                        "x": 300,
+                        "y": 0,
+                        "value": 47.88571
+                    },
+                    {
+                        "name": "c15",
+                        "x": 400,
+                        "y": 0,
+                        "value": 12.228573
+                    },
+                    {
+                        "name": "c16",
+                        "x": 300,
+                        "y": 100,
+                        "value": 23.2
+                    },
+                    {
+                        "name": "c17",
+                        "x": 350,
+                        "y": 100,
+                        "value": 6.742859
+                    },
+                    {
+                        "name": "c18",
+                        "x": 450,
+                        "y": 100,
+                        "value": 12.228573
+                    },
+                    {
+                        "name": "c19",
+                        "x": 350,
+                        "y": 250,
+                        "value": 4
+                    },
+                    {
+                        "name": "c20",
+                        "x": 450,
+                        "y": 300,
+                        "value": 6.742859
+                    },
+                    {
+                        "name": "c21",
+                        "x": 450,
+                        "y": 350,
+                        "value": 31.428574
+                    },
+                    {
+                        "name": "c22",
+                        "x": 450,
+                        "y": 400,
+                        "value": 45.142853
+                    },
+                    {
+                        "name": "c23",
+                        "x": 250,
+                        "y": 350,
+                        "value": 31.428574
+                    },
+                    {
+                        "name": "c24",
+                        "x": 200,
+                        "y": 400,
+                        "value": 47.88571
+                    },
+                    {
+                        "name": "c25",
+                        "x": 150,
+                        "y": 400,
+                        "value": 12.228573
+                    },
+                    {
+                        "name": "c26",
+                        "x": 50,
+                        "y": 400,
+                        "value": 23.2
+                    }
+                ],
+                // links: [],
+                links: [
+                    {
+                        source: 'c2',
+                        target: 'e1'
+                    }, {
+                        source: 'c3',
+                        target: 'e1'
+                    }, {
+                        source: 'c1',
+                        target: 'e1'
+                    }, {
+                        source: 'c1',
+                        target: 'e5'
+                    }, {
+                        source: 'c14',
+                        target: 'e5'
+                    }, {
+                        source: 'c15',
+                        target: 'e5'
+                    }, {
+                        source: 'e1',
+                        target: 'c4'
+                    }, {
+                        source: 'e1',
+                        target: 't1'
+                    }, {
+                        source: 'e5',
+                        target: 'c16'
+                    }, {
+                        source: 'e5',
+                        target: 't5'
+                    }, {
+                        source: 'c4',
+                        target: 'g1'
+                    }, {
+                        source: 'c4',
+                        target: 'e2'
+                    }, {
+                        source: 'c5',
+                        target: 'e2'
+                    }, {
+                        source: 'c6',
+                        target: 'e2'
+                    }, {
+                        source: 'c16',
+                        target: 'g5'
+                    }, {
+                        source: 'c16',
+                        target: 'e6'
+                    }, {
+                        source: 'c17',
+                        target: 'e6'
+                    }, {
+                        source: 'c18',
+                        target: 'e6'
+                    }, {
+                        source: 'e2',
+                        target: 't2'
+                    }, {
+                        source: 'e2',
+                        target: 'c7'
+                    }, {
+                        source: 'e6',
+                        target: 't6'
+                    }, {
+                        source: 'e6',
+                        target: 'c19'
+                    }, {
+                        source: 'c11',
+                        target: 'e4'
+                    }, {
+                        source: 'c12',
+                        target: 'e4'
+                    }, {
+                        source: 'c7',
+                        target: 'g2'
+                    }, {
+                        source: 'c7',
+                        target: 'e3'
+                    }, {
+                        source: 'c8',
+                        target: 'e3'
+                    }, {
+                        source: 'c9',
+                        target: 'e3'
+                    }, {
+                        source: 'c19',
+                        target: 'g6'
+                    }, {
+                        source: 'e4',
+                        target: 't4'
+                    }, {
+                        source: 'e4',
+                        target: 'c13'
+                    }, {
+                        source: 'e3',
+                        target: 't3'
+                    }, {
+                        source: 'e3',
+                        target: 'c10'
+                    }, {
+                        source: 'c13',
+                        target: 'g4'
+                    }, {
+                        source: 'e8',
+                        target: 't8'
+                    }, {
+                        source: 'c10',
+                        target: 'g3'
+                    }, {
+                        source: 'e8',
+                        target: 't8'
+                    }, {
+                        source: 'e8',
+                        target: 'c23'
+                    }, {
+                        source: 'c26',
+                        target: 'e8'
+                    }, {
+                        source: 'c25',
+                        target: 'e8'
+                    }, {
+                        source: 'c24',
+                        target: 'e8'
+                    }, {
+                        source: 'c23',
+                        target: 'e8'
+                    }, {
+                        source: 'c23',
+                        target: 'g7'
+                    }, {
+                        source: 'e7',
+                        target: 'c23'
+                    }, {
+                        source: 'e7',
+                        target: 't7'
+                    }, {
+                        source: 'c20',
+                        target: 'e7'
+                    }, {
+                        source: 'c21',
+                        target: 'e7'
+                    }, {
+                        source: 'c22',
+                        target: 'e7'
+                    }, {
+                        source: 'c22',
+                        target: 'g8'
+                    }],
+                lineStyle: {
+                    opacity: 1.9,
+                    width: 4,
+                    curveness: 0
+                },
+                itemStyle: {//配置节点的颜色已及尺寸
+                    normal: {
+                        // （1） 直接写一个颜色，这样的结果是所有节点都是同一个颜色
+                        //color: '#fff',
+                        // （2） 像在全局定义中一样，使用数组声明多个颜色
+                        //        但是这样的结果是所有颜色都变成黑色（大概是不允许这样用吧）
+                        //color: ['#fc853e','#28cad8','#9564bf','#bd407e','#28cad8','#fc853e','#e5a214'],
+                        // （3） 类似柱状图定义多个颜色，利用函数返回不同的颜色值
+                        //        结果同上，全变成黑色了
+                        color: function (params) {
+                            var colorList = ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red',
+                                'orange', 'orange', 'orange', 'orange', 'orange', 'orange', 'orange', 'orange',
+                                'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green',
+                                'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue',
+                                'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue',
+                                'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue',
+                                'blue', 'blue'];
+                            return colorList[params.dataIndex]
+                        },
+                    }
+                },
+                symbolSize: function (value, params) {//改变节点大小
+                    var SizeList = [30, 30, 30, 30, 30, 30, 30, 30,
+                        30, 30, 30, 30, 30, 30, 30, 30,
+                        30, 30, 30, 30, 30, 30, 30, 30,
+                        30, 30, 30, 30, 30, 30, 30, 30,
+                        30, 30, 30, 30, 30, 30, 30, 30,
+                        30, 30, 30, 30, 30, 30, 30, 30, 30, 30];
+                    return SizeList[params.dataIndex]
+                },
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+</script>
+
+<script type="text/javascript">
+    function getData() {
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var option;
+
+        option = {
+            title: {
+                text: '贝叶斯估计数据'
+            },
+            tooltip: {},
+            animationDurationUpdate: 1500,
+            animationEasingUpdate: 'quinticInOut',
+            series: [
+                {
+                    type: 'graph',
+                    layout: 'none',
+                    symbolSize: 50,
+                    roam: true,
+                    label: {
+                        show: true
+                    },
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [4, 10],
+                    edgeLabel: {
+                        fontSize: 20
+                    },
+                    data: [
+                        {
+                            "name": "t1",
+                            "x": 150,
+                            "y": 50,
+                            "value": 100
+                        },
+                        {
+                            "name": "t2",
+                            "x": 200,
+                            "y": 150,
+                            "value": 4
+                        },
+                        {
+                            "name": "t3",
+                            "x": 170,
+                            "y": 300,
+                            "value": 9.485714
+                        },
+                        {
+                            "name": "t4",
+                            "x": 0,
+                            "y": 250,
+                            "value": 9.485714
+                        },
+                        {
+                            "name": "t5",
+                            "x": 400,
+                            "y": 50,
+                            "value": 4
+                        },
+                        {
+                            "name": "t6",
+                            "x": 450,
+                            "y": 170,
+                            "value": 4
+                        },
+                        {
+                            "name": "t7",
+                            "x": 310,
+                            "y": 270,
+                            "value": 4
+                        },
+                        {
+                            "name": "t8",
+                            "x": 100,
+                            "y": 300,
+                            "value": 4
+                        },
+                        {
+                            "id": "e1",
+                            "name": "e1",
+                            "x": 100,
+                            "y": 50,
+                            "value": 4
+                        },
+                        {
+                            "id": "e2",
+                            "name": "e2",
+                            "x": 150,
+                            "y": 150,
+                            "value": 4
+                        },
+                        {
+                            "id": "e3",
+                            "name": "e3",
+                            "x": 250,
+                            "y": 250,
+                            "value": 4
+                        },
+                        {
+                            "id": "e4",
+                            "name": "e4",
+                            "x": 100,
+                            "y": 250,
+                            "value": 100
+                        },
+                        {
+                            "id": "e5",
+                            "name": "e5",
+                            "x": 300,
+                            "y": 50,
+                            "value": 6.742859
+                        },
+                        {
+                            "id": "e6",
+                            "name": "e6",
+                            "x": 350,
+                            "y": 150,
+                            "value": 4
+                        },
+                        {
+                            "id": "e7",
+                            "name": "e7",
+                            "x": 350,
+                            "y": 350,
+                            "value": 4
+                        },
+                        {
+                            "id": "e8",
+                            "name": "e8",
+                            "x": 150,
+                            "y": 350,
+                            "value": 4
+                        },
+                        {
+                            "name": "g1",
+                            "x": 0,
+                            "y": 150,
+                            "value": 25.942856
+                        },
+                        {
+                            "name": "g2",
+                            "x": 150,
+                            "y": 250,
+                            "value": 20.457146
+                        },
+                        {
+                            "name": "g3",
+                            "x": 200,
+                            "y": 320,
+                            "value": 20.457146
+                        },
+                        {
+                            "name": "g4",
+                            "x": 50,
+                            "y": 370,
+                            "value": 20.457146
+                        },
+                        {
+                            "name": "g5",
+                            "x": 270,
+                            "y": 170,
+                            "value": 20.457146
+                        },
+                        {
+                            "name": "g6",
+                            "x": 400,
+                            "y": 270,
+                            "value": 20.457146
+                        },
+                        {
+                            "name": "g7",
+                            "x": 250,
+                            "y": 400,
+                            "value": 20.457146
+                        },
+                        {
+                            "name": "g8",
+                            "x": 350,
+                            "y": 400,
+                            "value": 42.4
+                        },
+                        {
+                            "name": "c1",
+                            "x": 200,
+                            "y": 0,
+                            "value": 31.428574
+                        },
+                        {
+                            "name": "c2",
+                            "x": 0,
+                            "y": 0,
+                            "value": 45.142853
+                        },
+                        {
+                            "name": "c3",
+                            "x": 100,
+                            "y": 0,
+                            "value": 31.428574
+                        },
+                        {
+                            "name": "c4",
+                            "x": 70,
+                            "y": 100,
+                            "value": 47.88571
+                        },
+                        {
+                            "name": "c5",
+                            "x": 150,
+                            "y": 100,
+                            "value": 12.228573
+                        },
+                        {
+                            "name": "c6",
+                            "x": 200,
+                            "y": 100,
+                            "value": 23.2
+                        },
+                        {
+                            "name": "c7",
+                            "x": 150,
+                            "y": 200,
+                            "value": 6.742859
+                        },
+                        {
+                            "name": "c8",
+                            "x": 200,
+                            "y": 200,
+                            "value": 12.228573
+                        },
+                        {
+                            "name": "c9",
+                            "x": 250,
+                            "y": 200,
+                            "value": 4
+                        },
+                        {
+                            "name": "c10",
+                            "x": 250,
+                            "y": 300,
+                            "value": 6.742859
+                        },
+                        {
+                            "name": "c11",
+                            "x": 50,
+                            "y": 170,
+                            "value": 31.428574
+                        },
+                        {
+                            "name": "c12",
+                            "x": 0,
+                            "y": 200,
+                            "value": 45.142853
+                        },
+                        {
+                            "name": "c13",
+                            "x": 0,
+                            "y": 300,
+                            "value": 31.428574
+                        },
+                        {
+                            "name": "c14",
+                            "x": 300,
+                            "y": 0,
+                            "value": 47.88571
+                        },
+                        {
+                            "name": "c15",
+                            "x": 400,
+                            "y": 0,
+                            "value": 12.228573
+                        },
+                        {
+                            "name": "c16",
+                            "x": 300,
+                            "y": 100,
+                            "value": 23.2
+                        },
+                        {
+                            "name": "c17",
+                            "x": 350,
+                            "y": 100,
+                            "value": 6.742859
+                        },
+                        {
+                            "name": "c18",
+                            "x": 450,
+                            "y": 100,
+                            "value": 12.228573
+                        },
+                        {
+                            "name": "c19",
+                            "x": 350,
+                            "y": 250,
+                            "value": 4
+                        },
+                        {
+                            "name": "c20",
+                            "x": 450,
+                            "y": 300,
+                            "value": 6.742859
+                        },
+                        {
+                            "name": "c21",
+                            "x": 450,
+                            "y": 350,
+                            "value": 31.428574
+                        },
+                        {
+                            "name": "c22",
+                            "x": 450,
+                            "y": 400,
+                            "value": 45.142853
+                        },
+                        {
+                            "name": "c23",
+                            "x": 250,
+                            "y": 350,
+                            "value": 31.428574
+                        },
+                        {
+                            "name": "c24",
+                            "x": 200,
+                            "y": 400,
+                            "value": 47.88571
+                        },
+                        {
+                            "name": "c25",
+                            "x": 150,
+                            "y": 400,
+                            "value": 12.228573
+                        },
+                        {
+                            "name": "c26",
+                            "x": 50,
+                            "y": 400,
+                            "value": 23.2
+                        }
+                    ],
+                    // links: [],
+                    links: [
+                        {
+                            source: 'c2',
+                            target: 'e1'
+                        }, {
+                            source: 'c3',
+                            target: 'e1'
+                        }, {
+                            source: 'c1',
+                            target: 'e1'
+                        }, {
+                            source: 'c1',
+                            target: 'e5'
+                        }, {
+                            source: 'c14',
+                            target: 'e5'
+                        }, {
+                            source: 'c15',
+                            target: 'e5'
+                        }, {
+                            source: 'e1',
+                            target: 'c4'
+                        }, {
+                            source: 'e1',
+                            target: 't1'
+                        }, {
+                            source: 'e5',
+                            target: 'c16'
+                        }, {
+                            source: 'e5',
+                            target: 't5'
+                        }, {
+                            source: 'c4',
+                            target: 'g1'
+                        }, {
+                            source: 'c4',
+                            target: 'e2'
+                        }, {
+                            source: 'c5',
+                            target: 'e2'
+                        }, {
+                            source: 'c6',
+                            target: 'e2'
+                        }, {
+                            source: 'c16',
+                            target: 'g5'
+                        }, {
+                            source: 'c16',
+                            target: 'e6'
+                        }, {
+                            source: 'c17',
+                            target: 'e6'
+                        }, {
+                            source: 'c18',
+                            target: 'e6'
+                        }, {
+                            source: 'e2',
+                            target: 't2'
+                        }, {
+                            source: 'e2',
+                            target: 'c7'
+                        }, {
+                            source: 'e6',
+                            target: 't6'
+                        }, {
+                            source: 'e6',
+                            target: 'c19'
+                        }, {
+                            source: 'c11',
+                            target: 'e4'
+                        }, {
+                            source: 'c12',
+                            target: 'e4'
+                        }, {
+                            source: 'c7',
+                            target: 'g2'
+                        }, {
+                            source: 'c7',
+                            target: 'e3'
+                        }, {
+                            source: 'c8',
+                            target: 'e3'
+                        }, {
+                            source: 'c9',
+                            target: 'e3'
+                        }, {
+                            source: 'c19',
+                            target: 'g6'
+                        }, {
+                            source: 'e4',
+                            target: 't4'
+                        }, {
+                            source: 'e4',
+                            target: 'c13'
+                        }, {
+                            source: 'e3',
+                            target: 't3'
+                        }, {
+                            source: 'e3',
+                            target: 'c10'
+                        }, {
+                            source: 'c13',
+                            target: 'g4'
+                        }, {
+                            source: 'e8',
+                            target: 't8'
+                        }, {
+                            source: 'c10',
+                            target: 'g3'
+                        }, {
+                            source: 'e8',
+                            target: 't8'
+                        }, {
+                            source: 'e8',
+                            target: 'c23'
+                        }, {
+                            source: 'c26',
+                            target: 'e8'
+                        }, {
+                            source: 'c25',
+                            target: 'e8'
+                        }, {
+                            source: 'c24',
+                            target: 'e8'
+                        }, {
+                            source: 'c23',
+                            target: 'e8'
+                        }, {
+                            source: 'c23',
+                            target: 'g7'
+                        }, {
+                            source: 'e7',
+                            target: 'c23'
+                        }, {
+                            source: 'e7',
+                            target: 't7'
+                        }, {
+                            source: 'c20',
+                            target: 'e7'
+                        }, {
+                            source: 'c21',
+                            target: 'e7'
+                        }, {
+                            source: 'c22',
+                            target: 'e7'
+                        }, {
+                            source: 'c22',
+                            target: 'g8'
+                        }],
+                    lineStyle: {
+                        opacity: 0.9,
+                        width: 2,
+                        curveness: 0
+                    },
+                    itemStyle: {//配置节点的颜色已及尺寸
+                        normal: {
+                            // （1） 直接写一个颜色，这样的结果是所有节点都是同一个颜色
+                            //color: '#fff',
+                            // （2） 像在全局定义中一样，使用数组声明多个颜色
+                            //        但是这样的结果是所有颜色都变成黑色（大概是不允许这样用吧）
+                            //color: ['#fc853e','#28cad8','#9564bf','#bd407e','#28cad8','#fc853e','#e5a214'],
+                            // （3） 类似柱状图定义多个颜色，利用函数返回不同的颜色值
+                            //        结果同上，全变成黑色了
+                            color: function (params) {
+                                var colorList = ['green', 'green', 'green', 'green', 'green', 'green', 'green', 'green',
+                                    'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red',
+                                    'orange', 'orange', 'orange', 'orange', 'orange', 'orange', 'orange', 'orange',
+                                    'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue',
+                                    'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue',
+                                    'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue',
+                                    'blue', 'blue'];
+                                return colorList[params.dataIndex]
+                            },
+                        }
+                    },
+                    symbolSize: function (value, params) {//改变节点大小
+                        var SizeList = [30, 30, 30, 30, 30, 30, 30, 30,
+                            30, 30, 30, 30, 30, 30, 30, 30,
+                            30, 30, 30, 30, 30, 30, 30, 30,
+                            30, 30, 30, 30, 30, 30, 30, 30,
+                            30, 30, 30, 30, 30, 30, 30, 30,
+                            30, 30, 30, 30, 30, 30, 30, 30, 30, 30];
+                        return SizeList[params.dataIndex]
+                    },
+                }
+            ]
+
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    var dom = document.getElementById("host_level_threat");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option;
+    var axisData = ['主机1', '主机2', '主机3', '主机4', '主机5', '主机6'];
+    // var data = axisData.map(function (item, i) {
+    //     return Math.round(Math.random() * 1000 * (i + 1));
+    // });
+    var data = [87, 65, 47, 83, 95, 72];
+    var links = data.map(function (item, i) {
+        return {
+            source: i,
+            target: i + 1
+        };
+    });
+    links.pop();
+    option = {
+        title: {
+            text: '主机级别威胁'
+        },
+        tooltip: {},
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: axisData
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                type: 'graph',
+                layout: 'none',
+                coordinateSystem: 'cartesian2d',
+                symbolSize: 40,
+                label: {
+                    show: true
+                },
+                edgeSymbol: ['circle', 'arrow'],
+                edgeSymbolSize: [4, 10],
+                data: data,
+                links: links,
+                lineStyle: {
+                    color: '#000000'
+                }
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+</script>
+</body>
+</html>
+
+
