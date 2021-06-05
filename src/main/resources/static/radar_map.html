@@ -303,14 +303,6 @@
 <script type="text/javascript">
     function getData() {
         /*************** 雷达图 **************/
-            //初始化echarts实例
-            //1. ECharts最基本的代码结构
-            //2. 定义各个维度的最大值, 通过radar属性配置
-            //   准确率,可解释性,管理安全等每个维度的最大值都是100
-            //3. 准备模型数据, 设置给series下的data
-            //   最优解数据: 80, 90, 80, 82, 90.....
-            //   中兴手机1: 70, 82, 75, 70, 78（不大于最优值即可）
-            //4. 将type的值设置为radar
         var mCharts = echarts.init(document.getElementById("mCharts"));
         var evaluation_value;
         var last_value = 100;
