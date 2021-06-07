@@ -1,188 +1,463 @@
-<!DOCTYPE HTML>
-<html lang="cn" style="min-height:100%;">
+<!DOCTYPE html>
+
+<html lang="zh-CN">
 <head>
-
-    <title>Tor网络态势感知</title>
-
-    <meta charset="utf-8">
-    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
-
-    <!-- yes, we are handheld friendly :) -->
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-
-    <!-- icons for mobile devices -->
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon-152x152.png">
-    <link rel="shortcut icon" href="/images/android-icon.png" sizes="196x196">
-    <meta name="msapplication-square70x70logo" content="/images/smalltile.png">
-    <meta name="msapplication-square150x150logo" content="/images/mediumtile.png">
-    <meta name="msapplication-wide310x150logo" content="/images/widetile.png">
-    <meta name="msapplication-square310x310logo" content="/images/largetile.png">
-
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-    <script src="/bootstrap/js/bootstrap.js"></script>
-
-    <!-- Fonts -->
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/fonts/source-sans-pro.css">
-
-    <!-- Prism -->
-    <link rel="stylesheet" href="/css/prism.css">
-    <script src="/js/prism.js"></script>
-
-    <!-- custom styles and javascript -->
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/script.js"></script>
-
-
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+    <title>机器学习模型脆弱性评估</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
 </head>
 
-<body class="noscript" style="background-image:url(images/ajax-loader.gif);background-repeat:no-repeat;background-position:center center;">
+<body class="bg02">
+<header class="header">
+    <h3>机器学习模型脆弱性评估</h3>
+</header>
 
-<!-- Using evil inline stylesheets to hide the FOUC for slow connections... -->
-
-<div id="wrapper" style="display:none;">
-
-    <!-- backToTop-Button and Anchor -->
-    <noscript>
-        <div class="topButton" style="display:block;"><a href="#top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a></div>
-    </noscript>
-    <script type="text/javascript">
-        document.write('<div class="topButton" style="display:none;"><a href="#top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a></div>');
-    </script>
-    <a id="top"></a>
-
-    <!-- secondary navigation -->
-    <nav class="navbar navbar-default navbar-secondary">
-        <div class="container-fluid">
-            <input type="checkbox" id="navbar-toggle-checkbox">
-            <div class="navbar-header">
-                <label for="navbar-toggle-checkbox" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-secondary" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </label>
-                <a class="navbar-brand visible-xs" href="/"><img src="/images/tor-metrics-white.png" width="232" height="50" alt="Tor Metrics"></a>
+<div class="wrapper">
+    <div class="container-fluid">
+        <div class="row fill-h">
+            <div class="col-lg-7 fill-h">/*第一模块雷达图*/
+                <div class="xpanel-wrapper xpanel-wrapper-1">
+                    <div class="xpanel">
+                        <div class="fill-h" id="mCharts"></div>
+                    </div>
+                </div>
             </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-secondary">
-                <ul class="nav navbar-nav navbar-right">
-
-                    <!-- we have to copy the primary navigation items here for mobile accessibility -->
-                    <li class="visible-xs section-header">Metrics</li>
-                    <li class="visible-xs active"><a href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i> Home</a></li>
-
-                    <li class="visible-xs"><a href="/userstats-relay-table.html"><i class="fa fa-users fa-fw" aria-hidden="true"></i> 用户信息</a></li>
-
-                    <li class="visible-xs"><a href="/servers.html"><i class="fa fa-server fa-fw" aria-hidden="true"></i> 服务器信息</a></li>
-
-                    <li class="visible-xs"><a href="/traffic.html"><i class="fa fa-road fa-fw" aria-hidden="true"></i> 流量信息</a></li>
-
-                    <li class="visible-xs"><a href="/torperf.html"><i class="fa fa-dashboard fa-fw" aria-hidden="true"></i> 性能</a></li>
-
-                    <li class="visible-xs"><a href="/hidserv-dir-onions-seen.html"><i class="fa fa-map-signs fa-fw" aria-hidden="true"></i> 洋葱服务</a></li>
-
-                    <!-- /end of primary copy -->
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-    <!-- /secondary navigation -->
-
-    <!-- page header for every single page -->
-    <div class="page-header hidden-xs">
-        <a href="/"><img src="/images/tor-metrics-white@2x.png" width="232" height="50" alt="Tor Metrics" id="metrics-wordmark"></a>
-        <div class="clearfix"></div>
-    </div>
-    <!-- /page header -->
-
-    <!-- primary navigation -->
-    <nav class="navbar navbar-default hidden-xs">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-primary">
-                <ul class="nav navbar-nav">
-                    <li ><a href="/"><i class="" aria-hidden="true"></i> Home</a></li>
-
-                    <li class=" active"><a href="/userstats-relay-table.html"><i class="" aria-hidden="true"></i> 用户信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-
-                    <li class=""><a href="/servers.html"><i class="" aria-hidden="true"></i> 服务器信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-
-                    <li class=""><a href="/traffic.html"><i class="" aria-hidden="true"></i> 流量信息&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-
-                    <li class=""><a href="/torperf.html"><i class="" aria-hidden="true"></i> 性能&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-
-                    <li class=""><a href="/hidserv-dir-onions-seen.html"><i class="" aria-hidden="true"></i> 洋葱服务&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-
-
-
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-    <!-- /primary navigation -->
-
-
-
-    <div class="container">
-
-        <div class="dashboard">
-            <h2> Tor 网络态势感知</h2>
-            <p class="lead">公共Tor网络和Tor项目基础设施统计数据可视化</p>
-            <div class="row">
-                <div class="col-sm-4">
-                    <a href="userstats-relay-table.html"> <h3>用户信息</h3> <p>Tor用户所在国家以及连接到Tor网络上的方式</p></a>
+            /*第二模块指标输入*/
+            <div class="col-lg-5 fill-h">
+                <div class="xpanel-wrapper xpanel-wrapper-2">
+                    <div class="xpanel">
+                        <div class="fill-h" id="heatmapChart">
+                            <form id="form" onsubmit="return false" action="##" method="get">
+                            <div class="chart-div chart-done">
+                                <table class="data-t">
+                                    <tr>
+                                        <td>
+                                            <p><label for="indicator1"></label><input type="text" name="indicator1" size="10" value="70" id="indicator1"></p>
+                                            <p>顺时针旋转45°</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator2"></label><input type="text" name="indicator2" size="10" value="82" id="indicator2"></p>
+                                            <p>逆时针旋转45°</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator3"></label><input type="text" name="indicator3" size="10" value="75" id="indicator3"></p>
+                                            <p>平均精度</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><label for="indicator4"></label><input type="text" name="indicator4" size="10" value="70" id="indicator4"></p>
+                                            <p>数据集披露程度</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator5"></label><input type="text" name="indicator5" size="10" value="78" id="indicator5"></p>
+                                            <p>异常值比重</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator6"></label><input type="text" name="indicator6" size="10" value="65" id="indicator6"></p>
+                                            <p>数据合规性</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><label for="indicator7"></label><input type="text" name="indicator7" size="10" value="75" id="indicator7"></p>
+                                            <p>对FGSM攻击的防御力</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator8"></label><input type="text" name="indicator8" size="10" value="85" id="indicator8"></p>
+                                            <p>对BIM攻击的防御力</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator9"></label><input type="text" name="indicator9" size="10" value="60" id="indicator9"></p>
+                                            <p>对DeepFool攻击的防御力</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><label for="indicator10"></label><input type="text" name="indicator10" size="10" value="85" id="indicator10"></p>
+                                            <p>对PGD攻击的防御力</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator11"></label><input type="text" name="indicator11" size="10" value="60" id="indicator11"></p>
+                                            <p>对C/W攻击的防御力</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator12"></label><input type="text" name="indicator12" size="10" value="75" id="indicator12"></p>
+                                            <p>异常值比重</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><label for="indicator13"></label><input type="text" name="indicator13" size="10" value="80" id="indicator13"></p>
+                                            <p>可解释性</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator14"></label><input type="text" name="indicator14" size="10" value="80" id="indicator14"></p>
+                                            <p>模型合规性</p>
+                                        </td>
+                                        <td>
+                                            <p><label for="indicator15"></label><input type="text" name="indicator15" size="10" value="75" id="indicator15"></p>
+                                            <p>模型披露程度</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><label for="indicator16"></label><input type="text" name="indicator16" size="10" value="75" id="indicator16"></p>
+                                            <p>组织管理</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                                <p>
+                                    <input class="submit" type="button" value="更新图像" onclick="getData()">
+                                </p>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+                /*第三模块总得分*/
+                <div class="xpanel-wrapper xpanel-wrapper-2">
+                    <div class="xpanel">
+                        <div class="fill-h" id="coordChart">
+                            <div class="chart-title"><span>贴近度</span>
+                                <div class="chart-div chart-done" style="line-height: 100px;">
+                                    <table class="data-t">
+                                        <tr>
+                                            <th><img src="img/icon-06.png"/></th>
+                                            <td>
+                                                <p><span id="closeness" style="font-size: 80px;">88</span></p>
+                                            </td>
 
-                <div class="col-sm-4">
-                    <a href="servers.html"> <h3>服务器信息</h3> <p>Tor中继路由节点以及网桥节点信息</p></a>
+                                            <td>
+                                                <p align="left"><span id="introduction"
+                                                                      style="line-height: 25px;font-size: 15px;font-weight: normal;">
+													综合机器学习模型数据、算法、运行环境、管理等各项指标得出的机器学习模型脆弱性总体评价。贴近度分值越高说明该方案越接近理想方案。</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-sm-4">
-                    <a href="traffic.html"> <h3>流量信息</h3> <p>Tor网络处理流量的能力</p></a>
-                </div>
-
-                <div class="col-sm-4">
-                    <a href="torperf.html"> <h3>性能信息</h3> <p>Tor网络的速度以及可靠性</p></a>
-                </div>
-
-                <div class="col-sm-4">
-                    <a href="hidserv-dir-onions-seen.html"> <h3>洋葱服务</h3> <p>洋葱服务的数量以及产生的流量</p></a>
-                </div>
-
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container-fluid" id="footer">
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/echarts-3.8.5.min.js"></script>
+<script type="text/javascript" src="js/echarts-bmap.js"></script>
+<script type="text/javascript">
+    $(function () {
 
-        <div class="container no-gutter">
-            <div class="col-xs-6">
-                <p>
-                    &copy; 2018&ndash;2020 XDU
-                </p>
-            </div>
-        </div>
 
-        <div class="container small">
+        /*************** 雷达图 **************/
+            //初始化echarts实例
+            //1. ECharts最基本的代码结构
+            //2. 定义各个维度的最大值, 通过radar属性配置
+            //   准确率,可解释性,管理安全等每个维度的最大值都是100
+            //3. 准备模型数据, 设置给series下的data
+            //   最优解数据: 80, 90, 80, 82, 90.....
+            //   中兴手机1: 70, 82, 75, 70, 78（不大于最优值即可）
+            //4. 将type的值设置为radar
+        var mCharts = echarts.init(document.getElementById("mCharts"))
+        // 各个维度的最大值
+        var dataMax = [
+            {
+                name: '顺时针旋转45°mAP',
+                max: 100
+            },
+            {
+                name: '逆时针旋转45°mAP',
+                max: 100
+            },
+            {
+                name: '平均精度mAP',
+                max: 100
+            },
+            {
+                name: '对FGSM攻击的防御力',
+                max: 100
+            },
+            {
+                name: '对BIM攻击防御力',
+                max: 100
+            },
+            {
+                name: '对DeepFool攻击防御力',
+                max: 100
+            },
+            {
+                name: '对PGD攻击防御力',
+                max: 100
+            },
+            {
+                name: '对C/W攻击防御力',
+                max: 100
+            },
+            {
+                name: '数据集披露程度',
+                max: 100
+            },
+            {
+                name: '异常值比重',
+                max: 100
+            },
+            {
+                name: '数据合规性',
+                max: 100
+            },
+            {
+                name: '模型披露程度',
+                max: 100
+            },
+            {
+                name: '模型合规性',
+                max: 100
+            },
+            {
+                name: '可解释性',
+                max: 100
+            },
+            {
+                name: '组织管理',
+                max: 100
+            },
+            {
+                name: '运行环境',
+                max: 100
+            }
 
-            <p> 本网站数据来自于Tor官方统计结果，每天定时更新数据；
-            </p>
 
-        </div>
+        ]
+        var option = {
+            legend: {
+                data: ['理想方案', '测评方案'],
+                textStyle: { //图例文字的样式
+                    color: '#fff',
+                    fontSize: 16
+                },
+            },
+            radar: {
+                indicator: dataMax, // 配置各个维度的最大值
+                shape: 'polygon',// 配置雷达图最外层的图形 circle polygon
+                name: {
+                    textStyle: {
+                        color: '#fff',  // 设置字体颜色
+                    },
+                },
+            },
+            series: [
+                {
+                    type: 'radar', // radar 此图表时一个雷达图
+                    data: [
+                        {
+                            name: '理想方案',
+                            value: [80, 90, 80, 82, 90, 85, 85, 90, 85, 90, 75, 80, 90, 85, 75, 85],
+                            itemStyle: {// 设置曲线样式
+                                normal: {
+                                    color: 'rgba(0,225,0,.3)',
+                                    lineStyle: {
+                                        color: 'rgba(0,225,0,.3)',
+                                    },
+                                },
 
-    </div><!-- /footer -->
+                            },
+                            label: {//显示节点数值
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
 
-</div><!-- /wrapper -->
+                        },
+                        {
+                            name: '测评方案',
+                            value: [70, 82, 75, 70, 78, 65, 75, 85, 60, 85, 60, 75, 80, 80, 75, 75],
+                            label: {//显示节点数值
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
+                        },
+                    ]
+                }
+            ],
+
+        }
+        mCharts.setOption(option)
+    });
+</script>
+<script type="text/javascript">
+    function getData() {
+        /*************** 雷达图 **************/
+        var mCharts = echarts.init(document.getElementById("mCharts"));
+        var evaluation_value;
+        var last_value = 100;
+        $.ajax({
+            type: "GET",
+            url: "security/radar",
+            dataType: "json",
+            data: $('#form').serialize(),
+            async: false,
+            success: function (result) {
+                if(result.code == 0){
+                    evaluation_value = result.data[0];
+                    last_value = result.data[1][0];
+                }else{
+                    layer.msg(result.msg);
+                }
+            },
+            error: function () {
+                layer.msg("获取后台数据失败！");
+            }
+        });
+
+        document.getElementById("closeness").innerHTML = last_value;
+        // 各个维度的最大值
+        var dataMax = [
+            {
+                name: '顺时针旋转45°mAP',
+                max: 100
+            },
+            {
+                name: '逆时针旋转45°mAP',
+                max: 100
+            },
+            {
+                name: '平均精度mAP',
+                max: 100
+            },
+            {
+                name: '对FGSM攻击的防御力',
+                max: 100
+            },
+            {
+                name: '对BIM攻击防御力',
+                max: 100
+            },
+            {
+                name: '对DeepFool攻击防御力',
+                max: 100
+            },
+            {
+                name: '对PGD攻击防御力',
+                max: 100
+            },
+            {
+                name: '对C/W攻击防御力',
+                max: 100
+            },
+            {
+                name: '数据集披露程度',
+                max: 100
+            },
+            {
+                name: '异常值比重',
+                max: 100
+            },
+            {
+                name: '数据合规性',
+                max: 100
+            },
+            {
+                name: '模型披露程度',
+                max: 100
+            },
+            {
+                name: '模型合规性',
+                max: 100
+            },
+            {
+                name: '可解释性',
+                max: 100
+            },
+            {
+                name: '组织管理',
+                max: 100
+            },
+            {
+                name: '运行环境',
+                max: 100
+            }
+
+
+        ]
+        var option = {
+            legend: {
+                data: ['理想方案', '测评方案'],
+                textStyle: { //图例文字的样式
+                    color: '#fff',
+                    fontSize: 16
+                },
+            },
+            radar: {
+                indicator: dataMax, // 配置各个维度的最大值
+                shape: 'polygon',// 配置雷达图最外层的图形 circle polygon
+                name: {
+                    textStyle: {
+                        color: '#fff',  // 设置字体颜色
+                    },
+                },
+            },
+            series: [
+                {
+                    type: 'radar', // radar 此图表时一个雷达图
+                    data: [
+                        {
+                            name: '理想方案',
+                            value: [80, 90, 80, 82, 90, 85, 85, 90, 85, 90, 75, 80, 90, 85, 75, 85],
+                            itemStyle: {// 设置曲线样式
+                                normal: {
+                                    color: 'rgba(0,255,0,.3)',
+                                    lineStyle: {
+                                        color: 'rgba(0,225,0,.3)',
+                                        sizes: 5
+                                    },
+                                },
+
+                            },
+                            label: {//显示节点数值
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
+
+                        },
+                        {
+                            name: '测评方案',
+                            value: evaluation_value,
+                            label: {//显示节点数值
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
+                        },
+                    ]
+                }
+            ],
+
+        }
+        mCharts.setOption(option)
+    }
+</script>
 
 </body>
 </html>
-
-
-
