@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/table.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/table.css}" type="text/css">
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/front-endPage.js}"></script>
+</head>
+<body>
+<div id="historyBox"></div>
+</body>
+<script th:inline="javascript" type="text/javascript">
+    //前台分页的样子
+    data = [[${result}]]
+        $('#historyBox').CJJTable({
+            'title':["#","节点","类型","描述"],//thead中的标题 必填
+            'body':["id","node","type","description"],//tbody td 取值的字段 必填
+            'display':[1,1,1,1],//隐藏域，1显示，2隐藏 必填
+            'pageNUmber':30,//每页显示的条数 选填
+            'pageLength':data.length,//选填
+            'url':data,//数据源 必填
+            dbTrclick:function(e){//双击tr事件
+                alert(e.find('.time').html())
+            }
+        });
+</script>
+
+</html>
